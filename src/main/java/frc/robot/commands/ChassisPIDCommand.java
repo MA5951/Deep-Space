@@ -8,42 +8,43 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.subsystems.Chassis;
 
-public class TankDrive extends Command {
- 
- Chassis chassis;
-  public TankDrive() {
+public class ChassisPIDCommand extends Command {
+
+  private Chassis chassis;
+
+  public ChassisPIDCommand() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
     chassis = Chassis.getInstance();
     requires(chassis);
-  
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+    chassis.enableChassisPID(true);
+    chassis.setPoint(3.5);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    chassis.driveWestCoast(OI.leftJoystick.getY(),OI.rightJoystick.getY());
+    
+    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return chassis.isLeftOnTarget() && chassis.isRightOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    chassis.driveWestCoast(0.0,0.0);
+    chassis.enableChassisPID(false);
   }
 
   // Called when another command which requires one or more of the same
@@ -51,6 +52,4 @@ public class TankDrive extends Command {
   @Override
   protected void interrupted() {
   }
-
-  
 }

@@ -7,13 +7,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Talon;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-
+  
+  public static Joystick leftJoystick;
+  public static Joystick rightJoystick;
   public OI() {
-
+  leftJoystick  = new Joystick(RobotMap.JOYSTICK_CHASSIS_LEFT_MOTOR);
+  rightJoystick = new Joystick(RobotMap.JOYSTICK_CHASSIS_RIGHT_MOTOR);
+    
   }
 }
