@@ -9,8 +9,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class TankDrive extends Command {
-  public TankDrive() {
+public class angleMotor extends Command {
+  public angleMotor() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
   }

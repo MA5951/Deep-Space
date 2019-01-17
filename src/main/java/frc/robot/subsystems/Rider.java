@@ -7,14 +7,44 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class Chassis extends Subsystem {
+
+public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+  
+  public static Rider instance;
+
+  private WPI_TalonSRX angleMotor;
+  private WPI_TalonSRX intakeMotor;
+  private Encoder encoder;
+
+
+  public Rider(){
+   angleMotor = new WPI_TalonSRX(RobotMap.ANGLE_MOTOR);
+   intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
+
+   encoder = new Encoder(RobotMap.ENCODER_PORT_ONE, RobotMap.ENCODER_PORT_TWO);
+
+
+
+  }
+
+
+    public static Rider getInstance()  {
+      if(instance == null){
+          instance = new Rider();
+      }
+
+      return instance;
+    }
+  
 
   @Override
   public void initDefaultCommand() {

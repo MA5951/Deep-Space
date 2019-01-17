@@ -7,6 +7,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
@@ -14,6 +18,14 @@ package frc.robot;
 public class OI {
 
   public OI() {
+
+    Joystick joystick1 = new Joystick(RobotMap.JOYSTICK);
+    Button angleButtonInward = new JoystickButton(joystick1, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_INWARD);
+    Button angleButtonOutward = new JoystickButton(joystick1, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD);
+
+    Button intakeButtonIn = new JoystickButton(joystick1, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_IN);
+    Button intakeButtomOut = new JoystickButton(joystick1, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_OUT);
+
 
   }
 }
