@@ -68,7 +68,7 @@ public class Chassis extends Subsystem {
     leftMotorThree.set(ControlMode.Follower, leftMotorOne.getDeviceID());
 
     leftChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, leftMotorOne);
-    rightChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, rightMotorOne);
+    rightChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderRight, rightMotorOne);
 
     rightChassisPID.setAbsoluteTolerance(tolerance);
     leftChassisPID.setAbsoluteTolerance(tolerance);
