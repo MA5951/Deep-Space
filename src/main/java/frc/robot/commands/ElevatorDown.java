@@ -10,11 +10,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorDonw extends Command {
+public class ElevatorDown extends Command {
 
   Elevator elevatorSubsystem= Elevator.getInstance();
-  public ElevatorDonw() {
- requires(elevatorSubsystem);
+  public ElevatorDown() {
+    requires(elevatorSubsystem);
   }
 
   // Called just before this Command runs the first time
