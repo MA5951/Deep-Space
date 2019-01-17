@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
@@ -24,12 +25,12 @@ public class Chassis extends Subsystem {
 
   private static Chassis c_Instance;
   
-  private WPI_TalonSRX leftMotorOne;
-  private WPI_TalonSRX leftMotorTwo;
-  private WPI_TalonSRX leftMotorThree;
-  private WPI_TalonSRX rightMotorOne;
-  private WPI_TalonSRX rightMotorTwo;
-  private WPI_TalonSRX rightMotorThree;
+  private WPI_TalonSRX leftFrontMotor;
+  private WPI_TalonSRX leftMiddleMotor;
+  private WPI_TalonSRX leftRearMotor;
+  private WPI_TalonSRX rightFrontMotor;
+  private WPI_TalonSRX rightMiddleMotor;
+  private WPI_TalonSRX rightRearMotor;
 
   private Encoder encoderRight;
   private Encoder encoderLeft;
@@ -37,21 +38,21 @@ public class Chassis extends Subsystem {
   PIDController leftChassisPID;
   PIDController rightChassisPID;
 
-  private double KP_CHASSIS = 0.0;
-  private double KI_CHASSIS = 0.0;
-  private double KD_CHASSIS = 0.0;
-  private double tolerance = 0.5;
-
+  private static final double KP_CHASSIS = 0.0;
+  private static final double KI_CHASSIS = 0.0;
+  private static final double KD_CHASSIS = 0.0;
+  private static final double TOLERANCE = 0.5;
+  private static final double DISTANCE_PER_PULSE = 0.01;
 
   public Chassis()
   {
-    leftMotorOne = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_ONE);
-    leftMotorTwo = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_TWO);
-    leftMotorThree = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_THREE);
+    leftFrontMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_ONE);
+    leftMiddleMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_TWO);
+    leftRearMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_THREE);
  
-    rightMotorOne = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_ONE);
-    rightMotorTwo = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_TWO);
-    rightMotorThree = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_THREE);
+    rightFrontMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_ONE);
+    rightMiddleMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_TWO);
+    rightRearMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_THREE);
 
     encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A,RobotMap.ENCODER_LEFT_B,false,EncodingType.k4X);
     encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A,RobotMap.ENCODER_RIGHT_B,false,EncodingType.k4X);
@@ -59,19 +60,24 @@ public class Chassis extends Subsystem {
     encoderLeft.reset();
     encoderRight.reset();
 
+    encoderLeft.setDistancePerPulse(DISTANCE_PER_PULSE);
+    encoderRight.setDistancePerPulse(DISTANCE_PER_PULSE);
 
-    rightMotorTwo.set(ControlMode.Follower,rightMotorOne.getDeviceID());
-    rightMotorThree.set(ControlMode.Follower,rightMotorOne.getDeviceID());
+    encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
+    encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
+
+    rightMiddleMotor.set(ControlMode.Follower,rightFrontMotor.getDeviceID());
+    rightRearMotor.set(ControlMode.Follower,rightFrontMotor.getDeviceID());
 
     
-    leftMotorTwo.set(ControlMode.Follower, leftMotorOne.getDeviceID());
-    leftMotorThree.set(ControlMode.Follower, leftMotorOne.getDeviceID());
+    leftMiddleMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
+    leftRearMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
 
-    leftChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, leftMotorOne);
-    rightChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderRight, rightMotorOne);
+    leftChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, leftFrontMotor);
+    rightChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderRight, rightFrontMotor);
 
-    rightChassisPID.setAbsoluteTolerance(tolerance);
-    leftChassisPID.setAbsoluteTolerance(tolerance);
+    rightChassisPID.setAbsoluteTolerance(TOLERANCE);
+    leftChassisPID.setAbsoluteTolerance(TOLERANCE);
 
     rightChassisPID.enable();
     leftChassisPID.enable();
@@ -82,9 +88,8 @@ public class Chassis extends Subsystem {
 
   public void driveWestCoast(double speedLeft,double speedRight)
   {
-    rightMotorOne.set(speedRight);
-    leftMotorOne.set(speedLeft);
-
+    rightFrontMotor.set(speedRight);
+    leftFrontMotor.set(speedLeft);
   }
 
   public boolean isRightOnTarget()
@@ -110,16 +115,16 @@ public class Chassis extends Subsystem {
       rightChassisPID.enable();
       leftChassisPID.enable();
     }
-    else
+    else{
       rightChassisPID.disable();
       leftChassisPID.disable();
+    }
    }
 
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     setDefaultCommand(new TankDrive());
-
   }
 
   public static Chassis getInstance()

@@ -13,10 +13,12 @@ import frc.robot.subsystems.Chassis;
 public class ChassisPIDCommand extends Command {
 
   private Chassis chassis;
+  private double distance;
 
-  public ChassisPIDCommand() {
+  public ChassisPIDCommand(double distance) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
+    this.distance = distance;
     chassis = Chassis.getInstance();
     requires(chassis);
   }
@@ -25,7 +27,7 @@ public class ChassisPIDCommand extends Command {
   @Override
   protected void initialize() {
     chassis.enableChassisPID(true);
-    chassis.setPoint(3.5);
+    chassis.setPoint(distance);
   }
 
   // Called repeatedly when this Command is scheduled to run
