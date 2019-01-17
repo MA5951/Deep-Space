@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.ElevatorControlSpeedY;
 import frc.robot.commands.ElevatorDonw;
 import frc.robot.commands.ElevatorUp;
 
@@ -18,10 +19,12 @@ import frc.robot.commands.ElevatorUp;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  Joystick joystickMotors=new Joystick(RobotMap.JOYSTIC_MOTORS);
+  public static Joystick joystickMotors=new Joystick(RobotMap.JOYSTIC_MOTORS);
   Button elevatorUp=new JoystickButton(joystickMotors, 1);
+  Button elevatorControlByJoystic=new JoystickButton(joystickMotors, 1);
   Button elevatorDown=new JoystickButton(joystickMotors, 2);
 public OI(){
+  elevatorControlByJoystic.whileHeld(new ElevatorControlSpeedY());
   elevatorUp.whenPressed(new ElevatorUp());
   elevatorDown.whenPressed(new ElevatorDonw());
 

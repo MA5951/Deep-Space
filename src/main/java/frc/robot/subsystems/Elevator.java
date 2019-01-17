@@ -18,7 +18,7 @@ import frc.robot.RobotMap;
 
 
 public class Elevator extends Subsystem {
-  private TalonSRX elevatortalon;
+  private TalonSRX elevatorTalon;
   private DigitalInput elevatorLimitSwitchUpLeft;
  private DigitalInput elevatorLimitSwitchDownRigth;
  private DigitalInput elevatorLimitSwitchDownLeft;
@@ -31,7 +31,7 @@ private Elevator() {
   elevatorLimitSwitchUpRigth=new DigitalInput(RobotMap.LIMIT_SWICH_UP_RIGHT);
   elevatorLimitSwitchDownLeft=new DigitalInput(RobotMap.LIMIT_SWICH_DONW_LEFT);
   elevatorLimitSwitchDownRigth=new DigitalInput(RobotMap.LIMIT_SWICH_DONW_RIGHT);
-  elevatortalon=new TalonSRX(RobotMap.TALON_ELEVETOR);
+  elevatorTalon=new TalonSRX(RobotMap.TALON_ELEVETOR);
   elevatorEncoder= new Encoder(RobotMap.ENCODER_ELEVETOR_B, RobotMap.ENCODER_ELEVETOR_A , false, EncodingType.k4X); 
   elevatorEncoder.setDistancePerPulse(1);
 }
@@ -39,7 +39,7 @@ private Elevator() {
 * elevatortalonControlSpeed control the speed of the talon 
 */
 public void elevatortalonControlSpeed(double speed){
-  elevatortalon.set(ControlMode.PercentOutput, speed);
+  elevatorTalon.set(ControlMode.PercentOutput, speed);
 }
 /**
 * elevatorLimitSwitchDown get the value of the down LimitSwitch's
@@ -56,8 +56,8 @@ public boolean elevatorLimitSwitchUp(){
 /**
 * elevatorEncoderGetDistance checker if the value of the encoder is in thr Range
 */
-public boolean elevatorEncoderGetDistance(double Distance){
-  return  elevatorEncoder.getDistance()==Distance;
+public boolean elevatorEncoderGetDistance(double maxDistance, Double minDistance ){
+  return  elevatorEncoder.getDistance()<maxDistance && elevatorEncoder.getDistance()> minDistance;
 }
 /**
 * resetElevatorEncoder reset the encoder 
