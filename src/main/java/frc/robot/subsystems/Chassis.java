@@ -10,12 +10,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.commands.TankDrive;
 
@@ -58,7 +56,10 @@ public class Chassis extends Subsystem {
     encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A,RobotMap.ENCODER_LEFT_B,false,EncodingType.k4X);
     encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A,RobotMap.ENCODER_RIGHT_B,false,EncodingType.k4X);
 
-   
+    encoderLeft.reset();
+    encoderRight.reset();
+
+
     rightMotorTwo.set(ControlMode.Follower,rightMotorOne.getDeviceID());
     rightMotorThree.set(ControlMode.Follower,rightMotorOne.getDeviceID());
 
