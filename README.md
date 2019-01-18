@@ -8,5 +8,6 @@
 * Asaf Harel
 * Asaf Sorek
 * Lior Geva
+* Nadav Lodzki
 
 Also, special thanks to our mentors who help us not only manage everything, but to learn as well: Yotam Sadan and Yoav Rosen.
