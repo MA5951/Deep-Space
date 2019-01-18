@@ -44,7 +44,6 @@ public void intake_positionDown() {
   intake_position.set(-0.5);
 }
 
-
   @Override
   public void initDefaultCommand() {
 

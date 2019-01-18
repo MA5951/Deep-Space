@@ -11,28 +11,37 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
-
+import edu.wpi.first.wpilibj.Joystick;
 public class IntakeCommand extends Command {
-  public static Intake intake = Intake.getInstance();
- 
-  public IntakeCommand() {
-requires(intake);
   
+  
+	private Intake intake = Intake.getInstance();
+  
+
+  public IntakeCommand() {
+
+    requires(intake);
+
   }
 
   @Override
   protected void initialize() {
 
     
+
   }
 
  
   @Override
   protected void execute() {
-     
-  }
+    
+    Intake.getInstance();
 
-  // Make this return true when this Command no longer needs to run execute()
+
+
+  }
+// Make this return true when this Command no longer needs to run execute()
+  
   @Override
   protected boolean isFinished() {
     return false;
@@ -40,11 +49,13 @@ requires(intake);
 
   @Override
   protected void end() {
+    intake.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    intake.stop();
   }
 }
