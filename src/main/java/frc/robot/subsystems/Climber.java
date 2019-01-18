@@ -28,6 +28,8 @@ public class Climber extends Subsystem {
 
   public static final double MAX_POLE_ENCODER_TICKS = 10000; // TODO
 
+  public static final double START_CLIMB_HEIGHT = 1000000; // TODO
+
   private Climber() {
     leftPoleMotor = new WPI_TalonSRX(RobotMap.LEFT_CLIMB_MOTOR);
     rightPoleMotor = new WPI_TalonSRX(RobotMap.RIGHT_CLIMB_MOTOR);

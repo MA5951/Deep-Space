@@ -7,13 +7,18 @@
 
 package frc.robot;
 
+import frc.robot.commands.climber.OpenPole;
+import frc.robot.triggers.ClimbingPoleDown;
+
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
 
-  public OI() {
+  public static final ClimbingPoleDown CLIMBING_POLE_DOWN = new ClimbingPoleDown();
 
+  public OI() {
+    CLIMBING_POLE_DOWN.whenActive(new OpenPole());
   }
 }
