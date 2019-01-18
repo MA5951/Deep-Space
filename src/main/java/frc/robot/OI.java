@@ -11,10 +11,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.AngleInwards;
-import frc.robot.commands.AngleOutward;
-import frc.robot.commands.IntakeIn;
-import frc.robot.commands.IntakeOut;
+import frc.robot.commands.Rider.AngleInwards;
+import frc.robot.commands.Rider.AngleOutward;
+import frc.robot.commands.Rider.IntakeIn;
+import frc.robot.commands.Rider.IntakeOut;
 
 /**
  * This class is the glue that binds the controls on the physical operator

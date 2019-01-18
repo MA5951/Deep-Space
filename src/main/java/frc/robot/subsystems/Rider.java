@@ -11,10 +11,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.AngleInwards;
-import frc.robot.commands.AngleOutward;
-import frc.robot.commands.IntakeIn;
-import frc.robot.commands.IntakeOut;
+import frc.robot.commands.Rider.AngleInwards;
+import frc.robot.commands.Rider.AngleOutward;
+import frc.robot.commands.Rider.IntakeIn;
+import frc.robot.commands.Rider.IntakeOut;
 /**
  * Add your docs here.
  */
@@ -50,6 +50,11 @@ public class Rider extends Subsystem {
     }
 
 
+    public void stopIntake()  {
+      intakeMotor.set(0);
+    }
+
+
     public void angleButtonInward()  {
       angleMotor.set(-0.5);
     }
@@ -58,6 +63,12 @@ public class Rider extends Subsystem {
       angleMotor.set(0.5);
     }
 
+
+    public void stopAngleMotor(){
+      angleMotor.set(0);
+    }
+
+    
 
 
     public static Rider getInstance()  {
