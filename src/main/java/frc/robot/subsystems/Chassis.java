@@ -87,31 +87,32 @@ public class Chassis extends Subsystem {
 
   
 
-  public void driveWestCoast(double speedLeft,double speedRight)
-  {
+  public void driveWestCoast(double speedLeft,double speedRight)  {
+    
     rightFrontMotor.set(speedRight);
     leftFrontMotor.set(speedLeft);
   }
 
-  public boolean isRightOnTarget()
-  {
+  public boolean isRightOnTarget()  {
+
     return rightChassisPID.onTarget();
   }
 
-  public boolean isLeftOnTarget()
-  {
-    return  leftChassisPID.onTarget();
+  public boolean isLeftOnTarget() {
+
+    return  leftChassisPID.onTarget(); 
   }
  
 
-  public void setPoint(double setPoint)
-  {
+  public void setPoint(double setPoint) {
+
     rightChassisPID.setSetpoint(setPoint);
     leftChassisPID.setSetpoint(setPoint);
   }
 
 
   public void enableChassisPID(boolean enable){
+
     if(enable){
       rightChassisPID.enable();
       leftChassisPID.enable();
@@ -122,11 +123,14 @@ public class Chassis extends Subsystem {
     }
    }
 
+
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     setDefaultCommand(new TankDrive());
   }
+
 
   public static Chassis getInstance()
   {
