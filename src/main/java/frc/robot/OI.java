@@ -34,8 +34,8 @@ public class OI {
 
 public OI() {
 
-   //ANGLE_BUTTON_INWARD.whileActive(new AngleInwards());
-   //ANGLE_BUTTON_OUTWARD.whileActive(new AngleOutward());
+   ANGLE_BUTTON_INWARD.whileActive(new AngleInwards());
+   ANGLE_BUTTON_OUTWARD.whileActive(new AngleOutward());
 
    INTAKE_BUTTON_IN.whileActive(new IntakeIn());
    INTAKE_BUTTON_OUT.whileActive(new IntakeOut());
