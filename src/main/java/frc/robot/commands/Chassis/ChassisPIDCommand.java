@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Chassis;
+package frc.robot.commands.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
@@ -53,6 +53,8 @@ public class ChassisPIDCommand extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+
+    end();
     
   }
 }

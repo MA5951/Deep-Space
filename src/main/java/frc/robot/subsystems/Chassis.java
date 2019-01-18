@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.Chassis.TankDrive;
+import frc.robot.commands.chassis.TankDrive;
 
 /**
  * Add your docs here.
@@ -35,14 +35,14 @@ public class Chassis extends Subsystem {
   private Encoder encoderRight;
   private Encoder encoderLeft;
   
-  PIDController leftChassisPID;
-  PIDController rightChassisPID;
+  private PIDController leftChassisPID;
+  private PIDController rightChassisPID;
 
-  private static final double KP_CHASSIS = 0.0;
-  private static final double KI_CHASSIS = 0.0;
-  private static final double KD_CHASSIS = 0.0;
-  private static final double TOLERANCE = 0.5;
-  private static final double DISTANCE_PER_PULSE = 0.01;
+  public static final double KP_CHASSIS = 0.0;
+  public static final double KI_CHASSIS = 0.0;
+  public static final double KD_CHASSIS = 0.0;
+  public static final double TOLERANCE = 0.5;
+  public static final double DISTANCE_PER_PULSE = 0.01;
 
   public Chassis()
   {
@@ -130,10 +130,9 @@ public class Chassis extends Subsystem {
   public static Chassis getInstance()
   {
     if(c_Instance==null)
-    {
+      
       c_Instance = new Chassis();
-      return c_Instance;
-    }
+  
     return c_Instance;
   }
 }

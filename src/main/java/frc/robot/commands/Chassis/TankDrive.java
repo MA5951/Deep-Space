@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Chassis;
+package frc.robot.commands.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
@@ -31,7 +31,7 @@ public class TankDrive extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    chassis.driveWestCoast(OI.leftJoystick.getY(),OI.rightJoystick.getY());
+    chassis.driveWestCoast(OI.LEFT_JOYSTICK.getY(),OI.RIGHT_JOYSTICK.getY());
   }
 
   // Make this return true when this Command no longer needs to run execute()

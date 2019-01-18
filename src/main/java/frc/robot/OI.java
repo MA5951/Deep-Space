@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.Joystick;
  */
 public class OI {
   
-  public static Joystick leftJoystick = new Joystick(RobotMap.JOYSTICK_CHASSIS_LEFT_MOTOR);
-  public static Joystick rightJoystick = new Joystick(RobotMap.JOYSTICK_CHASSIS_RIGHT_MOTOR);
+  public static final Joystick LEFT_JOYSTICK = new Joystick(RobotMap.JOYSTICK_CHASSIS_LEFT_MOTOR);
+  public static final Joystick RIGHT_JOYSTICK = new Joystick(RobotMap.JOYSTICK_CHASSIS_RIGHT_MOTOR);
 
   public OI() {
   
