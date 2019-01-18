@@ -10,8 +10,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.robot.OI;
 import frc.robot.RobotMap;
+import frc.robot.commands.AngleInwards;
+import frc.robot.commands.AngleOutward;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
 /**
  * Add your docs here.
  */
@@ -56,6 +59,7 @@ public class Rider extends Subsystem {
     }
 
 
+
     public static Rider getInstance()  {
       if(instance == null){
           instance = new Rider();
@@ -68,6 +72,11 @@ public class Rider extends Subsystem {
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new IntakeIn());
+    setDefaultCommand(new IntakeOut());
+
+    setDefaultCommand(new AngleInwards());
+    setDefaultCommand(new AngleOutward());
+
   }
 }
