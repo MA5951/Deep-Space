@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
 public class IntakeIn extends Command {
-
   private Rider rider = Rider.getInstance();
 
   public IntakeIn() {
@@ -34,7 +33,7 @@ public class IntakeIn extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return rider.isLimitSwitchIntakePressed();
   }
 
   // Called once after isFinished returns true

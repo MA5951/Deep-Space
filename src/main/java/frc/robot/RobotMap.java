@@ -24,21 +24,28 @@ public class RobotMap {
   // public static int rangefinderPort = 1;
   // public static int rangefinderModule = 1;
 
+  //Motors for mamuta (rider)
 public static final int ANGLE_MOTOR = 1;
 public static final int INTAKE_MOTOR = 1;
 
-public static final int ENCODER_PORT_ONE = 1;
-public static final int ENCODER_PORT_TWO = 1;
+//Encoders for mamuta (rider)
+public static final int ENCODER_PORT_RIDER_ONE = 1;
+public static final int ENCODER_PORT_RIDER_TWO = 1;
 
+//JoySticks
 public static final int JOYSTICK = 1;
 
+//??
 public static final int ANGLE_MOTOR_JOYSTICK_BUTTON_INWARD = 1;
 public static final int ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD = 2;
 
+//??
 public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_IN = 3;
 public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_OUT = 4;
 
-public static final int RIDER_LIMIT_SWITCH_PORT = 0;
+//LimitSwitches for the mamuta (rider)
+public static final int RIDER_LIMIT_SWITCH_ANGLE_PORT = 0;
+public static final int RIDER_LIMIT_SWITCH_INTAKE_PORT=0;
 
 }
 

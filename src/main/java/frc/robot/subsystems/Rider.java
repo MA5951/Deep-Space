@@ -30,7 +30,8 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
   private Encoder encoder;
-  private DigitalInput limitSwitch;
+  private DigitalInput limitSwitchAngle;
+  private DigitalInput limitSwitchIntake;
   
 
 
@@ -39,11 +40,11 @@ public class Rider extends Subsystem {
     angleMotor = new WPI_TalonSRX(RobotMap.ANGLE_MOTOR);
     intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
 
-    encoder = new Encoder(RobotMap.ENCODER_PORT_ONE, RobotMap.ENCODER_PORT_TWO);
+    encoder = new Encoder(RobotMap.ENCODER_PORT_RIDER_ONE, RobotMap.ENCODER_PORT_RIDER_TWO);
     encoder.reset();
 
-    limitSwitch = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_PORT);
-  
+    limitSwitchAngle = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_ANGLE_PORT);
+    limitSwitchIntake = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_INTAKE_PORT);
 
 
   }
@@ -62,8 +63,8 @@ public class Rider extends Subsystem {
       intakeMotor.set(0);
     }
   
-    public boolean isLimitSwitchPressed(){
-      return limitSwitch.get();
+    public boolean isLimitSwitchAnglePressed(){
+      return limitSwitchAngle.get();
     }
 
     public void angleInward()  {
@@ -84,7 +85,9 @@ public class Rider extends Subsystem {
       return encoder.get();
     }
     
-
+    public boolean isLimitSwitchIntakePressed(){
+      return limitSwitchIntake.get();
+    }
 
     public static Rider getInstance()  {
       if(instance == null){
@@ -101,8 +104,8 @@ public class Rider extends Subsystem {
     setDefaultCommand(new IntakeIn());
     setDefaultCommand(new IntakeOut());
 
-    setDefaultCommand(new AngleInwards());
-    setDefaultCommand(new AngleOutward());
+    //setDefaultCommand(new AngleInwards());
+    //setDefaultCommand(new AngleOutward());
 
   }
 }
