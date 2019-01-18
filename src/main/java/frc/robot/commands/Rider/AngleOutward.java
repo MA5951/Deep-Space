@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Rider;
+package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
@@ -14,6 +14,8 @@ public class AngleOutward extends Command {
   
   private Rider rider = Rider.getInstance();
   private double angleOutward;
+
+  private int toloranceMin=0,toloranceMax=360;
 
   public AngleOutward(double angleOutward) {
     this.angleOutward = angleOutward;
@@ -29,15 +31,13 @@ public class AngleOutward extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(angleOutward != rider.getCurrentAngle()){
-      rider.angleOutward();
-      } 
+    rider.angleOutward(); 
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return angleOutward == rider.getCurrentAngle();
+    return  (!(toloranceMin < angleOutward) && !(angleOutward < toloranceMax));
   }
 
   // Called once after isFinished returns true

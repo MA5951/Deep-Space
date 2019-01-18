@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Rider;
+package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
@@ -14,6 +14,8 @@ public class AngleInwards extends Command {
 
   private Rider rider = Rider.getInstance();
   private double angleInward;
+  //Tolorance for the encoder (need to defined agter config)
+  private int toloranceMax = 360,toloranceMin =0;
 
   public AngleInwards(double angleInward) {
 
@@ -30,15 +32,13 @@ public class AngleInwards extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  if(angleInward != rider.getCurrentAngle()){
-    rider.angleInward();
-    }    
+    rider.angleInward();   
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return angleInward == rider.getCurrentAngle();
+    return (!(toloranceMin < angleInward) && !(angleInward < toloranceMax));
   }
 
   // Called once after isFinished returns true

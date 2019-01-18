@@ -11,12 +11,14 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.Rider.AngleInwards;
-import frc.robot.commands.Rider.AngleOutward;
-import frc.robot.commands.Rider.IntakeIn;
-import frc.robot.commands.Rider.IntakeOut;
+import frc.robot.commands.rider.AngleInwards;
+import frc.robot.commands.rider.AngleOutward;
+import frc.robot.commands.rider.IntakeIn;
+import frc.robot.commands.rider.IntakeOut;
 /**
  * Add your docs here.
  */
@@ -32,6 +34,14 @@ public class Rider extends Subsystem {
   private Encoder encoder;
   private DigitalInput limitSwitchAngle;
   private DigitalInput limitSwitchIntake;
+  private PIDController riderPID;
+
+  //TODO
+  public static final double KP_RIDER =0.0;
+  public static final double kD_RIDER =0.0;
+  public static final double kI_RIDER =0.0;
+  public static final double DISTANCE_PER_PULSE = 0.1;
+  public static final double TOLORANCE = 0;
   
 
 
@@ -46,6 +56,13 @@ public class Rider extends Subsystem {
     limitSwitchAngle = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_ANGLE_PORT);
     limitSwitchIntake = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_INTAKE_PORT);
 
+    encoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+    encoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    riderPID = new PIDController(KP_RIDER, kI_RIDER, kD_RIDER, encoder, angleMotor);
+
+    riderPID.setAbsoluteTolerance(TOLORANCE);
+    riderPID.enable();
+
 
   }
 
@@ -58,6 +75,13 @@ public class Rider extends Subsystem {
       intakeMotor.set(0.5);
     }
 
+    public boolean isRiderOnTarget(){
+      return riderPID.onTarget();
+    }
+
+    public void setPointRider(double setPoint){
+      riderPID.setSetpoint(setPoint);
+    }
 
     public void stopIntake()  {
       intakeMotor.set(0);
@@ -95,6 +119,15 @@ public class Rider extends Subsystem {
       }
 
       return instance;
+    }
+
+    public void endableRiderPID(boolean enable){
+      if(enable){
+        riderPID.enable();
+      }
+      else
+      riderPID.disable();
+
     }
   
 

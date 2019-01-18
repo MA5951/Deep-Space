@@ -11,10 +11,10 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.Rider.AngleInwards;
-import frc.robot.commands.Rider.AngleOutward;
-import frc.robot.commands.Rider.IntakeIn;
-import frc.robot.commands.Rider.IntakeOut;
+import frc.robot.commands.rider.AngleInwards;
+import frc.robot.commands.rider.AngleOutward;
+import frc.robot.commands.rider.IntakeIn;
+import frc.robot.commands.rider.IntakeOut;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,8 +34,9 @@ public class OI {
 
 public OI() {
 
-   ANGLE_BUTTON_INWARD.whileActive(new AngleInwards());
-   ANGLE_BUTTON_OUTWARD.whileActive(new AngleOutward());
+  //TODO
+   ANGLE_BUTTON_INWARD.whileActive(new AngleInwards(30));
+   ANGLE_BUTTON_OUTWARD.whileActive(new AngleOutward(30));
 
    INTAKE_BUTTON_IN.whileActive(new IntakeIn());
    INTAKE_BUTTON_OUT.whileActive(new IntakeOut());

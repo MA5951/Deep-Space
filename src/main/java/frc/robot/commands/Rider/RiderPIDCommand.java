@@ -10,43 +10,48 @@ package frc.robot.commands.rider;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
-public class IntakeOut extends Command {
-    private Rider rider = Rider.getInstance();
-
-  public IntakeOut() {
-    
+public class RiderPIDCommand extends Command {
+  
+  private Rider rider;
+  //TODO
+  private double angle;
+  
+  public RiderPIDCommand(double angle) {
     // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    this.angle = angle;
+    rider = Rider.getInstance();
     requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    rider.endableRiderPID(true);
+    rider.setPointRider(angle);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.intakeOut();
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isLimitSwitchIntakePressed();
+    return rider.isRiderOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
-    rider.stopIntake();
-
+    rider.endableRiderPID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    end();
   }
 }
