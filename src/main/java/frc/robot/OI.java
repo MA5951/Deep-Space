@@ -11,8 +11,12 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ElevatorControlSpeedY;
+<<<<<<< HEAD
 import frc.robot.commands.ElevatorDonw;
 import frc.robot.commands.ElevatorPID;
+=======
+import frc.robot.commands.ElevatorDown;
+>>>>>>> b537bccf2baa32e91b7b359a2670aae4d73bbf0a
 import frc.robot.commands.ElevatorUp;
 
 /**
@@ -31,7 +35,7 @@ public OI(){
   PIDUp.whenPressed(new ElevatorPID(50, 0.5));
   elevatorControlByJoystic.whileHeld(new ElevatorControlSpeedY());
   elevatorUp.whenPressed(new ElevatorUp());
-  elevatorDown.whenPressed(new ElevatorDonw());
+  elevatorDown.whenPressed(new ElevatorDown());
 
 }
   //// CREATING BUTTONS
