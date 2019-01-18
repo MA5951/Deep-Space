@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.ElevatorControlSpeedY;
 import frc.robot.commands.ElevatorDonw;
+import frc.robot.commands.ElevatorPID;
 import frc.robot.commands.ElevatorUp;
 
 /**
@@ -21,9 +22,13 @@ import frc.robot.commands.ElevatorUp;
 public class OI {
   public static Joystick joystickMotors=new Joystick(RobotMap.JOYSTIC_MOTORS);
   Button elevatorUp=new JoystickButton(joystickMotors, 1);
-  Button elevatorControlByJoystic=new JoystickButton(joystickMotors, 1);
+  Button elevatorControlByJoystic=new JoystickButton(joystickMotors, 3);
   Button elevatorDown=new JoystickButton(joystickMotors, 2);
+  Button PIDUp=new JoystickButton(joystickMotors, 4);
+  Button PIDDown=new JoystickButton(joystickMotors, 5);
 public OI(){
+  PIDDown.whenPressed(new ElevatorPID(40, 0.5));
+  PIDUp.whenPressed(new ElevatorPID(50, 0.5));
   elevatorControlByJoystic.whileHeld(new ElevatorControlSpeedY());
   elevatorUp.whenPressed(new ElevatorUp());
   elevatorDown.whenPressed(new ElevatorDonw());

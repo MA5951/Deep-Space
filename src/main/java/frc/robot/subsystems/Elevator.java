@@ -9,16 +9,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
 
 public class Elevator extends Subsystem {
-  private TalonSRX elevatorTalon;
+ private PIDController PIDControllerElevator; 
+  private WPI_TalonSRX elevatorTalon;
   private DigitalInput elevatorLimitSwitchUpLeft;
  private DigitalInput elevatorLimitSwitchDownRigth;
  private DigitalInput elevatorLimitSwitchDownLeft;
@@ -31,10 +35,28 @@ private Elevator() {
   elevatorLimitSwitchUpRigth=new DigitalInput(RobotMap.LIMIT_SWICH_UP_RIGHT);
   elevatorLimitSwitchDownLeft=new DigitalInput(RobotMap.LIMIT_SWICH_DONW_LEFT);
   elevatorLimitSwitchDownRigth=new DigitalInput(RobotMap.LIMIT_SWICH_DONW_RIGHT);
-  elevatorTalon=new TalonSRX(RobotMap.TALON_ELEVETOR);
+  elevatorTalon=new WPI_TalonSRX(RobotMap.TALON_ELEVETOR);
   elevatorEncoder= new Encoder(RobotMap.ENCODER_ELEVETOR_B, RobotMap.ENCODER_ELEVETOR_A , false, EncodingType.k4X); 
+ PIDControllerElevator = new PIDController(1.0, 1.0, 1.0, elevatorEncoder,elevatorTalon);
   elevatorEncoder.setDistancePerPulse(1);
+  elevatorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 }
+public void enablePID(){
+  PIDControllerElevator.enable();
+}
+public void disablePID(){
+  PIDControllerElevator.disable();
+}
+public void setSetpoint(double setSetpoint){
+  PIDControllerElevator.setSetpoint(setSetpoint);
+}
+public void setAbsoluteTolerance(double setAbsoluteTolerance ){
+  PIDControllerElevator.setAbsoluteTolerance(setAbsoluteTolerance);
+}
+public boolean isonTarget(){
+  return PIDControllerElevator.onTarget();
+}
+
 /**
 * elevatortalonControlSpeed control the speed of the talon 
 */
