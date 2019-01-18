@@ -38,5 +38,7 @@ public static final int ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD = 2;
 public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_IN = 3;
 public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_OUT = 4;
 
+public static final int RIDER_LIMIT_SWITCH_PORT = 0;
+
 }
 

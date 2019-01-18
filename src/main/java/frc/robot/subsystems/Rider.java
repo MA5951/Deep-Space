@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
@@ -28,17 +30,20 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
   private Encoder encoder;
+  private DigitalInput limitSwitch;
   
 
 
   public Rider(){
-   angleMotor = new WPI_TalonSRX(RobotMap.ANGLE_MOTOR);
-   intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
+    
+    angleMotor = new WPI_TalonSRX(RobotMap.ANGLE_MOTOR);
+    intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
 
-   encoder = new Encoder(RobotMap.ENCODER_PORT_ONE, RobotMap.ENCODER_PORT_TWO);
+    encoder = new Encoder(RobotMap.ENCODER_PORT_ONE, RobotMap.ENCODER_PORT_TWO);
+    encoder.reset();
 
-   encoder.reset();
-
+    limitSwitch = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_PORT);
+  
 
 
   }
@@ -56,7 +61,10 @@ public class Rider extends Subsystem {
     public void stopIntake()  {
       intakeMotor.set(0);
     }
-
+  
+    public boolean isLimitSwitchPressed(){
+      return limitSwitch.get();
+    }
 
     public void angleInward()  {
       angleMotor.set(-0.5);

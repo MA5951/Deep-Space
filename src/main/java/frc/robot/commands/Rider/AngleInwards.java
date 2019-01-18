@@ -13,8 +13,11 @@ import frc.robot.subsystems.Rider;
 public class AngleInwards extends Command {
 
   private Rider rider = Rider.getInstance();
+  private double angleInward;
 
-  public AngleInwards() {
+  public AngleInwards(double angleInward) {
+
+    this.angleInward = angleInward;
     // Use requires() here to declare subsystem dependencies
     requires(rider);
   }
@@ -27,13 +30,15 @@ public class AngleInwards extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+  if(angleInward != rider.getCurrentAngle()){
     rider.angleInward();
+    }    
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return angleInward == rider.getCurrentAngle();
   }
 
   // Called once after isFinished returns true
