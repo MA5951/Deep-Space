@@ -7,9 +7,9 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Encoder;
+
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Talon;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
