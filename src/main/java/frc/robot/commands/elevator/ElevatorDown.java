@@ -5,23 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorDown extends Command {
 
-  Elevator elevatorSubsystem= Elevator.getInstance();
+  Elevator elevator;
+
   public ElevatorDown() {
-    requires(elevatorSubsystem);
+    elevator = Elevator.getInstance();
+    requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevatorSubsystem.elevatortalonControlSpeed(-1);
-    
+    elevator.controlSpeed(-1);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -32,20 +33,20 @@ public class ElevatorDown extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorSubsystem.elevatorLimitSwitchDown();
+    return elevator.isLimitSwitchDown();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevatorSubsystem.resetElevatorEncoder();
-    elevatorSubsystem.elevatortalonControlSpeed(0);
+    elevator.resetEncoder();
+    elevator.controlSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevatorSubsystem.elevatortalonControlSpeed(0);
+    elevator.controlSpeed(0);
   }
 }

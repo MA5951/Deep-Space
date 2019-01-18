@@ -5,50 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorPID extends Command {
-  double setSetpoint;
-  double setAbsoluteTolerance;
-  Elevator elevatorSubsystem= Elevator.getInstance();
-  public ElevatorPID(double setSetpoint,double setAbsoluteTolerance) {
-this.setSetpoint=setSetpoint;
-this.setAbsoluteTolerance=setAbsoluteTolerance;
- requires(elevatorSubsystem);
- elevatorSubsystem.setAbsoluteTolerance(setAbsoluteTolerance);
- elevatorSubsystem.setSetpoint(setSetpoint);
+public class ElevatorJoystickControl extends Command {
+  Elevator elevator;
+
+  public ElevatorJoystickControl() {
+    elevator = Elevator.getInstance();
+    requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevatorSubsystem.enablePID();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    elevator.controlSpeed(OI.OPERATOR_STICK.getY());
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorSubsystem.isonTarget();
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevatorSubsystem.disablePID();
+    elevator.controlSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevatorSubsystem.disablePID();
+    elevator.controlSpeed(0);
   }
 }
