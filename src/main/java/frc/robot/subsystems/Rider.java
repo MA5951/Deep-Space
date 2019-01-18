@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.OI;
 import frc.robot.RobotMap;
 /**
  * Add your docs here.
@@ -35,6 +36,24 @@ public class Rider extends Subsystem {
 
 
   }
+
+
+    public void intakeButtonIn()  {
+      intakeMotor.set(-0.5);
+    }
+
+    public void intakeButtonOut() {
+      intakeMotor.set(0.5);
+    }
+
+
+    public void angleButtonInward()  {
+      angleMotor.set(-0.5);
+    }
+
+    public void angleButtonOutward()  {
+      angleMotor.set(0.5);
+    }
 
 
     public static Rider getInstance()  {

@@ -8,11 +8,15 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Rider;
 
-public class angleMotor extends Command {
-  public angleMotor() {
+public class AngleOutward extends Command {
+  
+  private Rider rider = Rider.getInstance();
+
+  public AngleOutward() {
     // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(rider);
   }
 
   // Called just before this Command runs the first time
@@ -23,6 +27,7 @@ public class angleMotor extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    rider.angleButtonOutward();
   }
 
   // Make this return true when this Command no longer needs to run execute()

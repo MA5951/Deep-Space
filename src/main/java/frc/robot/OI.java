@@ -7,9 +7,14 @@
 
 package frc.robot;
 
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.AngleInwards;
+import frc.robot.commands.AngleOutward;
+import frc.robot.commands.IntakeIn;
+import frc.robot.commands.IntakeOut;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -17,14 +22,24 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  */
 public class OI {
 
-  public OI() {
+  public static final Joystick JOYSTICK_OPERATOR = new Joystick(RobotMap.JOYSTICK);
 
-    Joystick joystick1 = new Joystick(RobotMap.JOYSTICK);
-    Button angleButtonInward = new JoystickButton(joystick1, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_INWARD);
-    Button angleButtonOutward = new JoystickButton(joystick1, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD);
+  public static final Button ANGLE_BUTTON_INWARD = new JoystickButton(JOYSTICK_OPERATOR, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_INWARD);
+  public static final Button ANGLE_BUTTON_OUTWARD = new JoystickButton(JOYSTICK_OPERATOR, RobotMap.ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD);
 
-    Button intakeButtonIn = new JoystickButton(joystick1, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_IN);
-    Button intakeButtomOut = new JoystickButton(joystick1, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_OUT);
+  public static final Button INTAKE_BUTTON_IN = new JoystickButton(JOYSTICK_OPERATOR, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_IN);
+  public static final Button INTAKE_BUTTON_OUT = new JoystickButton(JOYSTICK_OPERATOR, RobotMap.INTAKE_MOTOR_JOYSTICK_BUTTON_OUT);
+  
+ 
+
+public OI() {
+
+   ANGLE_BUTTON_INWARD.whileActive(new AngleInwards());
+   ANGLE_BUTTON_OUTWARD.whileActive(new AngleOutward());
+
+   INTAKE_BUTTON_IN.whileActive(new IntakeIn());
+   INTAKE_BUTTON_OUT.whileActive(new IntakeOut());
+
 
 
   }
