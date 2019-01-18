@@ -28,6 +28,7 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
   private Encoder encoder;
+  
 
 
   public Rider(){
@@ -36,16 +37,18 @@ public class Rider extends Subsystem {
 
    encoder = new Encoder(RobotMap.ENCODER_PORT_ONE, RobotMap.ENCODER_PORT_TWO);
 
+   encoder.reset();
+
 
 
   }
 
 
-    public void intakeButtonIn()  {
+    public void intakeIn()  {
       intakeMotor.set(-0.5);
     }
 
-    public void intakeButtonOut() {
+    public void intakeOut() {
       intakeMotor.set(0.5);
     }
 
@@ -55,11 +58,11 @@ public class Rider extends Subsystem {
     }
 
 
-    public void angleButtonInward()  {
+    public void angleInward()  {
       angleMotor.set(-0.5);
     }
 
-    public void angleButtonOutward()  {
+    public void angleOutward()  {
       angleMotor.set(0.5);
     }
 
@@ -68,6 +71,10 @@ public class Rider extends Subsystem {
       angleMotor.set(0);
     }
 
+
+    public int getCurrentAngle(){
+      return encoder.get();
+    }
     
 
 
