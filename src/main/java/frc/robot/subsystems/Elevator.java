@@ -73,17 +73,17 @@ public class Elevator extends Subsystem {
   }
 
   /**
-   * @return Are both limit switches which are down pressed
+   * @return Checks if at least one limit switch is pressed
    */
   public boolean isLimitSwitchDown() {
-    return limitSwitchDownLeft.get() && limitSwitchDownRight.get();
+    return limitSwitchDownLeft.get() || limitSwitchDownRight.get();
   }
 
   /**
-   * @return Are both limit switches which are down pressed
+   * @return Checks if at least one limit switch is pressed
    */
   public boolean isLimitSwitchUp() {
-    return limitSwitchUpLeft.get() && limitSwitchUpRight.get();
+    return limitSwitchUpLeft.get() || limitSwitchUpRight.get();
   }
 
   /**
@@ -93,7 +93,7 @@ public class Elevator extends Subsystem {
    * @param minDistance The minimum distance the encoder could pass in the range
    * @return Is the elevator encoder in the correct range in terms of distance
    */
-  public boolean isEncoderInDistanceRange(double maxDistance, Double minDistance) {
+  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
     return elevatorEncoder.getDistance() < maxDistance && elevatorEncoder.getDistance() > minDistance;
   }
 
