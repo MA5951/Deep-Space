@@ -1,5 +1,12 @@
 # Makers Assemble's 2019 Code for our Deep space Robot!
 
+## The robot subsystems
+
+* Chassis
+* Elevator
+* Climber/Ascender
+* Rider
+
 ## Contributors
 
 * Opher Shur and Omer Libai as code managers

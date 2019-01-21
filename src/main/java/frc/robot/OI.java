@@ -9,7 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.elevator.ElevatorControlSpeedY;
+import frc.robot.commands.elevator.ElevatorJoystickControl;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
@@ -21,17 +21,17 @@ import frc.robot.commands.elevator.ElevatorUp;
 public class OI {
   public static final Joystick OPERATOR_STICK = new Joystick(RobotMap.JOYSTICK_MOTORS);
 
-  public static final JoystickButton ELEVATOR_UP = new JoystickButton(OPERATOR_STICK, 1);
-  public static final JoystickButton ELEVATOR_CONTROL_JOYSTICK = new JoystickButton(OPERATOR_STICK, 3);
-  public static final JoystickButton ELEVATOR_DOWN = new JoystickButton(OPERATOR_STICK, 2);
-  public static final JoystickButton ELEVATOR_PID_UP = new JoystickButton(OPERATOR_STICK, 4);
-  public static final JoystickButton ELEVATOR_PID_DOWN = new JoystickButton(OPERATOR_STICK, 5);
+  private JoystickButton elevatorUp = new JoystickButton(OPERATOR_STICK, 1);
+  private JoystickButton elevatorJoystickControl = new JoystickButton(OPERATOR_STICK, 3);
+  private JoystickButton elevatorDown = new JoystickButton(OPERATOR_STICK, 2);
+  private JoystickButton elevatorPIDUp = new JoystickButton(OPERATOR_STICK, 4);
+  private JoystickButton elevatorPIDDown = new JoystickButton(OPERATOR_STICK, 5);
 
   public OI() {
-    ELEVATOR_PID_DOWN.whenPressed(new ElevatorPID(40, 0.5));
-    ELEVATOR_PID_UP.whenPressed(new ElevatorPID(50, 0.5));
-    ELEVATOR_CONTROL_JOYSTICK.whileHeld(new ElevatorControlSpeedY());
-    ELEVATOR_UP.whenPressed(new ElevatorUp());
-    ELEVATOR_DOWN.whenPressed(new ElevatorDown());
+    elevatorPIDDown.whenPressed(new ElevatorPID(40, 0.5));
+    elevatorPIDUp.whenPressed(new ElevatorPID(50, 0.5));
+    elevatorJoystickControl.whileHeld(new ElevatorJoystickControl());
+    elevatorUp.whenPressed(new ElevatorUp());
+    elevatorDown.whenPressed(new ElevatorDown());
   }
 }
