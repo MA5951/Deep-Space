@@ -20,32 +20,39 @@ public class AngleRider extends Command {
     requires(rider);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Give power to the angle motor
+   */
   @Override
   protected void initialize() {
     rider.controlAngleMoter(speed);
   }
 
-  // Called repeatedly when this Command is scheduled to run
+
   @Override
   protected void execute() {
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * If the current angle is the desire one, the getCurrentAngle will disable 
+   */
   @Override
   protected boolean isFinished() {
     return rider. getCurrentAngle(angle);
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Reset the encoder and disable the angle motor if isFinished function is true
+   */
   @Override
   protected void end() {
     rider.encoderReset();
     rider.controlAngleMoter(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Disable the angle motor if end function was interrupted
+   */
   @Override
   protected void interrupted() {
     rider.controlAngleMoter(0);

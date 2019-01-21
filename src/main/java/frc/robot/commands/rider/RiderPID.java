@@ -22,31 +22,36 @@ public class RiderPID extends Command {
  rider.RiderPIDTolerance(TOLORANCE);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Enable the PID controller
+   */
   @Override
   protected void initialize() {
     rider.PIDRiderEnable();
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  
   @Override
   protected void execute() {
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Check if Rider reached the desire destination 
+   */
   @Override
   protected boolean isFinished() {
     return rider.isRiderOnTarget();
   }
 
-  // Called once after isFinished returns true
+  /**
+   * disable the PID controller if isFinished function is true
+   */
   @Override
   protected void end() {
     rider.PIDDisable();
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  
   @Override
   protected void interrupted() {
   }
