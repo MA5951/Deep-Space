@@ -10,48 +10,63 @@ package frc.robot.commands.chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
 
+
 public class ChassisPIDCommand extends Command {
 
   private Chassis chassis;
   //TODO
   private double distance;
 
+
+  /**
+   * create new distance (set point) parameter
+   * @param distance the given distance (set point)
+   */
   public ChassisPIDCommand(double distance) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+
     this.distance = distance;
     chassis = Chassis.getInstance();
     requires(chassis);
   }
 
-  // Called just before this Command runs the first time
+
+  /**
+   * Enable the PID and set the distance (set point)
+   */
   @Override
   protected void initialize() {
     chassis.enableChassisPID(true);
-    chassis.setPoint(distance);
+    chassis.setSetPoint(distance);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
-    
+
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  
+  /**
+   * Return if the robot reached the desire distance (set point)
+   */
   @Override
   protected boolean isFinished() {
     return chassis.isLeftOnTarget() && chassis.isRightOnTarget();
   }
 
-  // Called once after isFinished returns true
+  
+  /**
+   * Disable the PID
+   */
   @Override
   protected void end() {
     chassis.enableChassisPID(false);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  
+  /**
+   * Run the end function if it was interrupted
+   */
   @Override
   protected void interrupted() {
 

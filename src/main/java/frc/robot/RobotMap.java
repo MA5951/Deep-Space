@@ -14,7 +14,9 @@ package frc.robot;
  * floating around.
  */
 
- 
+/**
+ * The ports of the chassis components 
+ */
 public class RobotMap {
 
     //TalonSRX ports
@@ -26,7 +28,7 @@ public class RobotMap {
     public static final int RIGHT_MOTOR_TWO = 1;
     public static final int RIGHT_MOTOR_THREE = 1;
 
-    //Encoders ports
+    // Encoders ports
     //TODO
     public static final int ENCODER_RIGHT_A = 1;
     public static final int ENCODER_RIGHT_B = 1;

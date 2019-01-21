@@ -18,8 +18,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.chassis.TankDrive;
 
+
 /**
- * Add your docs here.
+ * The Chassis subsystem
  */
 public class Chassis extends Subsystem {
 
@@ -42,9 +43,13 @@ public class Chassis extends Subsystem {
   public static final double KP_CHASSIS = 0.0;
   public static final double KI_CHASSIS = 0.0;
   public static final double KD_CHASSIS = 0.0;
-  public static final double TOLERANCE = 0.5;
-  public static final double DISTANCE_PER_PULSE = 0.01;
+  private static final double TOLERANCE = 0.5;
+  private static final double DISTANCE_PER_PULSE = 0.01;
 
+
+  /**
+   * Initializes all Chassis components
+   */
   public Chassis()
   {
     leftFrontMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_ONE);
@@ -56,7 +61,7 @@ public class Chassis extends Subsystem {
     rightRearMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_THREE);
 
     encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A,RobotMap.ENCODER_LEFT_B,false,EncodingType.k4X);
-    encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A,RobotMap.ENCODER_RIGHT_B,false,EncodingType.k4X);
+    encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B, false, EncodingType.k4X);
 
     encoderLeft.reset();
     encoderRight.reset();
@@ -86,31 +91,51 @@ public class Chassis extends Subsystem {
   }
 
   
-
+  /**
+   * Give power to the motors
+   * @param speedLeft Speed of the left side chassis
+   * @param speedRight Speed of the right side chassis
+   */
   public void driveWestCoast(double speedLeft,double speedRight)  {
     
     rightFrontMotor.set(speedRight);
     leftFrontMotor.set(speedLeft);
   }
 
+  /**
+   * Check whether right PIDController is on target
+   * @return Indication if right controller is on target
+   */
   public boolean isRightOnTarget()  {
 
     return rightChassisPID.onTarget();
   }
 
+  /**
+   * Check whether right PIDController is on target
+   * @return Indication if right controler is on target
+   */
   public boolean isLeftOnTarget() {
 
     return  leftChassisPID.onTarget(); 
   }
  
 
-  public void setPoint(double setPoint) {
+  /**
+   * Set the PID destination (set point)
+   * @param setPoint The given destination (set point)
+   */
+  public void setSetPoint(double setPoint) {
 
     rightChassisPID.setSetpoint(setPoint);
     leftChassisPID.setSetpoint(setPoint);
   }
 
 
+  /**
+   * Enable the PID if true and disable if false
+   * @param enable Enable the function
+   */
   public void enableChassisPID(boolean enable){
 
     if(enable){
@@ -124,7 +149,6 @@ public class Chassis extends Subsystem {
    }
 
 
-
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -132,6 +156,10 @@ public class Chassis extends Subsystem {
   }
 
 
+  /**
+   * Makes sure that only one intance runs at a time
+   * @return Return the instance
+   */
   public static Chassis getInstance()
   {
     if(c_Instance==null)
