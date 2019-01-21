@@ -23,15 +23,16 @@ public class RobotMap {
     //TODO
     public static final int LEFT_MOTOR_ONE = 1;
     public static final int LEFT_MOTOR_TWO = 1;
-    public static final int LEFT_MOTOR_THREE = 1;
+  
     public static final int RIGHT_MOTOR_ONE = 1;
     public static final int RIGHT_MOTOR_TWO = 1;
-    public static final int RIGHT_MOTOR_THREE = 1;
+    
 
     // Encoders ports
     //TODO
     public static final int ENCODER_RIGHT_A = 1;
     public static final int ENCODER_RIGHT_B = 1;
+    
     public static final int ENCODER_LEFT_A = 1;
     public static final int ENCODER_LEFT_B = 1;
 

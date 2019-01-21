@@ -27,11 +27,11 @@ public class Chassis extends Subsystem {
   private static Chassis c_Instance;
   
   private WPI_TalonSRX leftFrontMotor;
-  private WPI_TalonSRX leftMiddleMotor;
   private WPI_TalonSRX leftRearMotor;
+
   private WPI_TalonSRX rightFrontMotor;
-  private WPI_TalonSRX rightMiddleMotor;
   private WPI_TalonSRX rightRearMotor;
+
 
   private Encoder encoderRight;
   private Encoder encoderLeft;
@@ -53,12 +53,12 @@ public class Chassis extends Subsystem {
   public Chassis()
   {
     leftFrontMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_ONE);
-    leftMiddleMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_TWO);
-    leftRearMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_THREE);
+    leftRearMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_TWO);
+
  
     rightFrontMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_ONE);
-    rightMiddleMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_TWO);
-    rightRearMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_THREE);
+    rightRearMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_TWO);
+   
 
     encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A,RobotMap.ENCODER_LEFT_B,false,EncodingType.k4X);
     encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B, false, EncodingType.k4X);
@@ -72,11 +72,11 @@ public class Chassis extends Subsystem {
     encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
     encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    rightMiddleMotor.set(ControlMode.Follower,rightFrontMotor.getDeviceID());
+    rightFrontMotor.set(ControlMode.Follower,rightFrontMotor.getDeviceID());
     rightRearMotor.set(ControlMode.Follower,rightFrontMotor.getDeviceID());
 
     
-    leftMiddleMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
+    leftFrontMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
     leftRearMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
 
     leftChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, leftFrontMotor);
