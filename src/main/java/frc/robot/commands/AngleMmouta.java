@@ -8,24 +8,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Rider;
 
-public class ElevatorPID extends Command {
-  double setSetpoint;
-  double setAbsoluteTolerance;
-  Elevator elevatorSubsystem= Elevator.getInstance();
-  public ElevatorPID(double setSetpoint,double setAbsoluteTolerance) {
-this.setSetpoint=setSetpoint;
-this.setAbsoluteTolerance=setAbsoluteTolerance;
- requires(elevatorSubsystem);
- elevatorSubsystem.setAbsoluteTolerance(setAbsoluteTolerance);
- elevatorSubsystem.setSetpoint(setSetpoint);
+public class AngleMmouta extends Command {
+  private double speed;
+  private double angle;
+  private Rider rider = Rider.getInstance();
+  public AngleMmouta(double speed, double angle) {
+    this.angle=angle;
+    this.speed=speed;
+  requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevatorSubsystem.enablePID();
+    rider.controlAngleMoter(speed);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -36,19 +34,20 @@ this.setAbsoluteTolerance=setAbsoluteTolerance;
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorSubsystem.isonTarget();
+    return rider. getCurrentAngle(angle);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevatorSubsystem.disablePID();
+    rider.encoderReset();
+    rider.controlAngleMoter(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevatorSubsystem.disablePID();
+    rider.controlAngleMoter(0);
   }
 }

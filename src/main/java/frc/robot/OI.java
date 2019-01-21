@@ -8,12 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.ElevatorControlSpeedY;
-import frc.robot.commands.ElevatorDown;
-import frc.robot.commands.ElevatorPID;
-import frc.robot.commands.ElevatorUp;
+import frc.robot.commands.AngleMmouta;
+import frc.robot.commands.IntakeMamutaIn;
+import frc.robot.commands.IntakeMamutaPull;
+import frc.robot.commands.RiderPID;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -21,17 +20,20 @@ import frc.robot.commands.ElevatorUp;
  */
 public class OI {
   public static Joystick joystickMotors=new Joystick(RobotMap.JOYSTIC_MOTORS);
-  Button elevatorUp=new JoystickButton(joystickMotors, 1);
-  Button elevatorControlByJoystic=new JoystickButton(joystickMotors, 3);
-  Button elevatorDown=new JoystickButton(joystickMotors, 2);
-  Button PIDUp=new JoystickButton(joystickMotors, 4);
-  Button PIDDown=new JoystickButton(joystickMotors, 5);
+  public static final JoystickButton MAMUTA_CONTROL_ANGLE_DOWN=new JoystickButton(joystickMotors, 6);
+  public static final JoystickButton MAMUTA_CONTROL_ANGLE_UP=new JoystickButton(joystickMotors, 10);
+  public static final JoystickButton MAMUTA_PID=new JoystickButton(joystickMotors, 7);
+  public static final JoystickButton MAMUTA_INTAKE_PULL=new JoystickButton(joystickMotors, 8);
+  public static final JoystickButton MAMUTA_INTAKE_IN=new JoystickButton(joystickMotors, 9);
+
 public OI(){
-  PIDDown.whenPressed(new ElevatorPID(40, 0.5)); 
-  PIDUp.whenPressed(new ElevatorPID(50, 0.5)); 
-  elevatorControlByJoystic.whileHeld(new ElevatorControlSpeedY());
-  elevatorUp.whenPressed(new ElevatorUp());
-  elevatorDown.whenPressed(new ElevatorDown());
+  MAMUTA_INTAKE_IN.whenPressed(new IntakeMamutaIn());
+MAMUTA_INTAKE_PULL.whenPressed(new IntakeMamutaPull());
+  MAMUTA_PID.whenPressed(new RiderPID(500, 0.5));
+  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleMmouta(1, -1000));
+  MAMUTA_CONTROL_ANGLE_UP.whenPressed(new AngleMmouta(-1, 1000));
+  
+ 
 
 }
   //// CREATING BUTTONS

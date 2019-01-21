@@ -8,20 +8,24 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Rider;
 
-public class ElevatorDown extends Command {
-
-  Elevator elevatorSubsystem= Elevator.getInstance();
-  public ElevatorDown() {
-    requires(elevatorSubsystem);
+public class RiderPID extends Command {
+  double setPoint;
+  double TOLORANCE;
+  private Rider rider = Rider.getInstance();
+  public RiderPID(double setPoint,double TOLORANCE) {
+    this.setPoint=setPoint;
+    this.TOLORANCE=TOLORANCE;    
+ requires(rider);
+ rider.setPointRider(setPoint);
+ rider.RiderPIDTolerance(TOLORANCE);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevatorSubsystem.elevatortalonControlSpeed(-1);
-    
+    rider.PIDRiderEnable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -32,20 +36,18 @@ public class ElevatorDown extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorSubsystem.elevatorLimitSwitchDown();
+    return rider.isRiderOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevatorSubsystem.resetElevatorEncoder();
-    elevatorSubsystem.elevatortalonControlSpeed(0);
+    rider.PIDDisable();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevatorSubsystem.elevatortalonControlSpeed(0);
   }
 }

@@ -6,20 +6,20 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands;
-
+import frc.robot.subsystems.Rider;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
 
-public class ElevatorUp extends Command {
-  Elevator elevatorSubsystem= Elevator.getInstance();
-  public ElevatorUp() {
- requires(elevatorSubsystem);
+
+public class IntakeMamutaIn extends Command {
+  private Rider rider = Rider.getInstance();
+  public IntakeMamutaIn() {
+   requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevatorSubsystem.elevatortalonControlSpeed(1);
+    rider.controlIntakeMoter(-1);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,19 +30,19 @@ public class ElevatorUp extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorSubsystem.elevatorLimitSwitchUp();
+    return rider.isLimitSwitchAnglePressed();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevatorSubsystem.elevatortalonControlSpeed(0);
+    rider.controlIntakeMoter(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevatorSubsystem.elevatortalonControlSpeed(0);
+    rider.controlIntakeMoter(0);
   }
 }

@@ -17,13 +17,28 @@ public class RobotMap {
   // For example to map the left and right motors, you could define the
   // following variables to use with your drivetrain subsystem.
   public static int JOYSTIC_MOTORS=1;
-   public static int TALON_ELEVETOR = 1;
-   public static int ENCODER_ELEVETOR_A = 2;
-   public static int ENCODER_ELEVETOR_B = 3;
-   public static int LIMIT_SWICH_DONW_LEFT=4;
-   public static int LIMIT_SWICH_DONW_RIGHT=5;
-   public static int LIMIT_SWICH_UP_LEFT=7;
-   public static int LIMIT_SWICH_UP_RIGHT=6;
+     //Motors for mamuta (rider)
+public static final int ANGLE_MOTOR = 1;
+public static final int INTAKE_MOTOR = 1;
+
+//Encoders for mamuta (rider)
+public static final int ENCODER_PORT_RIDER_ONE = 1;
+public static final int ENCODER_PORT_RIDER_TWO = 1;
+
+//JoySticks
+public static final int JOYSTICK = 1;
+
+//??
+public static final int ANGLE_MOTOR_JOYSTICK_BUTTON_INWARD = 1;
+public static final int ANGLE_MOTOR_JOYSTICK_BUTTON_OUTWARD = 2;
+
+//??
+public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_IN = 3;
+public static final int INTAKE_MOTOR_JOYSTICK_BUTTON_OUT = 4;
+
+//LimitSwitches for the mamuta (rider)
+public static final int RIDER_LIMIT_SWITCH_ANGLE_PORT = 0;
+public static final int RIDER_LIMIT_SWITCH_INTAKE_PORT=0;
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
   // public static int rangefinderPort = 1;
