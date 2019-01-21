@@ -5,21 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.rider;
+
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.subsystems.Rider;
 
-public class IntakeMamutaPull extends Command {
+public class AngleRider extends Command {
+  private double speed;
+  private double angle;
   private Rider rider = Rider.getInstance();
-  public IntakeMamutaPull() {
- requires(rider);
+  public AngleRider(double speed, double angle) {
+    this.angle = angle;
+    this.speed = speed;
+    requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rider.controlIntakeMoter(1);
+    rider.controlAngleMoter(speed);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,23 +34,20 @@ public class IntakeMamutaPull extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !rider.isLimitSwitchAnglePressed();
-    }
+    return rider. getCurrentAngle(angle);
+  }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.controlIntakeMoter(1);
-    new WaitCommand(0.5);
-    rider.controlIntakeMoter(0);
-
-    
+    rider.encoderReset();
+    rider.controlAngleMoter(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMoter(0);
+    rider.controlAngleMoter(0);
   }
 }

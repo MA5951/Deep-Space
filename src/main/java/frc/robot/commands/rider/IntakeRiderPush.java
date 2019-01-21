@@ -5,27 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-
+package frc.robot.commands.rider;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.subsystems.Rider;
 
-public class RiderPID extends Command {
-  double setPoint;
-  double TOLORANCE;
+public class IntakeRiderPush extends Command {
   private Rider rider = Rider.getInstance();
-  public RiderPID(double setPoint,double TOLORANCE) {
-    this.setPoint=setPoint;
-    this.TOLORANCE=TOLORANCE;    
- requires(rider);
- rider.setPointRider(setPoint);
- rider.RiderPIDTolerance(TOLORANCE);
+  
+  public IntakeRiderPush() {
+    requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rider.PIDRiderEnable();
+    rider.controlIntakeMoter(1);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -36,18 +33,23 @@ public class RiderPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isRiderOnTarget();
+    return !rider.isLimitSwitchAnglePressed();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.PIDDisable();
+    rider.controlIntakeMoter(1);
+    Timer.delay(0.5);
+    rider.controlIntakeMoter(0);
+
+    
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    rider.controlIntakeMoter(0);
   }
 }

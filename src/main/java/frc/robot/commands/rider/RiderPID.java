@@ -5,21 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
-import frc.robot.subsystems.Rider;
+package frc.robot.commands.rider;
+
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Rider;
 
-
-public class IntakeMamutaIn extends Command {
+public class RiderPID extends Command {
+  double setPoint;
+  double TOLORANCE;
   private Rider rider = Rider.getInstance();
-  public IntakeMamutaIn() {
-   requires(rider);
+  public RiderPID(double setPoint,double TOLORANCE) {
+    this.setPoint=setPoint;
+    this.TOLORANCE=TOLORANCE;    
+ requires(rider);
+ rider.setPointRider(setPoint);
+ rider.RiderPIDTolerance(TOLORANCE);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rider.controlIntakeMoter(-1);
+    rider.PIDRiderEnable();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -30,19 +36,18 @@ public class IntakeMamutaIn extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isLimitSwitchAnglePressed();
+    return rider.isRiderOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.controlIntakeMoter(0);
+    rider.PIDDisable();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMoter(0);
   }
 }
