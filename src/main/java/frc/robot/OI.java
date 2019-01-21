@@ -30,7 +30,7 @@ public OI(){
   MAMUTA_INTAKE_IN.whenPressed(new IntakeRiderPull());
   MAMUTA_INTAKE_PULL.whenPressed(new IntakeRiderPush());
   MAMUTA_PID.whenPressed(new RiderPID(500, 0.5));
-  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, -1000));
+  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, 0));
   MAMUTA_CONTROL_ANGLE_UP.whenPressed(new AngleRider(-1, 1000));
   
  
