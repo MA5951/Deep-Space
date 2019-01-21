@@ -7,55 +7,45 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
-import edu.wpi.first.wpilibj.Joystick;
-public class IntakeCommand extends Command {
-  
-  
-	private Intake intake = Intake.getInstance();
-  
 
-  public IntakeCommand() {
+public class IntakePush extends Command {
+  Intake doodooSubsystem= Intake.getInstance();
 
-    requires(intake);
+  Rider rider = Rider.getInstance();
 
+  private double speed;
+  public IntakePush (double speed) {
+    this.speed=speed;
+   requires(doodooSubsystem);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
-    
-
+    doodooSubsystem.dodoIntakeControl(speed);
   }
 
- 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    
-    Intake.getInstance();
-
-
-
   }
-// Make this return true when this Command no longer needs to run execute()
-  
+
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return rider.isLimitSwitchAnglePressed();
   }
 
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    intake.stop();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    intake.stop();
   }
 }
