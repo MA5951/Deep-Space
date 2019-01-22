@@ -15,11 +15,12 @@ import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
 
 /**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
+ * Maps commands to buttons/POVs/triggers
  */
 public class OI {
-  public static final Joystick OPERATOR_STICK = new Joystick(RobotMap.JOYSTICK_MOTORS);
+  public static final Joystick OPERATOR_STICK = new Joystick(RobotMap.JOYSTICK_OPERATOR);
+  public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
+  public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
 
   private JoystickButton elevatorUp = new JoystickButton(OPERATOR_STICK, 1);
   private JoystickButton elevatorJoystickControl = new JoystickButton(OPERATOR_STICK, 3);
@@ -34,4 +35,5 @@ public class OI {
     elevatorUp.whenPressed(new ElevatorUp());
     elevatorDown.whenPressed(new ElevatorDown());
   }
+
 }

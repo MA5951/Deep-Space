@@ -13,19 +13,41 @@ package frc.robot;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
+
+/**
+ * The ports of the chassis components
+ */
 public class RobotMap {
-  // For example to map the left and right motors, you could define the
-  // following variables to use with your drivetrain subsystem.
-  public static int JOYSTICK_MOTORS = 1;
-  public static int TALON_ELEVETOR = 1;
-  public static int ENCODER_ELEVETOR_A = 2;
-  public static int ENCODER_ELEVETOR_B = 3;
-  public static int LIMIT_SWICH_DOWN_LEFT = 4;
-  public static int LIMIT_SWICH_DOWN_RIGHT = 5;
-  public static int LIMIT_SWITCH_UP_LEFT = 7;
-  public static int LIMIT_SWITCH_UP_RIGHT = 6;
-  // If you are using multiple modules, make sure to define both the port
-  // number and the module. For example you with a rangefinder:
-  // public static int rangefinderPort = 1;
-  // public static int rangefinderModule = 1;
+
+  public static final int JOYSTICK_OPERATOR = 0;
+  public static final int JOYSTICK_DRIVER_LEFT = 1;
+  public static final int JOYSTICK_DRIVER_RIGHT = 2;
+
+  // Elevator
+  // TODO
+  public static final int TALON_ELEVETOR = 1;
+
+  public static final int ENCODER_ELEVETOR_A = 2;
+  public static final int ENCODER_ELEVETOR_B = 3;
+  
+  public static final int LIMIT_SWICH_DOWN_LEFT = 4;
+  public static final int LIMIT_SWICH_DOWN_RIGHT = 5;
+  public static final int LIMIT_SWITCH_UP_LEFT = 7;
+  public static final int LIMIT_SWITCH_UP_RIGHT = 6;
+
+  // Chassis
+  // TODO
+  public static final int LEFT_MOTOR_ONE = 1;
+  public static final int LEFT_MOTOR_TWO = 1;
+
+  public static final int RIGHT_MOTOR_ONE = 1;
+  public static final int RIGHT_MOTOR_TWO = 1;
+
+  // Encoders ports for the Chassis
+  // TODO
+  public static final int ENCODER_RIGHT_A = 1;
+  public static final int ENCODER_RIGHT_B = 1;
+
+  public static final int ENCODER_LEFT_A = 1;
+  public static final int ENCODER_LEFT_B = 1;
 }
