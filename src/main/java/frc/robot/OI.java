@@ -7,15 +7,13 @@
 
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.Joystick;
-
 
 /**
  * Set the joysticks
  */
 public class OI {
-  
+
   public static final Joystick LEFT_JOYSTICK = new Joystick(RobotMap.JOYSTICK_CHASSIS_LEFT_MOTOR);
   public static final Joystick RIGHT_JOYSTICK = new Joystick(RobotMap.JOYSTICK_CHASSIS_RIGHT_MOTOR);
 }

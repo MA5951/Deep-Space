@@ -8,49 +8,60 @@
 package frc.robot.commands.chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.subsystems.Chassis;
 
-public class TankDrive extends Command {
+public class ChassisPIDNavxCommand extends Command {
 
-  Chassis chassis;
+  private Chassis chassis;
+  // TODO
+  private double distance = 0;
 
   /**
-   * Create an object of chassis (create a new instance of chassis)
+   * create new distance (set point) parameter
+   * 
+   * @param distance the given distance (set point)
    */
-  public TankDrive() {
+  public ChassisPIDNavxCommand(double distance) {
+
+    this.distance = distance;
     chassis = Chassis.getInstance();
     requires(chassis);
-
-  }
-
-  @Override
-  protected void initialize() {
-
   }
 
   /**
-   * Control the chassis with the 2 joysticks
+   * Enable the PID and set the distance (set point)
+   */
+  protected void initialize() {
+    chassis.enableChassisNavxPID(true);
+    chassis.setSetPoint(distance);
+  }
+
+  /**
+   * Return if the robot reached the desire distance (set point)
    */
   @Override
   protected void execute() {
-    chassis.driveWestCoast(OI.LEFT_JOYSTICK.getY(), OI.RIGHT_JOYSTICK.getY());
+  }
+
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return chassis.isLeftNavxPIDOnTarget() && chassis.isRightOnTarget();
+  }
+
+   /**
+   * Disable the PIDController
+   */
+  @Override
+  protected void end() {
+    chassis.enableChassisNavxPID(false);
   }
 
   /**
-   * Makes the execute function run forever
+   * Disable the PIDController if end() was interrupted
    */
   @Override
-  protected boolean isFinished() {
-    return false;
-  }
-
-  @Override
-  protected void end() {
-  }
-
-  @Override
   protected void interrupted() {
+    chassis.enableChassisNavxPID(false);
   }
-
 }

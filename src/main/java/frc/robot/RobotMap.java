@@ -15,31 +15,31 @@ package frc.robot;
  */
 
 /**
- * The ports of the chassis components 
+ * The ports of the chassis components
  */
 public class RobotMap {
 
-    //TalonSRX ports
-    //TODO
+    // TalonSRX ports
+    // TODO
     public static final int LEFT_MOTOR_ONE = 1;
     public static final int LEFT_MOTOR_TWO = 1;
-  
+
     public static final int RIGHT_MOTOR_ONE = 1;
     public static final int RIGHT_MOTOR_TWO = 1;
-    
 
+    
     // Encoders ports
-    //TODO
+    // TODO
     public static final int ENCODER_RIGHT_A = 1;
     public static final int ENCODER_RIGHT_B = 1;
-    
+
     public static final int ENCODER_LEFT_A = 1;
     public static final int ENCODER_LEFT_B = 1;
 
-    //Joysticks ports
-    //TODO
-    public static final int JOYSTICK_CHASSIS_LEFT_MOTOR =1;
-    public static final int JOYSTICK_CHASSIS_RIGHT_MOTOR =1;
 
-    
+    // Joysticks ports
+    // TODO
+    public static final int JOYSTICK_CHASSIS_LEFT_MOTOR = 1;
+    public static final int JOYSTICK_CHASSIS_RIGHT_MOTOR = 1;
+
 }
