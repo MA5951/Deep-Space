@@ -8,8 +8,6 @@
 package frc.robot.commands.rider;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.subsystems.Rider;
 
 public class IntakeRiderPush extends Command {
@@ -22,12 +20,13 @@ public class IntakeRiderPush extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rider.controlIntakeMoter(1);
+   
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    rider.controlIntakeMoter(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,8 +41,6 @@ public class IntakeRiderPush extends Command {
     rider.controlIntakeMoter(1);
     Timer.delay(0.5);
     rider.controlIntakeMoter(0);
-
-    
   }
 
   // Called when another command which requires one or more of the same

@@ -30,16 +30,12 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
   private Encoder encoder;
-  private DigitalInput limitSwitchAngle;
-  private DigitalInput limitSwitchIntake;
+  private DigitalInput limitSwitchA;
+  private DigitalInput limitSwitchB;
   private PIDController riderPID;
 
 
 
-  public static final double KP_RIDER =0.0;
-  public static final double kD_RIDER =0.0;
-  public static final double kI_RIDER =0.0;
-  public static final double DISTANCE_PER_PULSE = 0.1;
 
 
   private Rider(){
@@ -48,12 +44,12 @@ public class Rider extends Subsystem {
     intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
 
     encoder = new Encoder(RobotMap.ENCODER_PORT_RIDER_ONE, RobotMap.ENCODER_PORT_RIDER_TWO,false,EncodingType.k4X);
-    encoder.setDistancePerPulse(DISTANCE_PER_PULSE);
+    encoder.setDistancePerPulse(1);
 
-    limitSwitchAngle = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_ANGLE_PORT);
-    limitSwitchIntake = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_INTAKE_PORT);
+    limitSwitchA = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_ANGLE_PORT);
+    limitSwitchB = new DigitalInput(RobotMap.RIDER_LIMIT_SWITCH_INTAKE_PORT);
 
-    riderPID = new PIDController(KP_RIDER, kI_RIDER, kD_RIDER, encoder, angleMotor);
+    riderPID = new PIDController(1, 1, 1, encoder, angleMotor);
     encoder.setPIDSourceType(PIDSourceType.kDisplacement);
   }
 
@@ -63,10 +59,10 @@ public void PIDRiderEnable(){
 public void PIDDisable(){
   riderPID.disable();
  }
-public void RiderPIDTolerance(double TOLORANCE){
-  riderPID.setAbsoluteTolerance(TOLORANCE);
+public void RiderPIDTolerance(double tolorance){
+  riderPID.setAbsoluteTolerance(tolorance);
 }
-public void setPointRider(double setPoint){
+public void setSetPointRider(double setPoint){
   riderPID.setSetpoint(setPoint);
 }
 public boolean isRiderOnTarget(){
@@ -82,11 +78,14 @@ public boolean isRiderOnTarget(){
     }
   
     public boolean isLimitSwitchAnglePressed(){
-      return limitSwitchAngle.get()||limitSwitchIntake.get();
+      return limitSwitchA.get()||limitSwitchB.get();
     }
 
-    public boolean getCurrentAngle(double angle){
+    public boolean ifInTheCurrentAngle(double angle){
       return encoder.get()==angle;
+    }
+    public int getCurrentAngle(){
+      return encoder.get();
     }
     
     public void encoderReset(){

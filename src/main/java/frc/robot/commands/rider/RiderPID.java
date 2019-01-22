@@ -12,19 +12,20 @@ import frc.robot.subsystems.Rider;
 
 public class RiderPID extends Command {
   double setPoint;
-  double TOLORANCE;
+  double tolorance;
   private Rider rider = Rider.getInstance();
-  public RiderPID(double setPoint,double TOLORANCE) {
+
+  public RiderPID(double setPoint,double tolorance) {
     this.setPoint=setPoint;
-    this.TOLORANCE=TOLORANCE;    
- requires(rider);
- rider.setPointRider(setPoint);
- rider.RiderPIDTolerance(TOLORANCE);
+    this.tolorance=tolorance;    
+    requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    rider.setSetPointRider(setPoint);
+    rider.RiderPIDTolerance(tolorance);
     rider.PIDRiderEnable();
   }
 
@@ -49,5 +50,6 @@ public class RiderPID extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    rider.controlIntakeMoter(0);
   }
 }

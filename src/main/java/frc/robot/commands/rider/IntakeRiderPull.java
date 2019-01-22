@@ -19,12 +19,13 @@ public class IntakeRiderPull extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    rider.controlIntakeMoter(-1);
+    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    rider.controlIntakeMoter(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
