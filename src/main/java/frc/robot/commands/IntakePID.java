@@ -9,22 +9,23 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
+
 public class IntakePID extends Command {
 
-  Intake intake= Intake.getInstance();
+  private Intake intake = Intake.getInstance();
   private double tolerance;
-  private double setSetpoint;
+  private double setpoint;
 
   /**
    * 
-   * @param setSetpoint destination to robot for PID
-   * @param tolerance tolerance 
+   * @param setpoint  destination to robot for PID
+   * @param tolerance tolerance
    */
-  public IntakePID(double setSetpoint,double tolerance) {
-   
-    this.tolerance=tolerance;
-    this.setSetpoint=setSetpoint;
-   
+  public IntakePID(double setpoint, double tolerance) {
+
+    this.tolerance = tolerance;
+    this.setpoint = setpoint;
+
     requires(intake);
   }
 
@@ -32,8 +33,8 @@ public class IntakePID extends Command {
   @Override
   protected void initialize() {
 
-    intake.setSetpointPID(setSetpoint);
-    intake.tolerancePID(tolerance);
+    intake.setSetpointPID(setpoint);
+    intake.setTolerancePID(tolerance);
     intake.enablePID();
   }
 
@@ -59,6 +60,7 @@ public class IntakePID extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    intake.disablePID();
     intake.intakeMovmentControl(0);
   }
 }

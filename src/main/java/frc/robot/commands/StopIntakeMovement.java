@@ -17,7 +17,7 @@ public class StopIntakeMovement extends InstantCommand {
   /**
    * Add your docs here.
    */
-  Intake intake  = Intake.getInstance();
+  private Intake intake = Intake.getInstance();
 
   public StopIntakeMovement() {
     super();

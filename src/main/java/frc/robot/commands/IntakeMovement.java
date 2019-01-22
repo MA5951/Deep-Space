@@ -10,14 +10,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class IntakeMovment extends Command {
-  
-  Intake intake = Intake.getInstance();
-  public double speedUpAndDown;
-  
-  public IntakeMovment(double speedUpAndDown) {
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+public class IntakeMovement extends Command {
+
+  private Intake intake = Intake.getInstance();
+  private double speedUpAndDown;
+
+  public IntakeMovement(double speedUpAndDown) {
+
     this.speedUpAndDown = speedUpAndDown;
     requires(intake);
   }
@@ -26,7 +25,7 @@ public class IntakeMovment extends Command {
   @Override
   protected void initialize() {
     intake.intakeMovmentControl(speedUpAndDown);
-    
+
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,17 +37,19 @@ public class IntakeMovment extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return (speedUpAndDown > 0 && intake.isLimitSwitchUp()) || (speedUpAndDown > 0 && intake.isLimitSwitchDown());
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    intake.intakeMovmentControl(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    intake.intakeMovmentControl(0);
   }
 }

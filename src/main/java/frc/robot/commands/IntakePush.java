@@ -12,24 +12,25 @@ import frc.robot.subsystems.Intake;
 
 public class IntakePush extends Command {
 
-  Intake intake= Intake.getInstance();
-
+  private Intake intake = Intake.getInstance();
 
   private double speed;
-  public IntakePush (double speed) {
-    this.speed=speed;
-   requires(intake);
+
+  public IntakePush(double speed) {
+    this.speed = speed;
+    requires(intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intake.intakeControl(speed);
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    intake.intakeControl(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,11 +42,13 @@ public class IntakePush extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    intake.intakeControl(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    intake.intakeControl(0);
   }
 }

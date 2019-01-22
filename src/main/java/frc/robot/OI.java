@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.commands.IntakeMovment;
+import frc.robot.commands.IntakeMovement;
 import frc.robot.commands.IntakePID;
 import frc.robot.commands.IntakePull;
 import frc.robot.commands.IntakePush;
@@ -48,8 +48,8 @@ public class OI {
     INTAKE_SOLONOID.whenPressed(new PistonCommandGroup());
     TriggerReset.whenActive(new ResetEncoder());
     triggerStopIntake.whenActive(new StopIntakeMovement());
-    INTAKE_UP.whenPressed(new IntakeMovment(0.5));
-    INTAKE_DOWN.whenPressed(new IntakeMovment(-0.3));
+    INTAKE_UP.whenPressed(new IntakeMovement(0.5));
+    INTAKE_DOWN.whenPressed(new IntakeMovement(-0.3));
   }
 
 }

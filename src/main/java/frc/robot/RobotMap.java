@@ -14,14 +14,14 @@ package frc.robot;
  * floating around.
  */
 public class RobotMap {
-public static final int INTAKE_MOTORS_WILDES = 1;
-public static final int  INTAKE_MOTORS_ANGLE_LEFT = 2;
-public static final int  INTAKE_MOTORS_ANGLE_RIGHT = 3;
-public static final int  RELAY_SOLONID_LEFT=4;
-public static final int  RELAY_SOLONID_RIGHT=5;
+public static final int INTAKE_MOTORS_WHEELS = 1;
+public static final int  INTAKE_MOTORS_ANGLE_A = 2;
+public static final int  INTAKE_MOTORS_ANGLE_B = 3;
+public static final int  RELAY_PISTON_LEFT=4;
+public static final int  RELAY_PISTON_RIGHT=5;
 public static final int ENCODER_A_INTAKE=2;
 public static final int ENCODER_B_INTAKE=1;
-public static final int LINIT_SWHICH_UP=1;
-public static final int LINIT_SWHICH_DOWN=2;
+public static final int LIMIT_SWITCH_UP=1;
+public static final int LIMIT_SWITCH_DOWN=2;
 public static final int Joystick1= 1;
 }

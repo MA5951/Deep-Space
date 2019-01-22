@@ -14,10 +14,10 @@ import frc.robot.subsystems.Intake;
  * Add your docs here.
  */
 public class TriggerStopIntake extends Trigger {
- Intake intake = Intake.getInstance();
+  private Intake intake = Intake.getInstance();
 
   @Override
   public boolean get() {
-    return intake.isLImitSwhichOnDown();
+    return intake.isLimitSwitchDown();
   }
 }

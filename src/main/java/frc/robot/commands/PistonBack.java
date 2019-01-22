@@ -9,19 +9,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
+
 /**
  * Add your docs here.
  */
 
 public class PistonBack extends InstantCommand {
 
-  Intake intake = Intake.getInstance();
+  private Intake intake = Intake.getInstance();
 
   /**
    * Add your docs here.
    */
   public PistonBack() {
- requires(intake);
+    requires(intake);
   }
 
   // Called once when the command executes

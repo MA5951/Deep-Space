@@ -9,7 +9,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
@@ -23,105 +22,108 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class Intake extends Subsystem {
-  
-  //motors
-  private WPI_TalonSRX ballDeskeetTalon;
-  private WPI_TalonSRX intakeMovementLeft;
-  private WPI_TalonSRX intakeMovementRight;
 
-  //encoder
+  // motors
+  private WPI_TalonSRX intakeTalon;
+  private WPI_TalonSRX intakeAngleA;
+  private WPI_TalonSRX intakeAngleB;
+
+  // encoder
   private Encoder encoderIntake;
 
-  //PID
-  private PIDController IntakePIDController;
+  // PID
+  private PIDController anglePIDController;
 
-  //Electric Pistons
+  // Electric Pistons
   private Relay intakePistonRight;
   private Relay intakePistonLeft;
 
-
   private static Intake intakeSubsystem;
 
-  //sensors
-  private DigitalInput limitSWichUp;
-  private DigitalInput limitSWichDown;
+  // sensors
+  private DigitalInput limitSwitchUp;
+  private DigitalInput limitSwitchDown;
 
+  private Intake() {
 
-  private Intake(){
+    limitSwitchUp = new DigitalInput(RobotMap.LIMIT_SWITCH_UP);
+    limitSwitchDown = new DigitalInput(RobotMap.LIMIT_SWITCH_DOWN);
 
-    limitSWichUp = new DigitalInput(RobotMap.LINIT_SWHICH_UP);
-    limitSWichDown = new DigitalInput(RobotMap.LINIT_SWHICH_DOWN);
+    intakePistonRight = new Relay(RobotMap.RELAY_PISTON_RIGHT);
+    intakePistonLeft = new Relay(RobotMap.RELAY_PISTON_LEFT);
 
-    intakePistonRight = new Relay(RobotMap.RELAY_SOLONID_RIGHT);
-    intakePistonLeft = new Relay(RobotMap.RELAY_SOLONID_LEFT);
-    
-    ballDeskeetTalon = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WILDES);
-    
-    intakeMovementRight = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_RIGHT);
-    intakeMovementLeft = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_LEFT);
-    intakeMovementRight.set(ControlMode.Follower, intakeMovementLeft.getDeviceID());
-    intakeMovementLeft.setInverted(true);
-    
-    encoderIntake = new Encoder(RobotMap.ENCODER_B_INTAKE, RobotMap.ENCODER_A_INTAKE,false,EncodingType.k4X);
+    intakeTalon = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
+
+    intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
+    intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+
+    intakeAngleA.setInverted(true);
+    intakeAngleB.set(ControlMode.Follower, intakeAngleA.getDeviceID());
+
+    encoderIntake = new Encoder(RobotMap.ENCODER_B_INTAKE, RobotMap.ENCODER_A_INTAKE, false, EncodingType.k4X);
     encoderIntake.setDistancePerPulse(1);
     encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
-    
-    IntakePIDController=new PIDController(1, 1, 1,encoderIntake,intakeMovementLeft);
+
+    anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA);
   }
 
-  public boolean isLImitSwhichOnUp(){
-    return limitSWichUp.get();
+  public boolean isLimitSwitchUp() {
+    return limitSwitchUp.get();
   }
 
-  public boolean isLImitSwhichOnDown(){
-    return limitSWichDown.get();
+  public boolean isLimitSwitchDown() {
+    return limitSwitchDown.get();
   }
 
-  public void enablePID(){
-    IntakePIDController.enable();
-}
-  public void disablePID(){
-    IntakePIDController.disable();
-}
+  public void enablePID() {
+    anglePIDController.enable();
+  }
 
-  public void setSetpointPID(double setSetpoint){
-    IntakePIDController.setSetpoint(setSetpoint);
-}
+  public void disablePID() {
+    anglePIDController.disable();
+  }
 
-  public void tolerancePID(double Tolerance){
-   IntakePIDController.setAbsoluteTolerance(Tolerance);
-}
-  public boolean isOnTargetPID(){
-    return IntakePIDController.onTarget();
-}
+  public void setSetpointPID(double setSetpoint) {
+    anglePIDController.setSetpoint(setSetpoint);
+  }
 
-  public void intakeControl(double speed){
-    ballDeskeetTalon.set(ControlMode.PercentOutput, speed);
-}
+  public void setTolerancePID(double Tolerance) {
+    anglePIDController.setAbsoluteTolerance(Tolerance);
+  }
 
-  public void intakeMovmentControl(double speedUpAndDown){
-    intakeMovementLeft.set(ControlMode.PercentOutput, speedUpAndDown);
-}
+  public boolean isOnTargetPID() {
+    return anglePIDController.onTarget();
+  }
 
-  public void RelayControlFowerd(){
+  public void intakeControl(double speed) {
+    intakeTalon.set(ControlMode.PercentOutput, speed);
+  }
+
+  public void intakeMovmentControl(double speedUpAndDown) {
+    intakeAngleA.set(ControlMode.PercentOutput, speedUpAndDown);
+  }
+
+  public void RelayControlFowerd() {
     intakePistonRight.set(Relay.Value.kForward);
     intakePistonLeft.set(Relay.Value.kForward);
-}
+  }
 
-  public void RelayControlRevers(){
+  public void RelayControlRevers() {
     intakePistonRight.set(Relay.Value.kReverse);
     intakePistonLeft.set(Relay.Value.kReverse);
-} 
-  public void resetEncoder(){
+  }
+
+  public void resetEncoder() {
     encoderIntake.reset();
-}
+  }
 
   public static Intake getInstance() {
-    if(intakeSubsystem ==null){
-      intakeSubsystem=new Intake();
+    if (intakeSubsystem == null) {
+      intakeSubsystem = new Intake();
     }
     return intakeSubsystem;
-}
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

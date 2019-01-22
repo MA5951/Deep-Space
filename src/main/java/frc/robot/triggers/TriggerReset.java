@@ -9,15 +9,17 @@ package frc.robot.triggers;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.subsystems.Intake;
+
 /**
  * Add your docs here.
  */
 public class TriggerReset extends Trigger {
 
-  Intake intake= Intake.getInstance();
+  private Intake intake = Intake.getInstance();
+
   @Override
   public boolean get() {
-    return intake.isLImitSwhichOnUp();
-  
+    return intake.isLimitSwitchUp();
+
   }
 }
