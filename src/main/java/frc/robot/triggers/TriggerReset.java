@@ -5,29 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.subsystems.Intake;
 /**
  * Add your docs here.
  */
+public class TriggerReset extends Trigger {
 
-public class ResatEncoder extends InstantCommand {
-
-  Intake intakeSubsystem = Intake.getInstance();
-
-  /**
-   * Add your docs here.
-   */
-  public ResatEncoder() {
- requires(intakeSubsystem);
-  }
-
-  // Called once when the command executes
+  Intake intake= Intake.getInstance();
   @Override
-  protected void initialize() {
-    intakeSubsystem.resetEncoder();
+  public boolean get() {
+    return intake.isLImitSwhichOnUp();
+  
   }
-
 }

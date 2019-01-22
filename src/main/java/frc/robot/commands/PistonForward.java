@@ -6,21 +6,21 @@ import frc.robot.subsystems.Intake;
  * Add your docs here.
  */
 
-public class SolonidFowerd extends InstantCommand {
+public class PistonForward extends InstantCommand {
 
-  Intake intakeSubsystem = Intake.getInstance();
+  Intake intake = Intake.getInstance();
 
   /**
    * Add your docs here.
    */
-  public SolonidFowerd() {
- requires(intakeSubsystem);
+  public PistonForward() {
+ requires(intake);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    intakeSubsystem.RelayControlFowerd();
+    intake.RelayControlFowerd();
   }
 
 }

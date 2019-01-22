@@ -23,75 +23,104 @@ import frc.robot.RobotMap;
  * Add your docs here.
  */
 public class Intake extends Subsystem {
-  private WPI_TalonSRX dodoIntake;
-  private WPI_TalonSRX dodoUpAndDonwLeft;
-  private WPI_TalonSRX dodoUpAndDonwRight;
-  private Encoder encoderDodo;
-  private PIDController dodoPIDController;
-  private Relay dodoSonoloidRigth;
-  private Relay dodoSonoloidLeft;
-  private static Intake dodoSubsystem;
-  DigitalInput limitSWichUp;
-  DigitalInput limitSWichDown;
+  
+  //motors
+  private WPI_TalonSRX ballDeskeetTalon;
+  private WPI_TalonSRX intakeMovementLeft;
+  private WPI_TalonSRX intakeMovementRight;
+
+  //encoder
+  private Encoder encoderIntake;
+
+  //PID
+  private PIDController IntakePIDController;
+
+  //Electric Pistons
+  private Relay intakePistonRight;
+  private Relay intakePistonLeft;
+
+
+  private static Intake intakeSubsystem;
+
+  //sensors
+  private DigitalInput limitSWichUp;
+  private DigitalInput limitSWichDown;
+
 
   private Intake(){
-    limitSWichUp=new DigitalInput(RobotMap.LINIT_SWHICH_UP);
-    limitSWichDown=new DigitalInput(RobotMap.LINIT_SWHICH_DOWN);
-    dodoSonoloidRigth=new Relay(RobotMap.RELAY_SOLONID_RIGHT);
-    dodoSonoloidLeft=new Relay(RobotMap.RELAY_SOLONID_LEFT);
-    dodoIntake=new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WILDES);
-    dodoUpAndDonwRight=new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_RIGHT);
-    dodoUpAndDonwLeft=new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_LEFT);
-    dodoUpAndDonwRight.set(ControlMode.Follower, dodoUpAndDonwLeft.getDeviceID());
-    encoderDodo=new Encoder(RobotMap.ENCODER_B_INTAKE, RobotMap.ENCODER_A_INTAKE,false,EncodingType.k4X);
-    encoderDodo.setDistancePerPulse(1);
-    encoderDodo.setPIDSourceType(PIDSourceType.kDisplacement);
-    dodoPIDController=new PIDController(1, 1, 1,encoderDodo,dodoUpAndDonwLeft);
+
+    limitSWichUp = new DigitalInput(RobotMap.LINIT_SWHICH_UP);
+    limitSWichDown = new DigitalInput(RobotMap.LINIT_SWHICH_DOWN);
+
+    intakePistonRight = new Relay(RobotMap.RELAY_SOLONID_RIGHT);
+    intakePistonLeft = new Relay(RobotMap.RELAY_SOLONID_LEFT);
+    
+    ballDeskeetTalon = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WILDES);
+    
+    intakeMovementRight = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_RIGHT);
+    intakeMovementLeft = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_LEFT);
+    intakeMovementRight.set(ControlMode.Follower, intakeMovementLeft.getDeviceID());
+    intakeMovementLeft.setInverted(true);
+    
+    encoderIntake = new Encoder(RobotMap.ENCODER_B_INTAKE, RobotMap.ENCODER_A_INTAKE,false,EncodingType.k4X);
+    encoderIntake.setDistancePerPulse(1);
+    encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
+    
+    IntakePIDController=new PIDController(1, 1, 1,encoderIntake,intakeMovementLeft);
   }
+
   public boolean isLImitSwhichOnUp(){
-return limitSWichUp.get();
+    return limitSWichUp.get();
   }
+
   public boolean isLImitSwhichOnDown(){
     return limitSWichDown.get();
   }
-public void enablePID(){
-  dodoPIDController.enable();
+
+  public void enablePID(){
+    IntakePIDController.enable();
 }
-public void disablePID(){
-  dodoPIDController.disable();
-}
-public void setSetpointPID(double setSetpoint){
-  dodoPIDController.setSetpoint(setSetpoint);
-}
-public void tolerancePID(double Tolerance){
-  dodoPIDController.setAbsoluteTolerance(Tolerance);
-}
-public boolean isOnTargetPID(){
-  return dodoPIDController.onTarget();
+  public void disablePID(){
+    IntakePIDController.disable();
 }
 
-public void dodoIntakeControl(double speed){
-  dodoIntake.set(ControlMode.PercentOutput, speed);
+  public void setSetpointPID(double setSetpoint){
+    IntakePIDController.setSetpoint(setSetpoint);
 }
-public void dodoUpAndDonwLeftControl(double speedUpAndDown){
-  dodoUpAndDonwLeft.set(ControlMode.PercentOutput, speedUpAndDown);
+
+  public void tolerancePID(double Tolerance){
+   IntakePIDController.setAbsoluteTolerance(Tolerance);
 }
-public void RelayControlFowerd(){
-    dodoSonoloidRigth.set(Relay.Value.kForward);
-    dodoSonoloidLeft.set(Relay.Value.kForward);
+  public boolean isOnTargetPID(){
+    return IntakePIDController.onTarget();
 }
-public void RelayControlRevers(){
-    dodoSonoloidRigth.set(Relay.Value.kReverse);
-    dodoSonoloidLeft.set(Relay.Value.kReverse);
+
+  public void intakeControl(double speed){
+    ballDeskeetTalon.set(ControlMode.PercentOutput, speed);
 }
-public void resetEncoder(){
-  encoderDodo.reset();
+
+  public void intakeMovmentControl(double speedUpAndDown){
+    intakeMovementLeft.set(ControlMode.PercentOutput, speedUpAndDown);
 }
-public static Intake getInstance() {
-if(dodoSubsystem ==null){
-  dodoSubsystem=new Intake();
+
+  public void RelayControlFowerd(){
+    intakePistonRight.set(Relay.Value.kForward);
+    intakePistonLeft.set(Relay.Value.kForward);
 }
-return dodoSubsystem;
+
+  public void RelayControlRevers(){
+    intakePistonRight.set(Relay.Value.kReverse);
+    intakePistonLeft.set(Relay.Value.kReverse);
+} 
+  public void resetEncoder(){
+    encoderIntake.reset();
+}
+
+  public static Intake getInstance() {
+    if(intakeSubsystem ==null){
+      intakeSubsystem=new Intake();
+    }
+    return intakeSubsystem;
 }
   @Override
   public void initDefaultCommand() {

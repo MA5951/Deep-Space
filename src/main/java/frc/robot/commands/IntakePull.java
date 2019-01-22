@@ -11,17 +11,22 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
 public class IntakePull extends Command {
-  Intake doodooSubsystem= Intake.getInstance();
+
+  //using rider subsystem
+  Rider rider = Rider.getInstance();
+
+  Intake intake= Intake.getInstance();
+  
   private double speed;
   public IntakePull (double speed) {
     this.speed=speed;
-   requires(doodooSubsystem);
+   requires(intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    doodooSubsystem.dodoIntakeControl(speed);
+    intake.intakeControl(speed);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -32,7 +37,7 @@ public class IntakePull extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return rider.isLimitSwitchAnglePressed();
   }
 
   // Called once after isFinished returns true

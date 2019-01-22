@@ -13,21 +13,21 @@ import frc.robot.subsystems.Intake;
  * Add your docs here.
  */
 
-public class SolonidRevers extends InstantCommand {
+public class PistonBack extends InstantCommand {
 
-  Intake intakeSubsystem = Intake.getInstance();
+  Intake intake = Intake.getInstance();
 
   /**
    * Add your docs here.
    */
-  public SolonidRevers() {
- requires(intakeSubsystem);
+  public PistonBack() {
+ requires(intake);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    intakeSubsystem.RelayControlRevers();
+    intake.RelayControlRevers();
   }
 
 }

@@ -10,15 +10,15 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
-public class SolonoidIntake extends CommandGroup {
+public class PistonCommandGroup extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public SolonoidIntake() {
+  public PistonCommandGroup() {
     // Add Commands here:
-     addSequential(new SolonidFowerd());
+     addSequential(new PistonForward());
      addSequential(new TimedCommand(0.5));
-     addSequential(new SolonidRevers());
+     addSequential(new PistonBack());
     // these will run in order.
 
     // To run multiple commands at the same time,

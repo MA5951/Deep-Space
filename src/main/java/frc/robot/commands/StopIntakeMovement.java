@@ -7,15 +7,28 @@
 
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
+
 /**
  * Add your docs here.
  */
-public class TrigerResat extends Trigger {
-  Intake dodoSubsystem= Intake.getInstance();
-  @Override
-  public boolean get() {
-    return dodoSubsystem.isLImitSwhichOnUp();
-  
+public class StopIntakeMovement extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  Intake intake  = Intake.getInstance();
+
+  public StopIntakeMovement() {
+    super();
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    intake.intakeMovmentControl(0);
+  }
+
+}
