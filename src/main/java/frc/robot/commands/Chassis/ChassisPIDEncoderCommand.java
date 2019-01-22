@@ -34,7 +34,7 @@ public class ChassisPIDEncoderCommand extends Command {
   @Override
   protected void initialize() {
     chassis.enableChassisEncoderPID(true);
-    chassis.setSetPoint(distance);
+    chassis.setSetPointEncoder(distance);
   }
 
 
@@ -48,7 +48,7 @@ public class ChassisPIDEncoderCommand extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return chassis.isLeftEncoderPIDOnTarget() && chassis.isRightOnTarget();
+    return chassis.isLeftEncoderPIDOnTarget() && chassis.isRightEncoderPIDOnTarget();
   }
 
   /**
@@ -65,6 +65,5 @@ public class ChassisPIDEncoderCommand extends Command {
   @Override
   protected void interrupted() {
     chassis.enableChassisEncoderPID(false);
-
   }
 }

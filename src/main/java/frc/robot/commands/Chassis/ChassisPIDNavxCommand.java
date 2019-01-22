@@ -14,18 +14,29 @@ public class ChassisPIDNavxCommand extends Command {
 
   private Chassis chassis;
   // TODO
-  private double distance = 0;
+  private double distance;
+  private double angle;
 
   /**
-   * create new distance (set point) parameter
+   * Creates a new Navx PID command.
    * 
-   * @param distance the given distance (set point)
+   * @param distance the given distance to drive.
+   * @param angle    The given angle to maintain (set point)
    */
-  public ChassisPIDNavxCommand(double distance) {
-
+  public ChassisPIDNavxCommand(double distance, double angle) {
     this.distance = distance;
+    this.angle = angle;
     chassis = Chassis.getInstance();
     requires(chassis);
+  }
+
+  /**
+   * Creates a new Navx PID command. Default setpoint is 0 degrees.
+   * 
+   * @param distance the given distance to drive.
+   */
+  public ChassisPIDNavxCommand(double distance) {
+    this(distance, 0);
   }
 
   /**
@@ -33,7 +44,7 @@ public class ChassisPIDNavxCommand extends Command {
    */
   protected void initialize() {
     chassis.enableChassisNavxPID(true);
-    chassis.setSetPoint(distance);
+    chassis.setSetPointNavx(angle);
   }
 
   /**
@@ -41,15 +52,16 @@ public class ChassisPIDNavxCommand extends Command {
    */
   @Override
   protected void execute() {
+    chassis.driveSingleSide(0.5);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return chassis.isLeftNavxPIDOnTarget() && chassis.isRightOnTarget();
+    return true; //TODO
   }
 
-   /**
+  /**
    * Disable the PIDController
    */
   @Override
