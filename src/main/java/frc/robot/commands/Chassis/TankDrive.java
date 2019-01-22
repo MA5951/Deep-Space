@@ -11,11 +11,9 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.subsystems.Chassis;
 
-
 public class TankDrive extends Command {
- 
-  Chassis chassis;
 
+  Chassis chassis;
 
   /**
    * Create an object of chassis (create a new instance of chassis)
@@ -26,13 +24,11 @@ public class TankDrive extends Command {
 
   }
 
-  
   @Override
   protected void initialize() {
 
   }
 
-  
   /**
    * Control the chassis with joysticks
    */
@@ -41,7 +37,6 @@ public class TankDrive extends Command {
     chassis.driveWestCoast(OI.LEFT_JOYSTICK.getY(), OI.RIGHT_JOYSTICK.getY());
   }
 
-  
   /**
    * Makes the execute function run forever
    */
@@ -50,15 +45,12 @@ public class TankDrive extends Command {
     return false;
   }
 
-  
   @Override
   protected void end() {
   }
 
-  
   @Override
   protected void interrupted() {
   }
 
-  
 }

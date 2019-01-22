@@ -6,20 +6,19 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.chassis;
-  
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
-
 
 public class ChassisPIDCommand extends Command {
 
   private Chassis chassis;
-  //TODO
+  // TODO
   private double distance;
-
 
   /**
    * create new distance (set point) parameter
+   * 
    * @param distance the given distance (set point)
    */
   public ChassisPIDCommand(double distance) {
@@ -28,7 +27,6 @@ public class ChassisPIDCommand extends Command {
     chassis = Chassis.getInstance();
     requires(chassis);
   }
-
 
   /**
    * Enable the PID and set the distance (set point)
@@ -45,7 +43,6 @@ public class ChassisPIDCommand extends Command {
 
   }
 
-  
   /**
    * Return if the robot reached the desire distance (set point)
    */
@@ -54,7 +51,6 @@ public class ChassisPIDCommand extends Command {
     return chassis.isLeftOnTarget() && chassis.isRightOnTarget();
   }
 
-  
   /**
    * Disable the PID
    */
@@ -63,7 +59,6 @@ public class ChassisPIDCommand extends Command {
     chassis.enableChassisPID(false);
   }
 
-  
   /**
    * Run the end function if it was interrupted
    */
@@ -71,6 +66,6 @@ public class ChassisPIDCommand extends Command {
   protected void interrupted() {
 
     end();
-    
+
   }
 }
