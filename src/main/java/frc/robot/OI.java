@@ -19,23 +19,21 @@ import frc.robot.commands.rider.RiderPID;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-  public static Joystick joystickMotors=new Joystick(RobotMap.JOYSTIC_MOTORS);
-  public static final JoystickButton MAMUTA_CONTROL_ANGLE_DOWN=new JoystickButton(joystickMotors, 6);
-  public static final JoystickButton MAMUTA_CONTROL_ANGLE_UP=new JoystickButton(joystickMotors, 10);
-  public static final JoystickButton MAMUTA_PID=new JoystickButton(joystickMotors, 7);
-  public static final JoystickButton MAMUTA_INTAKE_PULL=new JoystickButton(joystickMotors, 8);
-  public static final JoystickButton MAMUTA_INTAKE_IN=new JoystickButton(joystickMotors, 9);
+  public static Joystick joystickMotors = new Joystick(RobotMap.JOYSTIC_MOTORS);
+  public static final JoystickButton MAMUTA_CONTROL_ANGLE_DOWN = new JoystickButton(joystickMotors, 6);
+  public static final JoystickButton MAMUTA_CONTROL_ANGLE_UP = new JoystickButton(joystickMotors, 10);
+  public static final JoystickButton MAMUTA_PID = new JoystickButton(joystickMotors, 7);
+  public static final JoystickButton MAMUTA_INTAKE_PULL = new JoystickButton(joystickMotors, 8);
+  public static final JoystickButton MAMUTA_INTAKE_IN = new JoystickButton(joystickMotors, 9);
 
-public OI(){
-  MAMUTA_INTAKE_IN.whenPressed(new IntakeRiderPull());
-  MAMUTA_INTAKE_PULL.whenPressed(new IntakeRiderPush());
-  MAMUTA_PID.whenPressed(new RiderPID(500, 0.5));
-  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, 0));
-  MAMUTA_CONTROL_ANGLE_UP.whenPressed(new AngleRider(-1, 1000));
-  
- 
+  public OI() {
+    MAMUTA_INTAKE_IN.whenPressed(new IntakeRiderPull());
+    MAMUTA_INTAKE_PULL.whenPressed(new IntakeRiderPush());
+    MAMUTA_PID.whenPressed(new RiderPID(500, 0.5));
+    MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, 1000, 10));
+    MAMUTA_CONTROL_ANGLE_UP.whenPressed(new AngleRider(-1, 1000, 10));
 
-}
+  }
   //// CREATING BUTTONS
   // One type of button is a joystick button which is any button on a
   //// joystick.

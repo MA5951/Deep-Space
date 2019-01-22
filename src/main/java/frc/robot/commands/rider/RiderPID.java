@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
 public class RiderPID extends Command {
-  double setPoint;
-  double tolorance;
+  private double setPoint;
+  private double tolorance;
   private Rider rider = Rider.getInstance();
 
-  public RiderPID(double setPoint,double tolorance) {
-    this.setPoint=setPoint;
-    this.tolorance=tolorance;    
+  public RiderPID(double setPoint, double tolorance) {
+    this.setPoint = setPoint;
+    this.tolorance = tolorance;
     requires(rider);
   }
 
@@ -25,7 +25,7 @@ public class RiderPID extends Command {
   @Override
   protected void initialize() {
     rider.setSetPointRider(setPoint);
-    rider.RiderPIDTolerance(tolorance);
+    rider.setPIDTolerance(tolorance);
     rider.PIDRiderEnable();
   }
 
@@ -50,6 +50,6 @@ public class RiderPID extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMotor(0);
+    rider.PIDDisable();
   }
 }

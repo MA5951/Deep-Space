@@ -13,8 +13,11 @@ import frc.robot.subsystems.Rider;
 public class AngleRider extends Command {
   private double speed;
   private double angle;
+  private double tolerance;
   private Rider rider = Rider.getInstance();
-  public AngleRider(double speed, double angle) {
+
+  public AngleRider(double speed, double angle, double tolerance) {
+    this.tolerance = tolerance;
     this.angle = angle;
     this.speed = speed;
     requires(rider);
@@ -25,9 +28,8 @@ public class AngleRider extends Command {
    */
   @Override
   protected void initialize() {
-    
-  }
 
+  }
 
   @Override
   protected void execute() {
@@ -35,11 +37,11 @@ public class AngleRider extends Command {
   }
 
   /**
-   * If the current angle is the desire one, the getCurrentAngle will disable 
+   * If the current angle is the desire one, the getCurrentAngle will disable
    */
   @Override
   protected boolean isFinished() {
-    return rider. ifInTheCurrentAngle(angle);
+    return rider.isAngleInRange(angle, tolerance);
   }
 
   /**
