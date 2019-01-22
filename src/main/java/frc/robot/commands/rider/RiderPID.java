@@ -50,6 +50,6 @@ public class RiderPID extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMoter(0);
+    rider.controlIntakeMotor(1);
   }
 }

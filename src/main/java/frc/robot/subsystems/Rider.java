@@ -8,23 +8,19 @@
 package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
-
 import frc.robot.RobotMap;
-/**
- * Add your docs here.
- */
 
 public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-  
+
   public static Rider instance;
 
   private WPI_TalonSRX angleMotor;
@@ -34,12 +30,11 @@ public class Rider extends Subsystem {
   private DigitalInput limitSwitchB;
   private PIDController riderPID;
 
+  /**
+   * Initializes all Rider components
+   */
+  private Rider() {
 
-
-
-
-  private Rider(){
-    
     angleMotor = new WPI_TalonSRX(RobotMap.ANGLE_MOTOR);
     intakeMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTOR);
 
@@ -56,26 +51,58 @@ public class Rider extends Subsystem {
 public void PIDRiderEnable(){
   riderPID.enable();
 }
-public void PIDDisable(){
-  riderPID.disable();
- }
-public void RiderPIDTolerance(double tolorance){
-  riderPID.setAbsoluteTolerance(tolorance);
-}
 public void setSetPointRider(double setPoint){
   riderPID.setSetpoint(setPoint);
 }
-public boolean isRiderOnTarget(){
-  return riderPID.onTarget();
-}
 
-    public void controlIntakeMoter(double speed)  {
-      intakeMotor.set(ControlMode.PercentOutput,speed);
-    }
+  /**
+   * Disables the PID controller
+   */
+  public void PIDDisable() {
+    riderPID.disable();
+  }
+ 
+  /**
+   * Set the set point range
+   * @param tolerance The given range
+   */
+  public void RiderPIDTolerance(double tolerance) {
+    riderPID.setAbsoluteTolerance(tolerance);
+  }
 
-    public void controlAngleMoter(double angleSpped)  {
-      angleMotor.set(ControlMode.PercentOutput,angleSpped);
-    }
+  /**
+   * Set the PID destination (set point)
+   * @param setPoint The given destination
+   */
+  public void setPointRider(double setPoint) {
+    riderPID.setSetpoint(setPoint);
+
+  }
+
+   /**
+    * 
+    * Return if the robot reached the desire destination 
+    * @return Indication if rider is on target
+    */
+  public boolean isRiderOnTarget() {
+    return riderPID.onTarget();
+  }
+
+  /**
+   * Control the intake motor power
+   * @param speed The given power
+   */
+  public void controlIntakeMotor(double speed) {
+    intakeMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+    /**
+     * Control the angle motor power
+     * @param angleSpeed The given power
+     */
+  public void controlAngleMoter(double angleSpeed) {
+    angleMotor.set(ControlMode.PercentOutput, angleSpeed);
+  }
   
     public boolean isLimitSwitchAnglePressed(){
       return limitSwitchA.get()||limitSwitchB.get();
@@ -88,9 +115,17 @@ public boolean isRiderOnTarget(){
       return encoder.get();
     }
     
-    public void encoderReset(){
-      encoder.reset();
-    }
+  /**
+   * Reset the encoder
+   */
+  public void encoderReset() {
+    encoder.reset();
+  }
+    
+  /**
+   *  Makes sure that only one intance runs at a time
+   * @return Return the instance
+   */
     public static Rider getInstance()  {
       if(instance == null){
           instance = new Rider();

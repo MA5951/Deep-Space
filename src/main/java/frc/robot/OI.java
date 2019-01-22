@@ -9,12 +9,10 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.buttons.Button;
-import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.rider.*;
+import frc.robot.commands.rider.AngleRider;
+import frc.robot.commands.rider.IntakeRiderPull;
+import frc.robot.commands.rider.IntakeRiderPush;
+import frc.robot.commands.rider.RiderPID;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -32,7 +30,7 @@ public OI(){
   MAMUTA_INTAKE_IN.whenPressed(new IntakeRiderPull());
   MAMUTA_INTAKE_PULL.whenPressed(new IntakeRiderPush());
   MAMUTA_PID.whenPressed(new RiderPID(500, 0.5));
-  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, -1000));
+  MAMUTA_CONTROL_ANGLE_DOWN.whenPressed(new AngleRider(1, 0));
   MAMUTA_CONTROL_ANGLE_UP.whenPressed(new AngleRider(-1, 1000));
   
  

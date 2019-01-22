@@ -6,8 +6,9 @@
 /*----------------------------------------------------------------------------*/
 
 package frc.robot.commands.rider;
-import frc.robot.subsystems.Rider;
+
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Rider;
 
 
 public class IntakeRiderPull extends Command {
@@ -16,34 +17,41 @@ public class IntakeRiderPull extends Command {
    requires(rider);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Give power to the intake motors
+   */
   @Override
   protected void initialize() {
     
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  
   @Override
   protected void execute() {
-    rider.controlIntakeMoter(-1);
+    rider.controlIntakeMotor(-1);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * If the limit switch is pressed, the isLimitSwitchAnglePressed will disable  
+   */
   @Override
   protected boolean isFinished() {
     return rider.isLimitSwitchAnglePressed();
   }
 
-  // Called once after isFinished returns true
+  /**
+   * disable the intake motor if isFinished is function is true
+   */
   @Override
   protected void end() {
-    rider.controlIntakeMoter(0);
+    rider.controlIntakeMotor(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * disable the intake motor if end function was interrupted
+   */
   @Override
   protected void interrupted() {
-    rider.controlIntakeMoter(0);
+    rider.controlIntakeMotor(0);
   }
 }
