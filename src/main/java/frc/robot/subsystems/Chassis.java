@@ -48,14 +48,14 @@ public class Chassis extends Subsystem {
    * Initializes all Chassis components
    */
   public Chassis() {
-    leftFrontMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_ONE);
-    leftRearMotor = new WPI_TalonSRX(RobotMap.LEFT_MOTOR_TWO);
+    leftFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_FRONT);
+    leftRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_REAR);
 
-    rightFrontMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_ONE);
-    rightRearMotor = new WPI_TalonSRX(RobotMap.RIGHT_MOTOR_TWO);
+    rightFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_FRONT);
+    rightRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_REAR);
 
-    encoderLeft = new Encoder(RobotMap.ENCODER_LEFT_A, RobotMap.ENCODER_LEFT_B, false, EncodingType.k4X);
-    encoderRight = new Encoder(RobotMap.ENCODER_RIGHT_A, RobotMap.ENCODER_RIGHT_B, false, EncodingType.k4X);
+    encoderLeft = new Encoder(RobotMap.CHASSIS_LEFT_ENCODER_A, RobotMap.CHASSIS_LEFT_ENCODER_B, false, EncodingType.k4X);
+    encoderRight = new Encoder(RobotMap.CHASSIS_RIGHT_ENCODER_A, RobotMap.CHASSIS_RIGHT_ENCODER_B, false, EncodingType.k4X);
 
     encoderLeft.reset();
     encoderRight.reset();

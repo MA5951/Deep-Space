@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 public class Elevator extends Subsystem {
   private PIDController PIDControllerElevator;
@@ -32,16 +33,16 @@ public class Elevator extends Subsystem {
   private static Elevator m_instance;
 
   private Elevator() {
-    limitSwitchUpLeft = new DigitalInput(RobotMap.LIMIT_SWITCH_UP_LEFT);
-    limitSwitchUpRight = new DigitalInput(RobotMap.LIMIT_SWITCH_UP_RIGHT);
-    limitSwitchDownLeft = new DigitalInput(RobotMap.LIMIT_SWICH_DOWN_LEFT);
-    limitSwitchDownRight = new DigitalInput(RobotMap.LIMIT_SWICH_DOWN_RIGHT);
+    limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);
+    limitSwitchUpRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_RIGHT);
+    limitSwitchDownLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_LEFT);
+    limitSwitchDownRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_RIGHT);
 
-    elevatorEncoder = new Encoder(RobotMap.ENCODER_ELEVETOR_B, RobotMap.ENCODER_ELEVETOR_A, false, EncodingType.k4X);
+    elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_B, RobotMap.ELEVATOR_ENCODER_A, false, EncodingType.k4X);
     elevatorEncoder.setDistancePerPulse(1);
     elevatorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    elevatorTalon = new WPI_TalonSRX(RobotMap.TALON_ELEVETOR);
+    elevatorTalon = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
     PIDControllerElevator = new PIDController(1.0, 1.0, 1.0, elevatorEncoder, elevatorTalon);
   }
 
@@ -115,7 +116,6 @@ public class Elevator extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new ElevatorJoystickControl());
   }
 }

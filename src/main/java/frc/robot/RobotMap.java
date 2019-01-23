@@ -25,29 +25,38 @@ public class RobotMap {
 
   // Elevator
   // TODO
-  public static final int TALON_ELEVETOR = 1;
+  public static final int ELEVATOR_TALON = 1;
 
-  public static final int ENCODER_ELEVETOR_A = 2;
-  public static final int ENCODER_ELEVETOR_B = 3;
-  
-  public static final int LIMIT_SWICH_DOWN_LEFT = 4;
-  public static final int LIMIT_SWICH_DOWN_RIGHT = 5;
-  public static final int LIMIT_SWITCH_UP_LEFT = 7;
-  public static final int LIMIT_SWITCH_UP_RIGHT = 6;
+  public static final int ELEVATOR_ENCODER_A = 2;
+  public static final int ELEVATOR_ENCODER_B = 3;
+
+  public static final int ELEVATOR_SWITCH_DOWN_LEFT = 4;
+  public static final int ELEVATOR_SWITCH_DOWN_RIGHT = 5;
+  public static final int ELEVATOR_SWITCH_UP_LEFT = 7;
+  public static final int ELEVATOR_SWITCH_UP_RIGHT = 6;
 
   // Chassis
   // TODO
-  public static final int LEFT_MOTOR_ONE = 1;
-  public static final int LEFT_MOTOR_TWO = 1;
+  public static final int CHASSIS_LEFT_FRONT = 1;
+  public static final int CHASSIS_LEFT_REAR = 1;
 
-  public static final int RIGHT_MOTOR_ONE = 1;
-  public static final int RIGHT_MOTOR_TWO = 1;
+  public static final int CHASSIS_RIGHT_FRONT = 1;
+  public static final int CHASSIS_RIGHT_REAR = 1;
 
-  // Encoders ports for the Chassis
+  public static final int CHASSIS_RIGHT_ENCODER_A = 1;
+  public static final int CHASSIS_RIGHT_ENCODER_B = 1;
+
+  public static final int CHASSIS_LEFT_ENCODER_A = 1;
+  public static final int CHASSIS_LEFT_ENCODER_B = 1;
+
+  // Rider
   // TODO
-  public static final int ENCODER_RIGHT_A = 1;
-  public static final int ENCODER_RIGHT_B = 1;
+  public static final int RIDER_ANGLE_MOTOR = 1;
+  public static final int RIDER_INTAKE_MOTOR = 1;
 
-  public static final int ENCODER_LEFT_A = 1;
-  public static final int ENCODER_LEFT_B = 1;
+  public static final int RIDER_ENCODER_A = 1;
+  public static final int RIDER_ENCODER_B = 1;
+
+  public static final int RIDER_ANGLE_LIMIT_SWITCH = 0;
+  public static final int RIDER_INTAKE_LIMIT_SWITCH = 0;
 }
