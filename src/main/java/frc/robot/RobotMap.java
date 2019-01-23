@@ -22,10 +22,10 @@ public class RobotMap {
     // TalonSRX ports
     // TODO
     public static final int LEFT_MOTOR_ONE = 1;
-    public static final int LEFT_MOTOR_TWO = 1;
+    public static final int LEFT_MOTOR_TWO = 2;
 
-    public static final int RIGHT_MOTOR_ONE = 1;
-    public static final int RIGHT_MOTOR_TWO = 1;
+    public static final int RIGHT_MOTOR_ONE = 3;
+    public static final int RIGHT_MOTOR_TWO = 4;
 
     
     // Encoders ports
