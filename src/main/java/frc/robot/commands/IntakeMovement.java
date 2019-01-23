@@ -15,39 +15,49 @@ public class IntakeMovement extends Command {
   private Intake intake = Intake.getInstance();
   private double speedUpAndDown;
 
+  /**
+   * Creates new {IntakeMovement} command.
+   * @param speedUpAndDown the given power of {intakeMovmentControl} motor.
+   */
   public IntakeMovement(double speedUpAndDown) {
 
     this.speedUpAndDown = speedUpAndDown;
     requires(intake);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Give power to the {intakeMovmentControl} motor.
+   */
   @Override
   protected void initialize() {
     intake.intakeMovmentControl(speedUpAndDown);
 
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
 
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Check whether limit switch is pressed.
+   */
   @Override
   protected boolean isFinished() {
     return (speedUpAndDown > 0 && intake.isLimitSwitchUp()) || (speedUpAndDown > 0 && intake.isLimitSwitchDown());
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Disable the {intakeMovmentControl} function if {isFinished} function return true.
+   */
   @Override
   protected void end() {
     intake.intakeMovmentControl(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Disable the {intakeMovmentControl} function if {end} function was interrupted.
+   */
   @Override
   protected void interrupted() {
     intake.intakeMovmentControl(0);

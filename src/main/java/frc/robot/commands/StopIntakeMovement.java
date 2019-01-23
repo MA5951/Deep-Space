@@ -10,22 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
 
-/**
- * Add your docs here.
- */
 public class StopIntakeMovement extends InstantCommand {
-  /**
-   * Add your docs here.
-   */
+
   private Intake intake = Intake.getInstance();
 
+  /**
+   * Requires the Intake subsystem.
+   */
   public StopIntakeMovement() {
-    super();
-    // Use requires() here to declare subsystem dependencies
-    // eg. requires(chassis);
+    requires(intake);
   }
 
-  // Called once when the command executes
+  /**
+   * Disables the {intakeMovmentControl}.
+   */
   @Override
   protected void initialize() {
     intake.intakeMovmentControl(0);

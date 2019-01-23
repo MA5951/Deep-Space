@@ -12,6 +12,10 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 
 public class PistonCommandGroup extends CommandGroup {
 
+  /**
+   * Enables the {PistonForward}, wait 0.5 seconds ({TimedCommand} function) and
+   * run the {PistonBack} function.
+   */
   public PistonCommandGroup() {
 
     addSequential(new PistonForward());

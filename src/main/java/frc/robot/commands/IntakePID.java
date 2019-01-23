@@ -17,9 +17,10 @@ public class IntakePID extends Command {
   private double setpoint;
 
   /**
+   * Creates new {IntakePID} command.
    * 
-   * @param setpoint  destination to robot for PID
-   * @param tolerance tolerance
+   * @param setpoint  The given destination.
+   * @param tolerance The given range.
    */
   public IntakePID(double setpoint, double tolerance) {
 
@@ -29,7 +30,10 @@ public class IntakePID extends Command {
     requires(intake);
   }
 
-  // Called just before this Command runs the first time
+  /**
+   * Call the {setSetpointPID} function, call the {setTolerancePID} function and
+   * enables the intake PIDController.
+   */
   @Override
   protected void initialize() {
 
@@ -38,26 +42,32 @@ public class IntakePID extends Command {
     intake.enablePID();
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Check whether intake PIDController is on target.
+   */
   @Override
   protected boolean isFinished() {
     return intake.isOnTargetPID();
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Disable the intake PIDContoller and disable the {intakeMovmentControl} motor
+   * if {isFinished} function return true.
+   */
   @Override
   protected void end() {
     intake.disablePID();
     intake.intakeMovmentControl(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Disable the intake PIDController and disable the {intakeMovmentControl} motor if {end}
+   * function
+   */
   @Override
   protected void interrupted() {
     intake.disablePID();

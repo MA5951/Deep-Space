@@ -10,22 +10,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
 
-/**
- * Add your docs here.
- */
-
 public class ResetEncoder extends InstantCommand {
 
   private Intake intake = Intake.getInstance();
 
   /**
-   * Add your docs here.
+   * Requires the Intake subsystem
    */
   public ResetEncoder() {
     requires(intake);
   }
 
-  // Called once when the command executes
+  /**
+   * Reset the encoder
+   */
   @Override
   protected void initialize() {
     intake.resetEncoder();

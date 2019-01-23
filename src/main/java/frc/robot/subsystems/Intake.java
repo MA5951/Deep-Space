@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
 /**
- * Add your docs here.
+ * The intake subsystem
  */
 public class Intake extends Subsystem {
 
@@ -44,6 +44,9 @@ public class Intake extends Subsystem {
   private DigitalInput limitSwitchUp;
   private DigitalInput limitSwitchDown;
 
+  /**
+   * Initializes all Chassis components
+   */
   private Intake() {
 
     limitSwitchUp = new DigitalInput(RobotMap.LIMIT_SWITCH_UP);
@@ -67,56 +70,111 @@ public class Intake extends Subsystem {
     anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA);
   }
 
+  /**
+   * Check whether limit switch is pressed
+   * 
+   * @return Indication if {limitSwitchUp} is pressed
+   */
   public boolean isLimitSwitchUp() {
     return limitSwitchUp.get();
   }
 
+  /**
+   * Check whether limit switch is pressed
+   * 
+   * @return Indication if {limitSwitchDown} is pressed
+   */
   public boolean isLimitSwitchDown() {
     return limitSwitchDown.get();
   }
 
+  /**
+   * Enables the PIDController
+   */
   public void enablePID() {
     anglePIDController.enable();
   }
 
+  /**
+   * Disables the PIDController
+   */
   public void disablePID() {
     anglePIDController.disable();
   }
 
-  public void setSetpointPID(double setSetpoint) {
-    anglePIDController.setSetpoint(setSetpoint);
+  /**
+   * Set the PIDController destination (setpoint)
+   *
+   * @param setpoint The given destination (setpoint)
+   */
+  public void setSetpointPID(double setpoint) {
+    anglePIDController.setSetpoint(setpoint);
   }
 
+  /**
+   * Set the PIDController range
+   * 
+   * @param Tolerance The given range
+   */
   public void setTolerancePID(double Tolerance) {
     anglePIDController.setAbsoluteTolerance(Tolerance);
   }
 
+  /**
+   * Check whether {anglePIDController} is on target
+   * 
+   * @return Indication if {anglePIDController} is on target
+   */
   public boolean isOnTargetPID() {
     return anglePIDController.onTarget();
   }
 
+  /**
+   * Give power to the intake motors
+   * 
+   * @param speed The given power
+   */
   public void intakeControl(double speed) {
     intakeTalon.set(ControlMode.PercentOutput, speed);
   }
 
+  /**
+   * Give power to the angleA motor
+   * 
+   * @param speedUpAndDown The given power
+   */
   public void intakeMovmentControl(double speedUpAndDown) {
     intakeAngleA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
-  public void RelayControlFowerd() {
+  /**
+   * Give power to the pistons (up).
+   */
+  public void RelayControlForward() {
     intakePistonRight.set(Relay.Value.kForward);
     intakePistonLeft.set(Relay.Value.kForward);
   }
 
-  public void RelayControlRevers() {
+  /**
+   * Give power to the pistons (down)
+   */
+  public void RelayControlReverse() {
     intakePistonRight.set(Relay.Value.kReverse);
     intakePistonLeft.set(Relay.Value.kReverse);
   }
 
+  /**
+   * Initialize the encoder.
+   */
   public void resetEncoder() {
     encoderIntake.reset();
   }
 
+  /**
+   * Makes sure that only one instance runs at a time
+   * 
+   * @return Return the instance
+   */
   public static Intake getInstance() {
     if (intakeSubsystem == null) {
       intakeSubsystem = new Intake();

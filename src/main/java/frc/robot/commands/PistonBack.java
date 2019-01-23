@@ -10,25 +10,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
 
-/**
- * Add your docs here.
- */
-
 public class PistonBack extends InstantCommand {
 
   private Intake intake = Intake.getInstance();
 
   /**
-   * Add your docs here.
+   * requires the Intale subsystem.
    */
   public PistonBack() {
     requires(intake);
   }
 
-  // Called once when the command executes
+  /**
+   * Run the {RelayControlRevers} function.
+   */
   @Override
   protected void initialize() {
-    intake.RelayControlRevers();
+    intake.RelayControlReverse();
   }
 
 }

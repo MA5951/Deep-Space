@@ -10,13 +10,13 @@ package frc.robot.triggers;
 import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.subsystems.Intake;
 
-/**
- * Add your docs here.
- */
 public class TriggerReset extends Trigger {
 
   private Intake intake = Intake.getInstance();
 
+  /**
+   * Check whether limit switch is pressed.
+   */
   @Override
   public boolean get() {
     return intake.isLimitSwitchUp();

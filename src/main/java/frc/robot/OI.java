@@ -7,41 +7,41 @@
 
 package frc.robot;
 
-import java.awt.Button;
-
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.Counter.Mode;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.commands.IntakeMovement;
 import frc.robot.commands.IntakePID;
 import frc.robot.commands.IntakePull;
 import frc.robot.commands.IntakePush;
+import frc.robot.commands.PistonCommandGroup;
 import frc.robot.commands.ResetEncoder;
 import frc.robot.commands.StopIntakeMovement;
-import frc.robot.commands.PistonCommandGroup;
-import frc.robot.triggers.*;
+import frc.robot.triggers.TriggerReset;
+import frc.robot.triggers.TriggerStopIntake;
 
-/**
- * This class is the glue that binds the controls on the physical operator
- * interface to the commands and command groups that allow control of the robot.
- */
 public class OI {
 
-  //TODO
-    Joystick JOYSTICKMOTORS = new Joystick(0);
-    JoystickButton INTAKE_PULL = new JoystickButton(JOYSTICKMOTORS, 1);
-    JoystickButton INTAKE_PUSH = new JoystickButton(JOYSTICKMOTORS, 4);
-    JoystickButton INTAKE_PID = new JoystickButton(JOYSTICKMOTORS, 2);
-    JoystickButton INTAKE_UP = new JoystickButton(JOYSTICKMOTORS, 2);
-    JoystickButton INTAKE_DOWN = new JoystickButton(JOYSTICKMOTORS, 2);
-    JoystickButton INTAKE_SOLONOID = new JoystickButton(JOYSTICKMOTORS, 3);
+  // Joystick
+  
+  Joystick JOYSTICK_ONE = new Joystick(RobotMap.JOYSTICK_ONE);
 
-    TriggerStopIntake triggerStopIntake = new TriggerStopIntake();
-    TriggerReset TriggerReset = new TriggerReset();
- 
-    public OI() {
-      
+  // Joystick buttons
+  JoystickButton INTAKE_PULL = new JoystickButton(JOYSTICK_ONE, 1);
+  JoystickButton INTAKE_PUSH = new JoystickButton(JOYSTICK_ONE, 4);
+  JoystickButton INTAKE_PID = new JoystickButton(JOYSTICK_ONE, 2);
+  JoystickButton INTAKE_UP = new JoystickButton(JOYSTICK_ONE, 2);
+  JoystickButton INTAKE_DOWN = new JoystickButton(JOYSTICK_ONE, 2);
+  JoystickButton INTAKE_SOLONOID = new JoystickButton(JOYSTICK_ONE, 3);
+
+  // Triggers
+  TriggerStopIntake triggerStopIntake = new TriggerStopIntake();
+  TriggerReset TriggerReset = new TriggerReset();
+
+  /**
+   * Initialize all the intake components and set all joystick buttons.
+   */
+  public OI() {
+
     INTAKE_PUSH.whileActive(new IntakePush(-1));
     INTAKE_PULL.whileActive(new IntakePull(1));
     INTAKE_PID.whenPressed(new IntakePID(1, 0.5));
@@ -53,4 +53,3 @@ public class OI {
   }
 
 }
- 

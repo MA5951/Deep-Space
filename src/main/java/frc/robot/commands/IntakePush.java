@@ -16,37 +16,48 @@ public class IntakePush extends Command {
 
   private double speed;
 
+  /**
+   * Creates new {IntakePush} command.
+   * 
+   * @param speed The given speed of the {intakeControl}.
+   */
   public IntakePush(double speed) {
     this.speed = speed;
     requires(intake);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
 
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  /**
+   * Give speed to {intakeControl}.
+   */
   @Override
   protected void execute() {
     intake.intakeControl(speed);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Makes the command run forever
+   */
   @Override
   protected boolean isFinished() {
     return false;
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Diables the {intakeControl} if {isFinished} function return true.
+   */
   @Override
   protected void end() {
     intake.intakeControl(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Diables the {intakeControl} if {end} function was iterrupted.
+   */
   @Override
   protected void interrupted() {
     intake.intakeControl(0);

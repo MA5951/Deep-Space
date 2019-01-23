@@ -12,44 +12,56 @@ import frc.robot.subsystems.Intake;
 
 public class IntakePull extends Command {
 
-  //using rider subsystem
-  //TODO check if good idea.
-   private Rider  rider  = Rider.getInstance();
+  // using rider subsystem
+  // TODO check if good idea.
+  private Rider rider = Rider.getInstance();
 
-  private Intake intake= Intake.getInstance();
-  
+  private Intake intake = Intake.getInstance();
+
   private double speed;
-  public IntakePull (double speed) {
-    this.speed=speed;
-   requires(intake);
+
+  /**
+   * Creates new {IntakePull} command.
+   * 
+   * @param speed the given power of {intakeControl}.
+   */
+  public IntakePull(double speed) {
+    this.speed = speed;
+    requires(intake);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
+
   }
 
-  // Called repeatedly when this Command is scheduled to run
+  /**
+   * Give power to the {intakeControl}.
+   */
   @Override
   protected void execute() {
     intake.intakeControl(speed);
   }
 
-  // Make this return true when this Command no longer needs to run execute()
+  /**
+   * Check whether limit switch is pressed.
+   */
   @Override
   protected boolean isFinished() {
     return rider.isLimitSwitchAnglePressed();
   }
 
-  // Called once after isFinished returns true
+  /**
+   * Disables the {intakeControl} function if {isFinished} function return true.
+   */
   @Override
   protected void end() {
     intake.intakeControl(0);
   }
 
-  // Called when another command which requires one or more of the same
-  // subsystems is scheduled to run
+  /**
+   * Diables the {intakeControl} function if {end} function was interrupted.
+   */
   @Override
   protected void interrupted() {
     intake.intakeControl(0);
