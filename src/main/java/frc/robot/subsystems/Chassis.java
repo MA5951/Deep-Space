@@ -109,8 +109,8 @@ public class Chassis extends Subsystem {
    */
   public void driveWestCoast(double speedLeft, double speedRight) {
 
-    rightFrontMotor.set(speedRight);
-    leftFrontMotor.set(speedLeft);
+    rightFrontMotor.set(ControlMode.PercentOutput ,speedRight);
+    leftFrontMotor.set(ControlMode.PercentOutput ,speedLeft);
   }
 
   public void driveSingleSide(double speedLeft) {
@@ -207,10 +207,9 @@ public class Chassis extends Subsystem {
    * @return Return the instance
    */
   public static Chassis getInstance() {
-    if (c_Instance == null)
-
+    if (c_Instance == null){
       c_Instance = new Chassis();
-
+    }
     return c_Instance;
   }
 }

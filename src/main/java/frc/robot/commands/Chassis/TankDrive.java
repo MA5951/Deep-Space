@@ -35,6 +35,7 @@ public class TankDrive extends Command {
   @Override
   protected void execute() {
     chassis.driveWestCoast(OI.LEFT_JOYSTICK.getY(), OI.RIGHT_JOYSTICK.getY());
+    //chassis.driveWestCoast(1, 1);
   }
 
   /**
