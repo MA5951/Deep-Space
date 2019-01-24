@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.triggers.ClimbingPoleDown;
 
@@ -16,9 +18,12 @@ import frc.robot.triggers.ClimbingPoleDown;
  */
 public class OI {
 
-  public static final ClimbingPoleDown CLIMBING_POLE_DOWN = new ClimbingPoleDown();
+  //public static final ClimbingPoleDown CLIMBING_POLE_DOWN = new ClimbingPoleDown();
+  public static final Joystick CLIMBER_JOYSTICK = new Joystick(1);
+  public static final JoystickButton CLIMBER_BUTTON = new JoystickButton(CLIMBER_JOYSTICK, 3);
 
   public OI() {
-    CLIMBING_POLE_DOWN.whenActive(new OpenPole());
+    //CLIMBING_POLE_DOWN.whenActive(new OpenPole());
+    CLIMBER_BUTTON.whileHeld(new OpenPole());
   }
 }
