@@ -13,10 +13,6 @@ package frc.robot;
  * the wiring easier and significantly reduces the number of magic numbers
  * floating around.
  */
-
-/**
- * The ports of the chassis components
- */
 public class RobotMap {
 
   public static final int JOYSTICK_OPERATOR = 0;
@@ -59,4 +55,20 @@ public class RobotMap {
 
   public static final int RIDER_ANGLE_LIMIT_SWITCH = 0;
   public static final int RIDER_INTAKE_LIMIT_SWITCH = 0;
+
+  // Intake
+  // TODO
+  public static final int INTAKE_MOTORS_WHEELS = 1;
+
+  public static final int INTAKE_MOTORS_ANGLE_A = 2;
+  public static final int INTAKE_MOTORS_ANGLE_B = 3;
+
+  public static final int INTAKE_PISTON_LEFT = 4;
+  public static final int INTAKE_PISTON_RIGHT = 5;
+
+  public static final int INTAKE_ENCODER_A = 2;
+  public static final int INTAKE_ENCODER_B = 1;
+
+  public static final int INTAKE_LIMIT_SWITCH_UP = 1;
+  public static final int INTAKE_LIMIT_SWITCH_DOWN = 2;
 }

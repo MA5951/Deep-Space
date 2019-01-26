@@ -19,6 +19,16 @@ import frc.robot.commands.rider.RiderPID;
 import frc.robot.triggers.POVTrigger;
 import frc.robot.util.JoystickUtil.XBOX;
 
+import frc.robot.commands.intake.IntakeMovement;
+import frc.robot.commands.intake.IntakePID;
+import frc.robot.commands.intake.IntakePull;
+import frc.robot.commands.intake.IntakePush;
+import frc.robot.commands.intake.PistonCommandGroup;
+import frc.robot.commands.intake.ResetEncoder;
+import frc.robot.commands.intake.StopIntakeMovement;
+import frc.robot.triggers.TriggerReset;
+import frc.robot.triggers.StopIntake;
+
 /**
  * Maps commands to buttons/POVs/triggers
  */
@@ -38,6 +48,20 @@ public class OI {
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.RB);
 
+  // Joystick buttons
+  private JoystickButton intakePull = new JoystickButton(OPERATOR_STICK, 1);
+  private JoystickButton intakePush = new JoystickButton(OPERATOR_STICK, 4);
+  private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 2);
+  private JoystickButton intakeUp = new JoystickButton(OPERATOR_STICK, 2);
+  private JoystickButton intakeDown = new JoystickButton(OPERATOR_STICK, 2);
+  private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 3);
+
+  private StopIntake triggerStopIntake = new StopIntake();
+  private TriggerReset resetIntake = new TriggerReset();
+
+  /**
+   * Initialize all the intake components and set all joystick buttons.
+   */
   public OI() {
     elevatorPIDDown.whenPressed(new ElevatorPID(40, 0.5));
     elevatorPIDUp.whenPressed(new ElevatorPID(50, 0.5));
@@ -49,5 +73,14 @@ public class OI {
     riderPID.whenPressed(new RiderPID(500, 0.5));
     riderAngleDown.whenActive(new AngleRider(1, 1000, 10));
     riderAngleUp.whenActive(new AngleRider(-1, 1000, 10));
+
+    intakePush.whileActive(new IntakePush(-1));
+    intakePull.whileActive(new IntakePull(1));
+    intakePID.whenPressed(new IntakePID(1, 0.5));
+    intakeSolenoid.whenPressed(new PistonCommandGroup());
+    resetIntake.whenActive(new ResetEncoder());
+    triggerStopIntake.whenActive(new StopIntakeMovement());
+    intakeUp.whenPressed(new IntakeMovement(0.5));
+    intakeDown.whenPressed(new IntakeMovement(-0.3));
   }
 }
