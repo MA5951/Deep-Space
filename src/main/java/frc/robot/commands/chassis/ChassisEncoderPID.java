@@ -10,7 +10,7 @@ package frc.robot.commands.chassis;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
 
-public class ChassisPIDCommand extends Command {
+public class ChassisEncoderPID extends Command {
 
   private Chassis chassis;
   // TODO
@@ -21,7 +21,7 @@ public class ChassisPIDCommand extends Command {
    * 
    * @param distance the given distance (set point)
    */
-  public ChassisPIDCommand(double distance) {
+  public ChassisEncoderPID(double distance) {
 
     this.distance = distance;
     chassis = Chassis.getInstance();
@@ -33,8 +33,8 @@ public class ChassisPIDCommand extends Command {
    */
   @Override
   protected void initialize() {
-    chassis.enableChassisPID(true);
-    chassis.setSetPoint(distance);
+    chassis.enableChassisEncoderPID(true);
+    chassis.setSetPointEncoder(distance);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -48,7 +48,7 @@ public class ChassisPIDCommand extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return chassis.isLeftOnTarget() && chassis.isRightOnTarget();
+    return chassis.isLeftEncoderPIDOnTarget() && chassis.isRightEncoderPIDOnTarget();
   }
 
   /**
@@ -56,7 +56,7 @@ public class ChassisPIDCommand extends Command {
    */
   @Override
   protected void end() {
-    chassis.enableChassisPID(false);
+    chassis.enableChassisEncoderPID(false);
   }
 
   /**
@@ -64,8 +64,6 @@ public class ChassisPIDCommand extends Command {
    */
   @Override
   protected void interrupted() {
-
     end();
-
   }
 }

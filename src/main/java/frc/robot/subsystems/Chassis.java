@@ -9,8 +9,9 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -34,28 +35,45 @@ public class Chassis extends Subsystem {
   private Encoder encoderRight;
   private Encoder encoderLeft;
 
-  private PIDController leftChassisPID;
-  private PIDController rightChassisPID;
+  private AHRS navX;
+
+  private PIDController leftChassisEncoderPID;
+  private PIDController rightChassisEncoderPID;
+
+  private PIDController navXController;
 
   // TODO
-  public static final double KP_CHASSIS = 0.0;
-  public static final double KI_CHASSIS = 0.0;
-  public static final double KD_CHASSIS = 0.0;
-  private static final double TOLERANCE = 0.5;
+  public static final double KP_ENCODER = 0.0;
+  public static final double KI_ENCODER = 0.0;
+  public static final double KD_ENCODER = 0.0;
+  private static final double ENCODER_TOLERANCE = 0.5;
+
+  public static final double KP_NAVX = 0.0;
+  public static final double KI_NAVX = 0.0;
+  public static final double KD_NAVX = 0.0;
+  private static final double NAVX_TOLERANCE = 0.5;
   private static final double DISTANCE_PER_PULSE = 0.01;
 
   /**
    * Initializes all Chassis components
    */
-  public Chassis() {
-    leftFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_FRONT);
-    leftRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_REAR);
-
+  private Chassis() {
     rightFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_FRONT);
     rightRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_REAR);
 
-    encoderLeft = new Encoder(RobotMap.CHASSIS_LEFT_ENCODER_A, RobotMap.CHASSIS_LEFT_ENCODER_B, false, EncodingType.k4X);
-    encoderRight = new Encoder(RobotMap.CHASSIS_RIGHT_ENCODER_A, RobotMap.CHASSIS_RIGHT_ENCODER_B, false, EncodingType.k4X);
+    leftFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_FRONT);
+    leftRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_REAR);
+
+    leftFrontMotor.setInverted(true);
+    leftRearMotor.setInverted(true);
+
+    navX = new AHRS(Port.kMXP);
+    navX.setPIDSourceType(PIDSourceType.kDisplacement);
+
+    encoderLeft = new Encoder(RobotMap.CHASSIS_LEFT_ENCODER_A, RobotMap.CHASSIS_LEFT_ENCODER_B, false,
+        EncodingType.k4X);
+    encoderRight = new Encoder(RobotMap.CHASSIS_RIGHT_ENCODER_A, RobotMap.CHASSIS_RIGHT_ENCODER_B, false,
+        EncodingType.k4X);
 
     encoderLeft.reset();
     encoderRight.reset();
@@ -72,11 +90,16 @@ public class Chassis extends Subsystem {
     leftFrontMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
     leftRearMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
 
-    leftChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderLeft, leftFrontMotor);
-    rightChassisPID = new PIDController(KP_CHASSIS, KI_CHASSIS, KD_CHASSIS, encoderRight, rightFrontMotor);
+    rightChassisEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderRight, rightFrontMotor);
+    leftChassisEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderLeft, leftFrontMotor);
 
-    rightChassisPID.setAbsoluteTolerance(TOLERANCE);
-    leftChassisPID.setAbsoluteTolerance(TOLERANCE);
+    rightChassisEncoderPID.setAbsoluteTolerance(ENCODER_TOLERANCE);
+    leftChassisEncoderPID.setAbsoluteTolerance(ENCODER_TOLERANCE);
+
+    navXController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navX, rightFrontMotor);
+
+    navXController.setAbsoluteTolerance(ENCODER_TOLERANCE);
+
   }
 
   /**
@@ -86,66 +109,97 @@ public class Chassis extends Subsystem {
    * @param speedRight Speed of the right side chassis
    */
   public void driveWestCoast(double speedLeft, double speedRight) {
+    rightFrontMotor.set(ControlMode.PercentOutput, speedRight);
+    leftFrontMotor.set(ControlMode.PercentOutput, speedLeft);
+  }
 
-    rightFrontMotor.set(speedRight);
+  public void setLeftSide(double speedLeft) {
     leftFrontMotor.set(speedLeft);
   }
 
   /**
-   * Check whether right PIDController is on target
+   * Check whether right EncoderPIDController is on target
    * 
    * @return Indication if right controller is on target
    */
-  public boolean isRightOnTarget() {
-
-    return rightChassisPID.onTarget();
+  public boolean isRightEncoderPIDOnTarget() {
+    return rightChassisEncoderPID.onTarget();
   }
 
   /**
-   * Check whether right PIDController is on target
+   * Check whether left EncoderPIDController is on target
    * 
-   * @return Indication if right controler is on target
+   * @return Indication if left controler is on target
    */
-  public boolean isLeftOnTarget() {
+  public boolean isLeftEncoderPIDOnTarget() {
 
-    return leftChassisPID.onTarget();
+    return leftChassisEncoderPID.onTarget();
   }
 
   /**
-   * Set the PID destination (set point)
+   * Check whether right NavxPIDController is on target
+   * 
+   * @return Indication if left controler is on target
+   */
+  public boolean isRightNavxPIDOnTarget() {
+
+    return navXController.onTarget();
+  }
+
+  /**
+   * Set the PIDController Encoder destination (set point)
    * 
    * @param setPoint The given destination (set point)
    */
-  public void setSetPoint(double setPoint) {
-
-    rightChassisPID.setSetpoint(setPoint);
-    leftChassisPID.setSetpoint(setPoint);
+  public void setSetPointEncoder(double setPoint) {
+    rightChassisEncoderPID.setSetpoint(setPoint);
+    leftChassisEncoderPID.setSetpoint(setPoint);
   }
 
   /**
-   * Enable the PID if true and disable if false
+   * Set the PIDController NAVX destination (set point)
    * 
-   * @param enable Enable the function
+   * @param setPoint The given destination (set point)
    */
-  public void enableChassisPID(boolean enable) {
+  public void setSetPointNavx(double setPoint) {
+    navXController.setSetpoint(setPoint);
+  }
 
+  /**
+   * Enables the Encoder PIDController.
+   * 
+   * @param enable Whether to enable or disable controller
+   */
+  public void enableChassisEncoderPID(boolean enable) {
     if (enable) {
-      rightChassisPID.enable();
-      leftChassisPID.enable();
+      rightChassisEncoderPID.enable();
+      leftChassisEncoderPID.enable();
     } else {
-      rightChassisPID.disable();
-      leftChassisPID.disable();
+      rightChassisEncoderPID.disable();
+      leftChassisEncoderPID.disable();
+    }
+  }
+
+  /**
+   * Enables the NAVX PIDController.
+   * 
+   * @param enable Whether to enable or disable controller
+   */
+  public void enableChassisNavxPID(boolean enable) {
+    if (enable) {
+      navXController.enable();
+    } else {
+      navXController.disable();
     }
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
     setDefaultCommand(new TankDrive());
   }
 
   /**
-   * Makes sure that only one intance runs at a time
+   * Makes sure that only one instance runs at a time
    * 
    * @return The instance
    */
