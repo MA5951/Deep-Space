@@ -50,11 +50,11 @@ public class OI {
 
   // Joystick buttons
   private JoystickButton intakePull = new JoystickButton(OPERATOR_STICK, 1);
-  private JoystickButton intakePush = new JoystickButton(OPERATOR_STICK, 4);
-  private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 2);
-  private JoystickButton intakeUp = new JoystickButton(OPERATOR_STICK, 2);
-  private JoystickButton intakeDown = new JoystickButton(OPERATOR_STICK, 2);
-  private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 3);
+  private JoystickButton intakePush = new JoystickButton(OPERATOR_STICK, 2);
+  private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 5);
+  private JoystickButton intakeUp = new JoystickButton(OPERATOR_STICK, 3);
+  private JoystickButton intakeDown = new JoystickButton(OPERATOR_STICK, 4);
+  private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 6);
 
   private StopIntake triggerStopIntake = new StopIntake();
   private TriggerReset resetIntake = new TriggerReset();
@@ -63,17 +63,24 @@ public class OI {
    * Initialize all the intake components and set all joystick buttons.
    */
   public OI() {
+
+    //TODO
+    /* 
     elevatorPIDDown.whenPressed(new ElevatorPID(40, 0.5));
     elevatorPIDUp.whenPressed(new ElevatorPID(50, 0.5));
     elevatorUp.whenPressed(new ElevatorUp());
     elevatorDown.whenPressed(new ElevatorDown());
 
+    
     riderIntake.whenPressed(new RiderIntake());
     riderOuttake.whenPressed(new RiderOuttake());
     riderPID.whenPressed(new RiderPID(500, 0.5));
     riderAngleDown.whenActive(new AngleRider(1, 1000, 10));
     riderAngleUp.whenActive(new AngleRider(-1, 1000, 10));
+    */
 
+
+    // CHECK BEFORE EVERY RUN
     intakePush.whileActive(new IntakePush(-1));
     intakePull.whileActive(new IntakePull(1));
     intakePID.whenPressed(new IntakePID(1, 0.5));
