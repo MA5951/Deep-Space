@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
-
+@Deprecated
 public class Elevator extends Subsystem {
   private PIDController PIDControllerElevator;
   private WPI_TalonSRX elevatorTalon;

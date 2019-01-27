@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
+// USE COMMAND GROUP INSTEAD
+@Deprecated
 public class IntakePull extends Command {
 
   // using rider subsystem

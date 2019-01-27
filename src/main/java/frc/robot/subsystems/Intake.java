@@ -24,7 +24,7 @@ import frc.robot.RobotMap;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_TalonSRX intakeTalon;
+  private WPI_TalonSRX intakeBall;
   private WPI_TalonSRX intakeAngleA;
   private WPI_TalonSRX intakeAngleB;
 
@@ -55,7 +55,7 @@ public class Intake extends Subsystem {
     intakePistonRight = new Relay(RobotMap.INTAKE_PISTON_RIGHT);
     intakePistonLeft = new Relay(RobotMap.INTAKE_PISTON_LEFT);
 
-    intakeTalon = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
+    intakeBall = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
 
     intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
     intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
@@ -135,7 +135,7 @@ public class Intake extends Subsystem {
    * @param speed The given power
    */
   public void intakeControl(double speed) {
-    intakeTalon.set(ControlMode.PercentOutput, speed);
+    intakeBall.set(ControlMode.PercentOutput, speed);
   }
 
   /**

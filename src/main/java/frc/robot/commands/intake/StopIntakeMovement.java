@@ -10,6 +10,8 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
 
+// NO NEED FOR THIS, USE IN END OR INTERRUPTED
+@Deprecated
 public class StopIntakeMovement extends InstantCommand {
 
   private Intake intake = Intake.getInstance();

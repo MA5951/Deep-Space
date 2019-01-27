@@ -10,7 +10,7 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
-public class IntakePush extends Command {
+public class IntakeMoveBall extends Command {
 
   private Intake intake = Intake.getInstance();
 
@@ -21,7 +21,7 @@ public class IntakePush extends Command {
    * 
    * @param speed The given speed of the {intakeControl}.
    */
-  public IntakePush(double speed) {
+  public IntakeMoveBall(double speed) {
     this.speed = speed;
     requires(intake);
   }

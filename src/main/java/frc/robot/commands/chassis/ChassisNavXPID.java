@@ -1,8 +1,8 @@
-package frc.robot.commands.chassis;
+package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Chassis;
-
+@Deprecated
 public class ChassisNavXPID extends Command {
 
   private Chassis chassis;

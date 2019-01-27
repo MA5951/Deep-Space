@@ -9,7 +9,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
-
+@Deprecated
 public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();

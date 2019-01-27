@@ -9,20 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.elevator.ElevatorDown;
-import frc.robot.commands.elevator.ElevatorPID;
-import frc.robot.commands.elevator.ElevatorUp;
-import frc.robot.commands.rider.AngleRider;
-import frc.robot.commands.rider.RiderIntake;
-import frc.robot.commands.rider.RiderOuttake;
-import frc.robot.commands.rider.RiderPID;
-import frc.robot.triggers.POVTrigger;
-import frc.robot.util.JoystickUtil.XBOX;
-
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.IntakePID;
-import frc.robot.commands.intake.IntakePull;
-import frc.robot.commands.intake.IntakePush;
+import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.PistonCommandGroup;
 import frc.robot.commands.intake.ResetEncoder;
 import frc.robot.commands.intake.StopIntakeMovement;
@@ -36,18 +25,19 @@ public class OI {
   public static final Joystick OPERATOR_STICK = new Joystick(RobotMap.JOYSTICK_OPERATOR);
   public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
-
+  /*
   private JoystickButton elevatorUp = new JoystickButton(OPERATOR_STICK, XBOX.A);
   private JoystickButton elevatorDown = new JoystickButton(OPERATOR_STICK, XBOX.Y);
   private JoystickButton elevatorPIDUp = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton elevatorPIDDown = new JoystickButton(OPERATOR_STICK, XBOX.X);
-
+  
   private POVTrigger riderAngleDown = new POVTrigger(XBOX.POV_DOWN, OPERATOR_STICK);
   private POVTrigger riderAngleUp = new POVTrigger(XBOX.POV_UP, OPERATOR_STICK);
   private JoystickButton riderPID = new JoystickButton(OPERATOR_STICK, XBOX.START);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.RB);
-
+  */
+  
   // Joystick buttons
   private JoystickButton intakePull = new JoystickButton(OPERATOR_STICK, 1);
   private JoystickButton intakePush = new JoystickButton(OPERATOR_STICK, 2);
@@ -81,13 +71,13 @@ public class OI {
 
 
     // CHECK BEFORE EVERY RUN
-    intakePush.whileActive(new IntakePush(-1));
-    intakePull.whileActive(new IntakePull(1));
-    intakePID.whenPressed(new IntakePID(1, 0.5));
-    intakeSolenoid.whenPressed(new PistonCommandGroup());
-    resetIntake.whenActive(new ResetEncoder());
-    triggerStopIntake.whenActive(new StopIntakeMovement());
-    intakeUp.whenPressed(new IntakeMovement(0.5));
-    intakeDown.whenPressed(new IntakeMovement(-0.3));
+    intakePush.whileHeld(new IntakeMoveBall(-1));
+   // intakePull.whileHeld(new IntakePull(1));
+    intakePID.whileHeld(new IntakePID(1, 0.5));
+    intakeSolenoid.whileHeld(new PistonCommandGroup());
+    resetIntake.whileActive(new ResetEncoder());
+   // triggerStopIntake.whileActive(new StopIntakeMovement());
+    intakeUp.whileHeld(new IntakeMovement(0.5));
+    intakeDown.whileHeld(new IntakeMovement(-0.3));
   }
 }

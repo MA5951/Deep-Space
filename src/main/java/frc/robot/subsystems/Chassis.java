@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.chassis.TankDrive;
+import frc.robot.commands.Chassis.TankDrive;
 
 /**
  * The Chassis subsystem
@@ -113,6 +113,10 @@ public class Chassis extends Subsystem {
     leftFrontMotor.set(ControlMode.PercentOutput, speedLeft);
   }
 
+  /**
+   * setLeftSide is for the PID, set the speed For both left and right side
+   * @param speedLeft
+   */
   public void setLeftSide(double speedLeft) {
     leftFrontMotor.set(speedLeft);
   }
