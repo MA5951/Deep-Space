@@ -13,7 +13,7 @@ import frc.robot.subsystems.Intake;
 /**
  * Check whether Intake low limit switch is pressed.
  */
-public class StopIntake extends Trigger {
+public class StopIntake extends Trigger { // TODO Name is not coherent. 
 
   @Override
   public boolean get() {

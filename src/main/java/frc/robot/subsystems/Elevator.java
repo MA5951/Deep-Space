@@ -30,7 +30,7 @@ public class Elevator extends Subsystem {
 
   private Encoder elevatorEncoder;
 
-  private static Elevator m_instance;
+  private static Elevator m_instance; // e_Instance TODO
 
   private Elevator() {
     limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);

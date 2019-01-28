@@ -22,7 +22,7 @@ public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static Rider instance;
+  private static Rider instance; // r_Instance TODO
 
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;

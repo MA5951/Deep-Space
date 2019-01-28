@@ -9,12 +9,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.intake.IntakeMovement;
-import frc.robot.commands.intake.IntakePID;
-import frc.robot.commands.intake.IntakeMoveBall;
-import frc.robot.commands.intake.PistonCommandGroup;
-import frc.robot.commands.intake.ResetEncoder;
-import frc.robot.commands.intake.StopIntakeMovement;
+import frc.robot.commands.intake.*;
+
 import frc.robot.triggers.TriggerReset;
 import frc.robot.triggers.StopIntake;
 
@@ -73,10 +69,10 @@ public class OI {
     // CHECK BEFORE EVERY RUN
     intakePush.whileHeld(new IntakeMoveBall(-1));
    // intakePull.whileHeld(new IntakePull(1));
-    intakePID.whileHeld(new IntakePID(1, 0.5));
+    intakePID.whileHeld(new IntakePID(1, 0.5)); // TODO Comment out this
     intakeSolenoid.whileHeld(new PistonCommandGroup());
-    resetIntake.whileActive(new ResetEncoder());
-   // triggerStopIntake.whileActive(new StopIntakeMovement());
+    resetIntake.whenActive(new ResetEncoder()); 
+   // triggerStopIntake.whileActive(new StopIntakeMovement()); TODO I think using default command + whileheld is better. 
     intakeUp.whileHeld(new IntakeMovement(0.5));
     intakeDown.whileHeld(new IntakeMovement(-0.3));
   }

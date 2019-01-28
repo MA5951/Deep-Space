@@ -38,7 +38,7 @@ public class Intake extends Subsystem {
   private Relay intakePistonRight;
   private Relay intakePistonLeft;
 
-  private static Intake intakeSubsystem;
+  private static Intake intakeSubsystem; // i_Instance TODO
 
   // sensors
   private DigitalInput limitSwitchUp;
@@ -148,15 +148,16 @@ public class Intake extends Subsystem {
   }
 
   /**
-   * Give power to the pistons (up).
+   * Give power to the pistons (up). TODO Fix, intake is no longer relay
    */
+  @Deprecated
   public void RelayControlForward() {
     intakePistonRight.set(Relay.Value.kForward);
     intakePistonLeft.set(Relay.Value.kForward);
   }
 
   /**
-   * Give power to the pistons (down)
+   * Give power to the pistons (down) TODO Fix, intake is no longer relay
    */
   public void RelayControlReverse() {
     intakePistonRight.set(Relay.Value.kReverse);
@@ -164,7 +165,7 @@ public class Intake extends Subsystem {
   }
 
   /**
-   * Initialize the encoder.
+   * Reset the encoder.
    */
   public void resetEncoder() {
     encoderIntake.reset();

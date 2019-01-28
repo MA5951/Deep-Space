@@ -24,7 +24,7 @@ import frc.robot.commands.Chassis.TankDrive;
  */
 public class Chassis extends Subsystem {
 
-  private static Chassis c_Instance;
+  private static Chassis c_Instance = new Chassis();
 
   private WPI_TalonSRX leftFrontMotor;
   private WPI_TalonSRX leftRearMotor;
@@ -136,7 +136,6 @@ public class Chassis extends Subsystem {
    * @return Indication if left controler is on target
    */
   public boolean isLeftEncoderPIDOnTarget() {
-
     return leftChassisEncoderPID.onTarget();
   }
 
@@ -145,8 +144,7 @@ public class Chassis extends Subsystem {
    * 
    * @return Indication if left controler is on target
    */
-  public boolean isRightNavxPIDOnTarget() {
-
+  public boolean isRightNavxPIDOnTarget() { // TODO Change name, only one navx
     return navXController.onTarget();
   }
 
@@ -174,7 +172,8 @@ public class Chassis extends Subsystem {
    * 
    * @param enable Whether to enable or disable controller
    */
-  public void enableChassisEncoderPID(boolean enable) {
+  public void enableChassisEncoderPID(boolean enable) { 
+    // TODO Fix, encoder and navx pid loops cannot be enabled simultaneously. 
     if (enable) {
       rightChassisEncoderPID.enable();
       leftChassisEncoderPID.enable();
@@ -190,6 +189,7 @@ public class Chassis extends Subsystem {
    * @param enable Whether to enable or disable controller
    */
   public void enableChassisNavxPID(boolean enable) {
+    // TODO Fix, encoder and navx pid loops cannot be enabled simultaneously. 
     if (enable) {
       navXController.enable();
     } else {

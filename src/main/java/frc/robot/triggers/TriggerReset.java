@@ -14,7 +14,6 @@ import frc.robot.subsystems.Intake;
  * Check if the high Intake limit switch is pressed.
  */
 public class TriggerReset extends Trigger {
-
   @Override
   public boolean get() {
     return Intake.getInstance().isLimitSwitchUp();
