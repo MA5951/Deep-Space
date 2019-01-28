@@ -18,7 +18,9 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
-public class Rider extends Subsystem {
+// TODO Redesign rider commands after redesigning subsystem. 
+@Deprecated
+public class Rider extends Subsystem { // TODO Add javadoc
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -29,10 +31,10 @@ public class Rider extends Subsystem {
 
   private Encoder encoderAngle;
 
-  private DigitalInput limitSwitchA;
-  private DigitalInput limitSwitchB;
+  private DigitalInput limitSwitchA; // TODO Change Sensors completely. 
+  private DigitalInput limitSwitchB;  // Limit switch angle up, limit switch angle down, proximity sensor. 
 
-  private PIDController angleController;
+  private PIDController angleController; // TODO angleEncoderPID
 
   public static final double KP_ANGLE = 0;
   public static final double KI_ANGLE = 0;
@@ -61,7 +63,7 @@ public class Rider extends Subsystem {
   /**
    * Enables the angle PID
    */
-  public void enablePID() {
+  public void enablePID() { // TODO Change to one function with parameter. 
     angleController.enable();
   }
 
@@ -86,7 +88,7 @@ public class Rider extends Subsystem {
    * 
    * @param tolerance The given tolerance
    */
-  public void setPIDTolerance(double tolerance) {
+  public void setPIDTolerance(double tolerance) { // TODO no need for function, define tolerance in constant inside subsystem
     angleController.setAbsoluteTolerance(tolerance);
   }
 
@@ -105,7 +107,7 @@ public class Rider extends Subsystem {
    * 
    * @param speed The given power
    */
-  public void setIntakeMotor(double speed) {
+  public void setIntakeMotor(double speed) { // TODO controlIntakeMotor
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -114,11 +116,11 @@ public class Rider extends Subsystem {
    * 
    * @param angleSpeed The given power
    */
-  public void setAngleMotor(double angleSpeed) {
+  public void setAngleMotor(double angleSpeed) { // TODO controlAngleMotor
     angleMotor.set(ControlMode.PercentOutput, angleSpeed);
   }
 
-  public boolean isLimitSwitchAnglePressed() {
+  public boolean isLimitSwitchAnglePressed() { // TODO Delete this function. Redesign with new sensors. 
     return limitSwitchA.get() || limitSwitchB.get();
   }
 

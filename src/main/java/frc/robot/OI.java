@@ -69,7 +69,7 @@ public class OI {
     // CHECK BEFORE EVERY RUN
     intakePush.whileHeld(new IntakeMoveBall(-1));
    // intakePull.whileHeld(new IntakePull(1));
-    //intakePID.whileHeld(new IntakePID(1, 0.5)); // TODO Comment out this
+    //intakePID.whileHeld(new IntakePID(1, 0.5));
     intakeSolenoid.whileHeld(new PistonCommandGroup());
     resetIntake.whenActive(new ResetEncoder()); 
    // triggerStopIntake.whileActive(new StopIntakeMovement()); TODO I think using default command + whileheld is better. 

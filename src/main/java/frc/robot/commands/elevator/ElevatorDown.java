@@ -39,7 +39,7 @@ public class ElevatorDown extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.resetEncoder();
+    elevator.resetEncoder(); 
     elevator.controlSpeed(0);
   }
 

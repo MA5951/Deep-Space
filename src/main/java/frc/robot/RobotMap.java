@@ -35,7 +35,7 @@ public class RobotMap {
   public static final int CHASSIS_LEFT_FRONT = 1;
   public static final int CHASSIS_LEFT_REAR = 2;
 
-  public static final int CHASSIS_RIGHT_FRONT = 3;
+  public static final int CHASSIS_RIGHT_FRONT = 3; // TODO CHASSIS_LEFT_FRONT_TALON
   public static final int CHASSIS_RIGHT_REAR = 4;
 
   public static final int CHASSIS_RIGHT_ENCODER_A = 0;
@@ -46,7 +46,7 @@ public class RobotMap {
 
   // Rider
   // TODO
-  public static final int RIDER_ANGLE_MOTOR = 999;
+  public static final int RIDER_ANGLE_MOTOR = 999; // TODO Change sensors limit switch
   public static final int RIDER_INTAKE_MOTOR = 998;
 
   public static final int RIDER_ENCODER_A = 997;

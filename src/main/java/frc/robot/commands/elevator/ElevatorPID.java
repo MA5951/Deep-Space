@@ -17,11 +17,11 @@ public class ElevatorPID extends Command {
 
   public ElevatorPID(double setSetpoint, double setAbsoluteTolerance) {
     this.setpoint = setSetpoint;
-    this.absoluteTolerance = setAbsoluteTolerance;
+    this.absoluteTolerance = setAbsoluteTolerance; // TODO No need for tolerance as perameter
     elevator = Elevator.getInstance();
     requires(elevator);
     elevator.setAbsoluteTolerance(setAbsoluteTolerance);
-    elevator.setSetpoint(setSetpoint);
+    elevator.setSetPoint(setSetpoint);
   }
 
   // Called just before this Command runs the first time

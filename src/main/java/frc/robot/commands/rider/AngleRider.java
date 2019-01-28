@@ -16,7 +16,7 @@ public class AngleRider extends Command {
   private double tolerance;
   private Rider rider = Rider.getInstance();
 
-  public AngleRider(double speed, double angle, double tolerance) {
+  public AngleRider(double speed, double angle, double tolerance) {  
     this.tolerance = tolerance;
     this.angle = angle;
     this.speed = speed;

@@ -27,15 +27,15 @@ import frc.robot.RobotMap;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_TalonSRX intakeBall;
-  private WPI_TalonSRX intakeAngleA;
-  private WPI_TalonSRX intakeAngleB;
+  private WPI_TalonSRX intakeBall; // TODO intakeBallMotor
+  private WPI_TalonSRX intakeAngleA; // TODO intakeAngleMotorA
+  private WPI_TalonSRX intakeAngleB; // TODO intakeAngleMotorB
 
   // encoder
   private Encoder encoderIntake;
 
   // PID
-  private PIDController anglePIDController;
+  private PIDController anglePIDController; // TODO anglePID
 
   // Pneomatic Pistons
   private DoubleSolenoid intakePistonRight;
@@ -65,15 +65,15 @@ public class Intake extends Subsystem {
     intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
     intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
-    //Check if intakeAngleB need to be inverted
+    //TODO Check if intakeAngleB needs to be inverted
     intakeAngleA.setInverted(true);
     intakeAngleB.set(ControlMode.Follower, intakeAngleA.getDeviceID());
 
-    encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_B, RobotMap.INTAKE_ENCODER_A, false, EncodingType.k4X);
-    encoderIntake.setDistancePerPulse(1);
+    encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_A, RobotMap.INTAKE_ENCODER_B, false, EncodingType.k4X);
+    encoderIntake.setDistancePerPulse(1); // TODO Constant for distance per pulse. 
     encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA);
+    anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA); // TODO Create constants for PID 
   }
 
   /**
@@ -97,7 +97,7 @@ public class Intake extends Subsystem {
   /**
    * Enables the PIDController
    */
-  public void enablePID() {
+  public void enablePID() { // TODO Change to one function with parameter to enable or disable PID. 
     anglePIDController.enable();
   }
 
@@ -113,7 +113,7 @@ public class Intake extends Subsystem {
    *
    * @param setpoint The given destination (setpoint)
    */
-  public void setSetpointPID(double setpoint) {
+  public void setSetpointPID(double setpoint) { // TODO setSetPoint (Without PID)
     anglePIDController.setSetpoint(setpoint);
   }
 
@@ -122,7 +122,7 @@ public class Intake extends Subsystem {
    * 
    * @param Tolerance The given range
    */
-  public void setTolerancePID(double Tolerance) {
+  public void setTolerancePID(double Tolerance) { // TODO No need for this function, tolerance set only once. 
     anglePIDController.setAbsoluteTolerance(Tolerance);
   }
 
@@ -131,7 +131,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTargetPID() {
+  public boolean isOnTargetPID() { // TODO isOnTarget
     return anglePIDController.onTarget();
   }
 
@@ -149,12 +149,12 @@ public class Intake extends Subsystem {
    * 
    * @param speedUpAndDown The given power
    */
-  public void intakeMovmentControl(double speedUpAndDown) {
+  public void intakeMovmentControl(double speedUpAndDown) { // TODO Name isn't coherent, intakeAngleControl
     intakeAngleA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
   /**
-   * Give power to the pistons (up). TODO Fix, intake is no longer relay
+   * Give power to the pistons (up). 
    */
   @Deprecated
   public void PistonControlForward() {
@@ -163,14 +163,14 @@ public class Intake extends Subsystem {
   }
 
   /**
-   * Give power to the pistons (down) TODO Fix, intake is no longer relay
+   * Give power to the pistons (down) 
    */
   public void PistonControlReverse() {
     intakePistonRight.set(Value.kReverse);
     intakePistonLeft.set(Value.kReverse);
   }
 
-  public void PistonControlOff() {
+  public void PistonControlOff() { // TODO Add javadoc
     intakePistonRight.set(Value.kOff);
     intakePistonLeft.set(Value.kOff);
   }
@@ -195,7 +195,7 @@ public class Intake extends Subsystem {
   }
 
   @Override
-  public void initDefaultCommand() {
+  public void initDefaultCommand() { // Add default command that does nothing except stop intake movement
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
   }

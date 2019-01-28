@@ -84,10 +84,10 @@ public class Chassis extends Subsystem {
     encoderLeft.setPIDSourceType(PIDSourceType.kDisplacement);
     encoderRight.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    rightFrontMotor.set(ControlMode.Follower, rightFrontMotor.getDeviceID());
+    rightFrontMotor.set(ControlMode.Follower, rightFrontMotor.getDeviceID()); // TODO Follows itself
     rightRearMotor.set(ControlMode.Follower, rightFrontMotor.getDeviceID());
 
-    leftFrontMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
+    leftFrontMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID()); // TODO Follows itself
     leftRearMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
 
     rightChassisEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderRight, rightFrontMotor);
@@ -98,7 +98,7 @@ public class Chassis extends Subsystem {
 
     navXController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navX, rightFrontMotor);
 
-    navXController.setAbsoluteTolerance(ENCODER_TOLERANCE);
+    navXController.setAbsoluteTolerance(ENCODER_TOLERANCE); // TODO mistake
 
   }
 
@@ -114,7 +114,7 @@ public class Chassis extends Subsystem {
   }
 
   /**
-   * setLeftSide is for the PID, set the speed For both left and right side
+   * setLeftSide is for the navx PID, set the speed For both left and right side
    * @param speedLeft
    */
   public void setLeftSide(double speedLeft) {
@@ -169,6 +169,7 @@ public class Chassis extends Subsystem {
 
   /**
    * Enables the Encoder PIDController.
+   * Doesn't allow navx and encoder pid to be enabled simultaneously. 
    * 
    * @param enable Whether to enable or disable controller
    */
@@ -186,6 +187,7 @@ public class Chassis extends Subsystem {
 
   /**
    * Enables the NAVX PIDController.
+   * Doesn't allow navx and encoder pid to be enabled simultaneously. 
    * 
    * @param enable Whether to enable or disable controller
    */
