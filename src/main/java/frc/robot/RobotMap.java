@@ -61,8 +61,12 @@ public class RobotMap {
   public static final int INTAKE_MOTORS_ANGLE_A = 5;
   public static final int INTAKE_MOTORS_ANGLE_B = 6;
 
-  public static final int INTAKE_PISTON_LEFT = 0;
-  public static final int INTAKE_PISTON_RIGHT = 1;
+  public static final int PCM = 5987;
+
+  public static final int INTAKE_PISTON_RIGHT_FORWARD = 2;
+  public static final int INTAKE_PISTON_RIGHT_BACKWARD = 2;
+  public static final int INTAKE_PISTON_LEFT_FORWARD = 0;
+  public static final int INTAKE_PISTON_LEFT_BACKWARD = 1;
 
   public static final int INTAKE_ENCODER_A = 4;
   public static final int INTAKE_ENCODER_B = 5;

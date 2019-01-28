@@ -16,6 +16,6 @@ import frc.robot.subsystems.Intake;
 public class TriggerReset extends Trigger {
   @Override
   public boolean get() {
-    return Intake.getInstance().isLimitSwitchUp();
+    return Intake.getInstance().isLimitSwitchUpPressed();
   }
 }

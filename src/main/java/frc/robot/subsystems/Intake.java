@@ -9,12 +9,15 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 
@@ -34,11 +37,11 @@ public class Intake extends Subsystem {
   // PID
   private PIDController anglePIDController;
 
-  // Electric Pistons
-  private Relay intakePistonRight;
-  private Relay intakePistonLeft;
+  // Pneomatic Pistons
+  private DoubleSolenoid intakePistonRight;
+  private DoubleSolenoid intakePistonLeft;
 
-  private static Intake i_Instance; 
+  private static Intake i_Instance;
 
   // sensors
   private DigitalInput limitSwitchUp;
@@ -52,14 +55,17 @@ public class Intake extends Subsystem {
     limitSwitchUp = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_UP);
     limitSwitchDown = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_DOWN);
 
-    intakePistonRight = new Relay(RobotMap.INTAKE_PISTON_RIGHT);
-    intakePistonLeft = new Relay(RobotMap.INTAKE_PISTON_LEFT);
+    intakePistonRight = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_RIGHT_FORWARD,
+        RobotMap.INTAKE_PISTON_RIGHT_BACKWARD);
+    intakePistonLeft = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_LEFT_FORWARD,
+        RobotMap.INTAKE_PISTON_LEFT_BACKWARD);
 
     intakeBall = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
 
     intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
     intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
+    //Check if intakeAngleB need to be inverted
     intakeAngleA.setInverted(true);
     intakeAngleB.set(ControlMode.Follower, intakeAngleA.getDeviceID());
 
@@ -75,7 +81,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {limitSwitchUp} is pressed
    */
-  public boolean isLimitSwitchUp() {
+  public boolean isLimitSwitchUpPressed() {
     return limitSwitchUp.get();
   }
 
@@ -84,7 +90,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {limitSwitchDown} is pressed
    */
-  public boolean isLimitSwitchDown() {
+  public boolean isLimitSwitchDownPressed() {
     return limitSwitchDown.get();
   }
 
@@ -151,17 +157,22 @@ public class Intake extends Subsystem {
    * Give power to the pistons (up). TODO Fix, intake is no longer relay
    */
   @Deprecated
-  public void RelayControlForward() {
-    intakePistonRight.set(Relay.Value.kForward);
-    intakePistonLeft.set(Relay.Value.kForward);
+  public void PistonControlForward() {
+    intakePistonRight.set(Value.kForward);
+    intakePistonLeft.set(Value.kForward);
   }
 
   /**
    * Give power to the pistons (down) TODO Fix, intake is no longer relay
    */
-  public void RelayControlReverse() {
-    intakePistonRight.set(Relay.Value.kReverse);
-    intakePistonLeft.set(Relay.Value.kReverse);
+  public void PistonControlReverse() {
+    intakePistonRight.set(Value.kReverse);
+    intakePistonLeft.set(Value.kReverse);
+  }
+
+  public void PistonControlOff() {
+    intakePistonRight.set(Value.kOff);
+    intakePistonLeft.set(Value.kOff);
   }
 
   /**

@@ -7,22 +7,25 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.TimedCommand;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Intake;
 
-public class PistonCommandGroup extends CommandGroup {
+/**
+ * Add your docs here.
+ */
+public class PistonOff extends InstantCommand {
 
-  /**
-   * Enables the {PistonForward}, wait 0.5 seconds ({TimedCommand} function) and
-   * run the {PistonBack} function.
-   */
-  public PistonCommandGroup() {
+  private Intake intake = Intake.getInstance();
 
-    addSequential(new PistonForward());
-    addSequential(new TimedCommand(0.5));
-    addSequential(new PistonBack());
-    addSequential(new TimedCommand(0.10));
-    addSequential(new PistonOff());
+  public PistonOff() {
 
+    requires(intake);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    intake.PistonControlOff();
+  }
+
 }

@@ -17,6 +17,6 @@ public class LimitSwitchDownTrigger extends Trigger {
 
   @Override
   public boolean get() {
-    return Intake.getInstance().isLimitSwitchDown();
+    return Intake.getInstance().isLimitSwitchDownPressed();
   }
 }

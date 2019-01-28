@@ -44,7 +44,7 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return (speedUpAndDown > 0 && intake.isLimitSwitchUp()) || (speedUpAndDown > 0 && intake.isLimitSwitchDown());
+    return (speedUpAndDown > 0 && intake.isLimitSwitchUpPressed()) || (speedUpAndDown > 0 && intake.isLimitSwitchDownPressed());
   }
 
   /**

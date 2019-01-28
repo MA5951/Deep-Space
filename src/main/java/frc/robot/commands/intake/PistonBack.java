@@ -15,7 +15,7 @@ public class PistonBack extends InstantCommand {
   private Intake intake = Intake.getInstance();
 
   /**
-   * requires the Intale subsystem.
+   * requires the Intake subsystem.
    */
   public PistonBack() {
     requires(intake);
@@ -26,7 +26,7 @@ public class PistonBack extends InstantCommand {
    */
   @Override
   protected void initialize() {
-    intake.RelayControlReverse();
+    intake.PistonControlReverse();
   }
 
 }
