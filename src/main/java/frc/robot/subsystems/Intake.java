@@ -38,7 +38,7 @@ public class Intake extends Subsystem {
   private Relay intakePistonRight;
   private Relay intakePistonLeft;
 
-  private static Intake intakeSubsystem; // i_Instance TODO
+  private static Intake i_Instance; 
 
   // sensors
   private DigitalInput limitSwitchUp;
@@ -177,10 +177,10 @@ public class Intake extends Subsystem {
    * @return Return the instance
    */
   public static Intake getInstance() {
-    if (intakeSubsystem == null) {
-      intakeSubsystem = new Intake();
+    if (i_Instance == null) {
+      i_Instance = new Intake();
     }
-    return intakeSubsystem;
+    return i_Instance;
   }
 
   @Override

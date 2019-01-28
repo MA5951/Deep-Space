@@ -18,9 +18,10 @@ import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
+
 @Deprecated
 public class Elevator extends Subsystem {
-  private PIDController PIDControllerElevator;
+  private PIDController pidControllerElevator;
   private WPI_TalonSRX elevatorTalon;
 
   private DigitalInput limitSwitchUpLeft;
@@ -30,7 +31,11 @@ public class Elevator extends Subsystem {
 
   private Encoder elevatorEncoder;
 
-  private static Elevator m_instance; // e_Instance TODO
+  public static final double KP_ELEVATOR = 1;
+  public static final double KI_ELEVATOR = 1;
+  public static final double KD_ELEVATOR = 1;
+
+  private static Elevator e_Instance;
 
   private Elevator() {
     limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);
@@ -43,27 +48,27 @@ public class Elevator extends Subsystem {
     elevatorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorTalon = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
-    PIDControllerElevator = new PIDController(1.0, 1.0, 1.0, elevatorEncoder, elevatorTalon);
+    pidControllerElevator = new PIDController(KP_ELEVATOR, KI_ELEVATOR, KD_ELEVATOR, elevatorEncoder, elevatorTalon);
   }
 
   public void enablePID() {
-    PIDControllerElevator.enable();
+    pidControllerElevator.enable();
   }
 
   public void disablePID() {
-    PIDControllerElevator.disable();
+    pidControllerElevator.disable();
   }
 
   public void setSetpoint(double setSetpoint) {
-    PIDControllerElevator.setSetpoint(setSetpoint);
+    pidControllerElevator.setSetpoint(setSetpoint);
   }
 
   public void setAbsoluteTolerance(double setAbsoluteTolerance) {
-    PIDControllerElevator.setAbsoluteTolerance(setAbsoluteTolerance);
+    pidControllerElevator.setAbsoluteTolerance(setAbsoluteTolerance);
   }
 
   public boolean isOnTarget() {
-    return PIDControllerElevator.onTarget();
+    return pidControllerElevator.onTarget();
   }
 
   /**
@@ -109,9 +114,9 @@ public class Elevator extends Subsystem {
    * Singleton
    */
   public static Elevator getInstance() {
-    if (m_instance == null)
-      m_instance = new Elevator();
-    return m_instance;
+    if (e_Instance == null)
+      e_Instance = new Elevator();
+    return e_Instance;
   }
 
   @Override

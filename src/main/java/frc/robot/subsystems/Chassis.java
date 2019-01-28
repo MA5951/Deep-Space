@@ -144,7 +144,7 @@ public class Chassis extends Subsystem {
    * 
    * @return Indication if left controler is on target
    */
-  public boolean isRightNavxPIDOnTarget() { // TODO Change name, only one navx
+  public boolean isNavxPIDOnTarget() { 
     return navXController.onTarget();
   }
 
@@ -173,10 +173,11 @@ public class Chassis extends Subsystem {
    * @param enable Whether to enable or disable controller
    */
   public void enableChassisEncoderPID(boolean enable) { 
-    // TODO Fix, encoder and navx pid loops cannot be enabled simultaneously. 
+  
     if (enable) {
       rightChassisEncoderPID.enable();
       leftChassisEncoderPID.enable();
+      enableChassisNavxPID(false);
     } else {
       rightChassisEncoderPID.disable();
       leftChassisEncoderPID.disable();
@@ -189,9 +190,10 @@ public class Chassis extends Subsystem {
    * @param enable Whether to enable or disable controller
    */
   public void enableChassisNavxPID(boolean enable) {
-    // TODO Fix, encoder and navx pid loops cannot be enabled simultaneously. 
+
     if (enable) {
       navXController.enable();
+      enableChassisEncoderPID(false);
     } else {
       navXController.disable();
     }

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.intake.*;
 
 import frc.robot.triggers.TriggerReset;
-import frc.robot.triggers.StopIntake;
+import frc.robot.triggers.LimitSwitchDownTrigger;
 
 /**
  * Maps commands to buttons/POVs/triggers
@@ -42,7 +42,7 @@ public class OI {
   private JoystickButton intakeDown = new JoystickButton(OPERATOR_STICK, 4);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 6);
 
-  private StopIntake triggerStopIntake = new StopIntake();
+  private LimitSwitchDownTrigger triggerStopIntake = new LimitSwitchDownTrigger();
   private TriggerReset resetIntake = new TriggerReset();
 
   /**
@@ -69,7 +69,7 @@ public class OI {
     // CHECK BEFORE EVERY RUN
     intakePush.whileHeld(new IntakeMoveBall(-1));
    // intakePull.whileHeld(new IntakePull(1));
-    intakePID.whileHeld(new IntakePID(1, 0.5)); // TODO Comment out this
+    //intakePID.whileHeld(new IntakePID(1, 0.5)); // TODO Comment out this
     intakeSolenoid.whileHeld(new PistonCommandGroup());
     resetIntake.whenActive(new ResetEncoder()); 
    // triggerStopIntake.whileActive(new StopIntakeMovement()); TODO I think using default command + whileheld is better. 

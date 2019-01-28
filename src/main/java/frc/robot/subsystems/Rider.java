@@ -22,7 +22,7 @@ public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static Rider instance; // r_Instance TODO
+  private static Rider r_Instance; 
 
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
@@ -34,9 +34,9 @@ public class Rider extends Subsystem {
 
   private PIDController angleController;
 
-  public static final double KP_ANGLE = 1;
-  public static final double KI_ANGLE = 1;
-  public static final double KD_ANGLE = 1;
+  public static final double KP_ANGLE = 0;
+  public static final double KI_ANGLE = 0;
+  public static final double KD_ANGLE = 0;
 
   public static final double DISTANCE_PER_PULSE = 1.0;
 
@@ -143,9 +143,9 @@ public class Rider extends Subsystem {
    * @return The instance
    */
   public static Rider getInstance() {
-    if (instance == null)
-      instance = new Rider();
-    return instance;
+    if (r_Instance == null)
+      r_Instance = new Rider();
+    return r_Instance;
   }
 
   @Override

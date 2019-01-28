@@ -28,7 +28,7 @@ public class IntakePull extends Command {
    * 
    * @param speed the given power of {intakeControl}.
    */
-  public IntakePull(double speed) {
+  public IntakePull() {
     this.speed = speed;
     requires(intake);
     requires(rider);
@@ -44,7 +44,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeControl(speed);
+    intake.intakeControl(-1);
   }
 
   /**
