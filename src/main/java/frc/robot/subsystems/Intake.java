@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
 import frc.robot.commands.intake.StopIntakeMovement;
@@ -28,15 +27,15 @@ import frc.robot.commands.intake.StopIntakeMovement;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_TalonSRX intakeBallMotor; // TODO intakeBallMotor
-  private WPI_TalonSRX intakeAngleMotorA; // TODO intakeAngleMotorA
-  private WPI_TalonSRX intakeAngleMotorB; // TODO intakeAngleMotorB
+  private WPI_TalonSRX intakeBallMotor; 
+  private WPI_TalonSRX intakeAngleMotorA; 
+  private WPI_TalonSRX intakeAngleMotorB; 
 
   // encoder
   private Encoder encoderIntake;
 
   // PID
-  private PIDController anglePID; // TODO anglePID
+  private PIDController anglePID; 
 
   // Pneomatic Pistons
   private DoubleSolenoid intakePistonRight;
@@ -131,7 +130,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTarget() { // TODO isOnTarget
+  public boolean isOnTarget() { 
     return anglePID.onTarget();
   }
 
@@ -199,7 +198,6 @@ public class Intake extends Subsystem {
 
   @Override
   public void initDefaultCommand() { // Add default command that does nothing except stop intake movement
-
     setDefaultCommand(new StopIntakeMovement());
   }
 }

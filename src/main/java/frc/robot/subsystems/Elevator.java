@@ -21,19 +21,19 @@ import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 @Deprecated
 public class Elevator extends Subsystem {
-  private PIDController pidControllerElevator; // TODO elevatorEncoderPID
-  private WPI_TalonSRX elevatorTalon; // TODO elevatorMotor
+  private PIDController elevatorEncoderPID; 
+  private WPI_TalonSRX elevatorMotor; 
 
   private DigitalInput limitSwitchUpLeft; 
   private DigitalInput limitSwitchUpRight;
   private DigitalInput limitSwitchDownRight;
   private DigitalInput limitSwitchDownLeft;
   
-  private Encoder elevatorEncoder; // TODO encoderElevator
+  private Encoder encoderElevator; // TODO encoderElevator
 
-  public static final double KP_ELEVATOR = 1; // TODO PID constants to zero for SAFETY reasons. 
-  public static final double KI_ELEVATOR = 1; // TODO KP_ENCODER
-  public static final double KD_ELEVATOR = 1;
+  public static final double KP_ELEVATOR = 0; // TODO PID constants to zero for SAFETY reasons. 
+  public static final double KI_ELEVATOR = 0; // TODO KP_ENCODER
+  public static final double KD_ELEVATOR = 0;
 
   private static Elevator e_Instance;
 
@@ -43,39 +43,39 @@ public class Elevator extends Subsystem {
     limitSwitchDownLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_LEFT);
     limitSwitchDownRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_RIGHT);
 
-    elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B, false, EncodingType.k4X);
-    elevatorEncoder.setDistancePerPulse(1); // TODO Add distance per pulse constant. e.g DISTANCE_PER_PULSE
-    elevatorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    encoderElevator = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B, false, EncodingType.k4X);
+    encoderElevator.setDistancePerPulse(1); // TODO Add distance per pulse constant. e.g DISTANCE_PER_PULSE
+    encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    elevatorTalon = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
-    pidControllerElevator = new PIDController(KP_ELEVATOR, KI_ELEVATOR, KD_ELEVATOR, elevatorEncoder, elevatorTalon);
+    elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
+    elevatorEncoderPID = new PIDController(KP_ELEVATOR, KI_ELEVATOR, KD_ELEVATOR, encoderElevator, elevatorMotor);
   }
 
   public void enablePID() { // TODO turn into one function with parameter.  
-    pidControllerElevator.enable();
+    elevatorEncoderPID.enable();
   }
 
   public void disablePID() {
-    pidControllerElevator.disable();
+    elevatorEncoderPID.disable();
   }
 
   public void setSetPoint(double setSetpoint) {
-    pidControllerElevator.setSetpoint(setSetpoint);
+    elevatorEncoderPID.setSetpoint(setSetpoint);
   }
 
   public void setAbsoluteTolerance(double setAbsoluteTolerance) { // TODO Function not needed, set tolerance in constructor. 
-    pidControllerElevator.setAbsoluteTolerance(setAbsoluteTolerance);
+    elevatorEncoderPID.setAbsoluteTolerance(setAbsoluteTolerance);
   }
 
   public boolean isOnTarget() { // TODO isPIDOnTarget
-    return pidControllerElevator.onTarget();
+    return elevatorEncoderPID.onTarget();
   }
 
   /**
    * Controls the speed of the talon
    */
   public void controlSpeed(double speed) {
-    elevatorTalon.set(ControlMode.PercentOutput, speed);
+    elevatorMotor.set(ControlMode.PercentOutput, speed);
   }
 
   /**
@@ -100,14 +100,14 @@ public class Elevator extends Subsystem {
    * @return Is the elevator encoder in the correct range in terms of distance
    */
   public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
-    return elevatorEncoder.getDistance() < maxDistance && elevatorEncoder.getDistance() > minDistance;
+    return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
   }
 
   /**
    * Reset's the encoder
    */
   public void resetEncoder() {
-    elevatorEncoder.reset();
+    encoderElevator.reset();
   }
 
   /**
