@@ -7,28 +7,42 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
-// NO NEED FOR THIS, USE IN END OR INTERRUPTED
-@Deprecated
-public class StopIntakeMovement extends InstantCommand {
-
+public class StopIntakeMovement extends Command {
   private Intake intake = Intake.getInstance();
 
-  /**
-   * Requires the Intake subsystem.
-   */
   public StopIntakeMovement() {
     requires(intake);
   }
 
-  /**
-   * Disables the {intakeMovmentControl}.
-   */
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    intake.intakeMovmentControl(0);
+    
   }
 
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+    intake.intakeAngleControl(0);
+  }
+
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+  }
 }

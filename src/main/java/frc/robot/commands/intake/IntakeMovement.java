@@ -30,7 +30,7 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected void initialize() {
-    intake.intakeMovmentControl(speedUpAndDown);
+    intake.intakeAngleControl(speedUpAndDown);
 
   }
 
@@ -52,7 +52,7 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected void end() {
-    intake.intakeMovmentControl(0);
+    intake.intakeAngleControl(0);
   }
 
   /**
@@ -60,6 +60,6 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected void interrupted() {
-    intake.intakeMovmentControl(0);
+    intake.intakeAngleControl(0);
   }
 }

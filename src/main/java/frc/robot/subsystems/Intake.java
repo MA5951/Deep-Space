@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
+import frc.robot.commands.intake.StopIntakeMovement;
 
 /**
  * The intake subsystem
@@ -27,15 +28,15 @@ import frc.robot.RobotMap;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_TalonSRX intakeBall; // TODO intakeBallMotor
-  private WPI_TalonSRX intakeAngleA; // TODO intakeAngleMotorA
-  private WPI_TalonSRX intakeAngleB; // TODO intakeAngleMotorB
+  private WPI_TalonSRX intakeBallMotor; // TODO intakeBallMotor
+  private WPI_TalonSRX intakeAngleMotorA; // TODO intakeAngleMotorA
+  private WPI_TalonSRX intakeAngleMotorB; // TODO intakeAngleMotorB
 
   // encoder
   private Encoder encoderIntake;
 
   // PID
-  private PIDController anglePIDController; // TODO anglePID
+  private PIDController anglePID; // TODO anglePID
 
   // Pneomatic Pistons
   private DoubleSolenoid intakePistonRight;
@@ -46,6 +47,11 @@ public class Intake extends Subsystem {
   // sensors
   private DigitalInput limitSwitchUp;
   private DigitalInput limitSwitchDown;
+
+  public static final double KP_ENCODER = 0.0;
+  public static final double KI_ENCODER = 0.0;
+  public static final double KD_ENCODER = 0.0;
+  private static final double DISTANCE_PER_PULSE = 1;
 
   /**
    * Initializes all Chassis components
@@ -60,20 +66,20 @@ public class Intake extends Subsystem {
     intakePistonLeft = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_LEFT_FORWARD,
         RobotMap.INTAKE_PISTON_LEFT_BACKWARD);
 
-    intakeBall = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
+    intakeBallMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
 
-    intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
-    intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
+    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
-    //TODO Check if intakeAngleB needs to be inverted
-    intakeAngleA.setInverted(true);
-    intakeAngleB.set(ControlMode.Follower, intakeAngleA.getDeviceID());
+    // TODO Check if intakeAngleB needs to be inverted
+    intakeAngleMotorA.setInverted(true);
+    intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());
 
     encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_A, RobotMap.INTAKE_ENCODER_B, false, EncodingType.k4X);
-    encoderIntake.setDistancePerPulse(1); // TODO Constant for distance per pulse. 
+    encoderIntake.setDistancePerPulse(DISTANCE_PER_PULSE);
     encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA); // TODO Create constants for PID 
+    anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
   }
 
   /**
@@ -97,15 +103,12 @@ public class Intake extends Subsystem {
   /**
    * Enables the PIDController
    */
-  public void enablePID() { // TODO Change to one function with parameter to enable or disable PID. 
-    anglePIDController.enable();
-  }
-
-  /**
-   * Disables the PIDController
-   */
-  public void disablePID() {
-    anglePIDController.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      anglePID.enable();
+    } else {
+      anglePID.disable();
+    }
   }
 
   /**
@@ -113,8 +116,8 @@ public class Intake extends Subsystem {
    *
    * @param setpoint The given destination (setpoint)
    */
-  public void setSetpointPID(double setpoint) { // TODO setSetPoint (Without PID)
-    anglePIDController.setSetpoint(setpoint);
+  public void setSetpoint(double setpoint) {
+    anglePID.setSetpoint(setpoint);
   }
 
   /**
@@ -122,17 +125,14 @@ public class Intake extends Subsystem {
    * 
    * @param Tolerance The given range
    */
-  public void setTolerancePID(double Tolerance) { // TODO No need for this function, tolerance set only once. 
-    anglePIDController.setAbsoluteTolerance(Tolerance);
-  }
 
   /**
    * Check whether {anglePIDController} is on target
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTargetPID() { // TODO isOnTarget
-    return anglePIDController.onTarget();
+  public boolean isOnTarget() { // TODO isOnTarget
+    return anglePID.onTarget();
   }
 
   /**
@@ -141,7 +141,7 @@ public class Intake extends Subsystem {
    * @param speed The given power
    */
   public void intakeControl(double speed) {
-    intakeBall.set(ControlMode.PercentOutput, speed);
+    intakeBallMotor.set(ControlMode.PercentOutput, speed);
   }
 
   /**
@@ -149,12 +149,12 @@ public class Intake extends Subsystem {
    * 
    * @param speedUpAndDown The given power
    */
-  public void intakeMovmentControl(double speedUpAndDown) { // TODO Name isn't coherent, intakeAngleControl
-    intakeAngleA.set(ControlMode.PercentOutput, speedUpAndDown);
+  public void intakeAngleControl(double speedUpAndDown) {
+    intakeAngleMotorA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
   /**
-   * Give power to the pistons (up). 
+   * Give power to the pistons (up).
    */
   @Deprecated
   public void PistonControlForward() {
@@ -163,13 +163,16 @@ public class Intake extends Subsystem {
   }
 
   /**
-   * Give power to the pistons (down) 
+   * Give power to the pistons (down)
    */
   public void PistonControlReverse() {
     intakePistonRight.set(Value.kReverse);
     intakePistonLeft.set(Value.kReverse);
   }
 
+  /**
+   * Turn off the pistons.
+   */
   public void PistonControlOff() { // TODO Add javadoc
     intakePistonRight.set(Value.kOff);
     intakePistonLeft.set(Value.kOff);
@@ -196,7 +199,7 @@ public class Intake extends Subsystem {
 
   @Override
   public void initDefaultCommand() { // Add default command that does nothing except stop intake movement
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+
+    setDefaultCommand(new StopIntakeMovement());
   }
 }

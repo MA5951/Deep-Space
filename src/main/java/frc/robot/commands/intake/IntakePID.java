@@ -37,9 +37,8 @@ public class IntakePID extends Command {
   @Override
   protected void initialize() {
 
-    intake.setSetpointPID(setpoint);
-    intake.setTolerancePID(tolerance);
-    intake.enablePID();
+    intake.setSetpoint(setpoint);
+    intake.enablePID(true);
   }
 
   @Override
@@ -51,7 +50,7 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return intake.isOnTargetPID();
+    return intake.isOnTarget();
   }
 
   /**
@@ -60,8 +59,8 @@ public class IntakePID extends Command {
    */
   @Override
   protected void end() {
-    intake.disablePID();
-    intake.intakeMovmentControl(0);
+    intake.enablePID(false);
+    intake.intakeAngleControl(0);
   }
 
   /**
@@ -70,7 +69,7 @@ public class IntakePID extends Command {
    */
   @Override
   protected void interrupted() {
-    intake.disablePID();
-    intake.intakeMovmentControl(0);
+    intake.enablePID(false);
+    intake.intakeAngleControl(0);
   }
 }
