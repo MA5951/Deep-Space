@@ -33,7 +33,7 @@ public class AngleRider extends Command {
 
   @Override
   protected void execute() {
-    rider.setAngleMotor(speed);
+    rider.controlAngleMotor(speed);
   }
 
   /**
@@ -49,7 +49,7 @@ public class AngleRider extends Command {
    */
   @Override
   protected void end() {
-    rider.setAngleMotor(0);
+    rider.controlAngleMotor(0);
   }
 
   /**
@@ -57,6 +57,6 @@ public class AngleRider extends Command {
    */
   @Override
   protected void interrupted() {
-    rider.setAngleMotor(0);
+    rider.controlAngleMotor(0);
   }
 }

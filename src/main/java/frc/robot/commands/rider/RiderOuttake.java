@@ -31,7 +31,7 @@ public class RiderOuttake extends Command {
 
   @Override
   protected void execute() {
-    rider.setIntakeMotor(1);
+    rider.controlIntakeMotor(1);
   }
 
   /**
@@ -48,9 +48,9 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void end() {
-    rider.setIntakeMotor(1);
+    rider.controlIntakeMotor(1);
     Timer.delay(0.5); // TODO : check if this works. If not, use a wait command and a command group.
-    rider.setIntakeMotor(0);
+    rider.controlIntakeMotor(0);
   }
 
   /**
@@ -58,6 +58,6 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void interrupted() {
-    rider.setIntakeMotor(0);
+    rider.controlIntakeMotor(0);
   }
 }

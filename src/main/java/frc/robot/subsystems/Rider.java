@@ -24,23 +24,25 @@ public class Rider extends Subsystem { // TODO Add javadoc
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static Rider r_Instance; 
+  private static Rider r_Instance;
 
   private WPI_TalonSRX angleMotor;
   private WPI_TalonSRX intakeMotor;
 
   private Encoder encoderAngle;
 
-  private DigitalInput limitSwitchA; // TODO Change Sensors completely. 
-  private DigitalInput limitSwitchB;  // Limit switch angle up, limit switch angle down, proximity sensor. 
+  private DigitalInput limitSwitcAngleUp; 
+  private DigitalInput limitSwitcAngleDown;
+  // TODO proximity sensor.
 
-  private PIDController angleController; // TODO angleEncoderPID
+  private PIDController anglePIDController; 
 
   public static final double KP_ANGLE = 0;
   public static final double KI_ANGLE = 0;
   public static final double KD_ANGLE = 0;
 
-  public static final double DISTANCE_PER_PULSE = 1.0;
+  private static final double DISTANCE_PER_PULSE = 0;
+  private static final double TOLERANCE = 0;
 
   /**
    * Initializes all Rider components
@@ -53,25 +55,23 @@ public class Rider extends Subsystem { // TODO Add javadoc
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
 
-    limitSwitchA = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
-    limitSwitchB = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
+    limitSwitcAngleUp = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
+    limitSwitcAngleDown = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
 
-    angleController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
+    anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
+    anglePIDController.setAbsoluteTolerance(TOLERANCE);
   }
 
   /**
    * Enables the angle PID
    */
-  public void enablePID() { // TODO Change to one function with parameter. 
-    angleController.enable();
-  }
-
-  /**
-   * Disables the angle PID
-   */
-  public void disablePID() {
-    angleController.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      anglePIDController.enable();
+    } else {
+      anglePIDController.disable();
+    }
   }
 
   /**
@@ -80,16 +80,7 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * @param setPoint the destination.
    */
   public void setSetPoint(double setPoint) {
-    angleController.setSetpoint(setPoint);
-  }
-
-  /**
-   * Set the set point tolerance
-   * 
-   * @param tolerance The given tolerance
-   */
-  public void setPIDTolerance(double tolerance) { // TODO no need for function, define tolerance in constant inside subsystem
-    angleController.setAbsoluteTolerance(tolerance);
+    anglePIDController.setSetpoint(setPoint);
   }
 
   /**
@@ -99,7 +90,7 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * @return Indication if rider is on target
    */
   public boolean isOnTarget() {
-    return angleController.onTarget();
+    return anglePIDController.onTarget();
   }
 
   /**
@@ -107,7 +98,7 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * 
    * @param speed The given power
    */
-  public void setIntakeMotor(double speed) { // TODO controlIntakeMotor
+  public void controlIntakeMotor(double speed) { 
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -116,12 +107,12 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * 
    * @param angleSpeed The given power
    */
-  public void setAngleMotor(double angleSpeed) { // TODO controlAngleMotor
+  public void controlAngleMotor(double angleSpeed) { 
     angleMotor.set(ControlMode.PercentOutput, angleSpeed);
   }
 
-  public boolean isLimitSwitchAnglePressed() { // TODO Delete this function. Redesign with new sensors. 
-    return limitSwitchA.get() || limitSwitchB.get();
+  public boolean isLimitSwitchAnglePressed() { // TODO Delete this function. Redesign with new sensors.
+    return limitSwitcAngleUp.get() || limitSwitcAngleDown.get();
   }
 
   public boolean isAngleInRange(double angle, double tolerance) {

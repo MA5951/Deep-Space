@@ -69,7 +69,7 @@ public class Elevator extends Subsystem {
     elevatorEncoderPID.setSetpoint(setSetpoint);
   }
 
-  public boolean isPIDOnTarget() { 
+  public boolean isPIDOnTarget() {
     return elevatorEncoderPID.onTarget();
   }
 

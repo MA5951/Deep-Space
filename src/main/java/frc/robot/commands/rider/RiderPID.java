@@ -28,8 +28,7 @@ public class RiderPID extends Command {
   @Override
   protected void initialize() {
     rider.setSetPoint(setPoint);
-    rider.setPIDTolerance(tolorance);
-    rider.enablePID();
+    rider.enablePID(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -46,13 +45,13 @@ public class RiderPID extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.disablePID();
+    rider.enablePID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.disablePID();
+    rider.enablePID(false);
   }
 }
