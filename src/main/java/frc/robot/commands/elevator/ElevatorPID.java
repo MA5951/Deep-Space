@@ -12,15 +12,14 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
   double setpoint;
-  double absoluteTolerance;
   Elevator elevator;
 
-  public ElevatorPID(double setSetpoint, double setAbsoluteTolerance) {
+  public ElevatorPID(double setSetpoint) {
     this.setpoint = setSetpoint;
-    this.absoluteTolerance = setAbsoluteTolerance; // TODO No need for tolerance as perameter
+
     elevator = Elevator.getInstance();
     requires(elevator);
-    elevator.setAbsoluteTolerance(setAbsoluteTolerance);
+
     elevator.setSetPoint(setSetpoint);
   }
 
@@ -38,7 +37,7 @@ public class ElevatorPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isOnTarget();
+    return elevator.isPIDOnTarget();
   }
 
   // Called once after isFinished returns true
