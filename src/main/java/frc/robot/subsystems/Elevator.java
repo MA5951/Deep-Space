@@ -21,53 +21,55 @@ import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 @Deprecated
 public class Elevator extends Subsystem {
-  private PIDController elevatorEncoderPID; 
-  private WPI_TalonSRX elevatorMotor; 
+  private PIDController elevatorEncoderPID;
+  private WPI_TalonSRX elevatorMotor;
 
-  private DigitalInput limitSwitchUpLeft; 
+  private DigitalInput limitSwitchUpLeft;
   private DigitalInput limitSwitchUpRight;
   private DigitalInput limitSwitchDownRight;
   private DigitalInput limitSwitchDownLeft;
-  
+
   private Encoder encoderElevator;
 
-  public static final double KP_ENCODER = 0; // TODO PID constants to zero for SAFETY reasons. 
-  public static final double KI_ENCODER = 0; // TODO KP_ENCODER
+  public static final double KP_ENCODER = 0;
+  public static final double KI_ENCODER = 0;
   public static final double KD_ENCODER = 0;
+  private static final double TOLERANCE = 0;
+  private static final double DISTANCE_PER_PULSE = 0;
 
   private static Elevator e_Instance;
 
-  private Elevator() { // TODO Add javadoc
+  /**
+   * Initializes all the elevator components.
+   */
+  private Elevator() {
     limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);
     limitSwitchUpRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_RIGHT);
     limitSwitchDownLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_LEFT);
     limitSwitchDownRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_RIGHT);
 
     encoderElevator = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B, false, EncodingType.k4X);
-    encoderElevator.setDistancePerPulse(1); // TODO Add distance per pulse constant. e.g DISTANCE_PER_PULSE
+    encoderElevator.setDistancePerPulse(DISTANCE_PER_PULSE);
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
+    elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
   }
 
-  public void enablePID() { // TODO turn into one function with parameter.  
-    elevatorEncoderPID.enable();
-  }
-
-  public void disablePID() {
-    elevatorEncoderPID.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      elevatorEncoderPID.enable();
+    } else {
+      elevatorEncoderPID.disable();
+    }
   }
 
   public void setSetPoint(double setSetpoint) {
     elevatorEncoderPID.setSetpoint(setSetpoint);
   }
 
-  public void setAbsoluteTolerance(double setAbsoluteTolerance) { // TODO Function not needed, set tolerance in constructor. 
-    elevatorEncoderPID.setAbsoluteTolerance(setAbsoluteTolerance);
-  }
-
-  public boolean isOnTarget() { // TODO isPIDOnTarget
+  public boolean isPIDOnTarget() { 
     return elevatorEncoderPID.onTarget();
   }
 
@@ -81,14 +83,14 @@ public class Elevator extends Subsystem {
   /**
    * @return Checks if at least one limit switch is pressed
    */
-  public boolean isLimitSwitchDown() {// TODO isLimitSwitchDownPressed
+  public boolean isLimitSwitchDownPressed() {
     return limitSwitchDownLeft.get() || limitSwitchDownRight.get();
   }
 
   /**
    * @return Checks if at least one limit switch is pressed
    */
-  public boolean isLimitSwitchUp() { // TODO isLimitSwitchUpPressed
+  public boolean isLimitSwitchUpPressed() {
     return limitSwitchUpLeft.get() || limitSwitchUpRight.get();
   }
 

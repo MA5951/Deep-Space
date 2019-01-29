@@ -27,7 +27,7 @@ public class ElevatorPID extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID();
+    elevator.enablePID(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -44,13 +44,13 @@ public class ElevatorPID extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.disablePID();
+    elevator.enablePID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.disablePID();
+    elevator.enablePID(false);
   }
 }
