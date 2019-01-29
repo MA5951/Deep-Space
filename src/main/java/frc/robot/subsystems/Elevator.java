@@ -29,11 +29,11 @@ public class Elevator extends Subsystem {
   private DigitalInput limitSwitchDownRight;
   private DigitalInput limitSwitchDownLeft;
   
-  private Encoder encoderElevator; // TODO encoderElevator
+  private Encoder encoderElevator;
 
-  public static final double KP_ELEVATOR = 0; // TODO PID constants to zero for SAFETY reasons. 
-  public static final double KI_ELEVATOR = 0; // TODO KP_ENCODER
-  public static final double KD_ELEVATOR = 0;
+  public static final double KP_ENCODER = 0; // TODO PID constants to zero for SAFETY reasons. 
+  public static final double KI_ENCODER = 0; // TODO KP_ENCODER
+  public static final double KD_ENCODER = 0;
 
   private static Elevator e_Instance;
 
@@ -48,7 +48,7 @@ public class Elevator extends Subsystem {
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
-    elevatorEncoderPID = new PIDController(KP_ELEVATOR, KI_ELEVATOR, KD_ELEVATOR, encoderElevator, elevatorMotor);
+    elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
   }
 
   public void enablePID() { // TODO turn into one function with parameter.  

@@ -14,6 +14,10 @@ public class ElevatorDown extends Command {
 
   Elevator elevator;
 
+  /**
+   * Create an object of chassis (create a new instance of chassis)
+   */
+
   public ElevatorDown() {
     elevator = Elevator.getInstance();
     requires(elevator);
@@ -39,7 +43,7 @@ public class ElevatorDown extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.resetEncoder(); 
+    elevator.resetEncoder();
     elevator.controlSpeed(0);
   }
 
