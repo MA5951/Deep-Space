@@ -38,8 +38,7 @@ public class Intake extends Subsystem {
   private PIDController anglePID; 
 
   // Pneomatic Pistons
-  private DoubleSolenoid intakePistonRight;
-  private DoubleSolenoid intakePistonLeft;
+  private DoubleSolenoid intakePiston;
 
   private static Intake i_Instance;
 
@@ -60,11 +59,9 @@ public class Intake extends Subsystem {
     limitSwitchUp = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_UP);
     limitSwitchDown = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_DOWN);
 
-    intakePistonRight = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_RIGHT_FORWARD,
-        RobotMap.INTAKE_PISTON_RIGHT_BACKWARD);
-    intakePistonLeft = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_LEFT_FORWARD,
-        RobotMap.INTAKE_PISTON_LEFT_BACKWARD);
-
+    intakePiston = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_FORWARD,
+        RobotMap.INTAKE_PISTON_BACKWARD);
+  
     intakeBallMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
 
     intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
@@ -157,24 +154,24 @@ public class Intake extends Subsystem {
    */
   @Deprecated
   public void PistonControlForward() {
-    intakePistonRight.set(Value.kForward);
-    intakePistonLeft.set(Value.kForward);
+    intakePiston.set(Value.kForward);
+    
   }
 
   /**
    * Give power to the pistons (down)
    */
   public void PistonControlReverse() {
-    intakePistonRight.set(Value.kReverse);
-    intakePistonLeft.set(Value.kReverse);
+    intakePiston.set(Value.kReverse);
+    
   }
 
   /**
    * Turn off the pistons.
    */
   public void PistonControlOff() { // TODO Add javadoc
-    intakePistonRight.set(Value.kOff);
-    intakePistonLeft.set(Value.kOff);
+    intakePiston.set(Value.kOff);
+  
   }
 
   /**

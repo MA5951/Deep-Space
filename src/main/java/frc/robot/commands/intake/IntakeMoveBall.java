@@ -14,15 +14,15 @@ public class IntakeMoveBall extends Command {
 
   private Intake intake = Intake.getInstance();
 
-  private double speed;
+ 
 
   /**
    * Creates new {IntakePush} command.
    * 
    * @param speed The given speed of the {intakeControl}.
    */
-  public IntakeMoveBall(double speed) {
-    this.speed = speed;
+  public IntakeMoveBall() {
+
     requires(intake);
   }
 
@@ -36,7 +36,7 @@ public class IntakeMoveBall extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeControl(speed);
+    intake.intakeControl(-1);
   }
 
   /**

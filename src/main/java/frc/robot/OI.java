@@ -8,72 +8,50 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.intake.*;
 
-import frc.robot.triggers.TriggerReset;
-import frc.robot.triggers.LimitSwitchDownTrigger;
+//import frc.robot.triggers.TriggerReset;
+//import frc.robot.util.JoystickUtil.XBOX;
+//import frc.robot.triggers.LimitSwitchDownTrigger;
+//import frc.robot.triggers.POVTrigger;
 
 /**
  * Maps commands to buttons/POVs/triggers
  */
 public class OI {
-  public static final Joystick OPERATOR_STICK = new Joystick(RobotMap.JOYSTICK_OPERATOR);
+  public static final XboxController OPERATOR_STICK = new XboxController(RobotMap.JOYSTICK_OPERATOR);
   public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
-  /*
-  private JoystickButton elevatorUp = new JoystickButton(OPERATOR_STICK, XBOX.A);
-  private JoystickButton elevatorDown = new JoystickButton(OPERATOR_STICK, XBOX.Y);
-  private JoystickButton elevatorPIDUp = new JoystickButton(OPERATOR_STICK, XBOX.B);
-  private JoystickButton elevatorPIDDown = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  
-  private POVTrigger riderAngleDown = new POVTrigger(XBOX.POV_DOWN, OPERATOR_STICK);
-  private POVTrigger riderAngleUp = new POVTrigger(XBOX.POV_UP, OPERATOR_STICK);
-  private JoystickButton riderPID = new JoystickButton(OPERATOR_STICK, XBOX.START);
-  private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.LB);
-  private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.RB);
-  */
-  
-  // Joystick buttons
-  private JoystickButton intakePull = new JoystickButton(OPERATOR_STICK, 1);
-  private JoystickButton intakePush = new JoystickButton(OPERATOR_STICK, 2);
-  private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 5);
-  private JoystickButton intakeUp = new JoystickButton(OPERATOR_STICK, 3);
-  private JoystickButton intakeDown = new JoystickButton(OPERATOR_STICK, 4);
-  private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 6);
 
-  private LimitSwitchDownTrigger triggerStopIntake = new LimitSwitchDownTrigger();
-  private TriggerReset resetIntake = new TriggerReset();
+  //private JoystickButton elevatorPIDUp = new JoystickButton(OPERATOR_STICK, XBOX.B);
+  //private JoystickButton elevatorPIDDown = new JoystickButton(OPERATOR_STICK, XBOX.X);
+
+  //private JoystickButton riderPID = new JoystickButton(OPERATOR_STICK, XBOX.START);
+  //private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.LB); // x
+  //private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.RB); // x
+
+  // Joystick buttons
+  private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, 1);
+  //private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, 3);
+  //private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 5);
+  private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, 6);
+  private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, 5);
+  private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, 8);
+
+  //private LimitSwitchDownTrigger triggerStopIntake = new LimitSwitchDownTrigger();
+  //private TriggerReset resetIntake = new TriggerReset();
 
   /**
    * Initialize all the intake components and set all joystick buttons.
    */
   public OI() {
+    moveIntakeDown.whileHeld(new IntakeMovement(-0.5)); 
+    moveIntakeUp.whileHeld(new IntakeMovement(0.5)); 
+    intakeSolenoid.whenPressed(new PistonCommandGroup());
+    intakePullBall.whenPressed(new PullBall());
+    intakePullBall.whenPressed(new PushIntake());
 
-    //TODO
-    /* 
-    elevatorPIDDown.whenPressed(new ElevatorPID(40, 0.5));
-    elevatorPIDUp.whenPressed(new ElevatorPID(50, 0.5));
-    elevatorUp.whenPressed(new ElevatorUp());
-    elevatorDown.whenPressed(new ElevatorDown());
-
-    
-    riderIntake.whenPressed(new RiderIntake());
-    riderOuttake.whenPressed(new RiderOuttake());
-    riderPID.whenPressed(new RiderPID(500, 0.5));
-    riderAngleDown.whenActive(new AngleRider(1, 1000, 10));
-    riderAngleUp.whenActive(new AngleRider(-1, 1000, 10));
-    */
-
-
-    // CHECK BEFORE EVERY RUN
-    intakePush.whileHeld(new IntakeMoveBall(-1));
-   // intakePull.whileHeld(new IntakePull(1));
-    //intakePID.whileHeld(new IntakePID(1, 0.5)); 
-    intakeSolenoid.whileHeld(new PistonCommandGroup());
-    resetIntake.whenActive(new ResetEncoder()); 
-   // triggerStopIntake.whileActive(new StopIntakeMovement()); TODO I think using default command + whileheld is better. 
-    intakeUp.whileHeld(new IntakeMovement(0.5));
-    intakeDown.whileHeld(new IntakeMovement(-0.3));
   }
 }

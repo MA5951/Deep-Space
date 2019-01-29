@@ -21,7 +21,7 @@ public class IntakePull extends Command {
 
   private Intake intake = Intake.getInstance();
 
-  private double speed;
+
 
   /**
    * Creates new {IntakePull} command.
@@ -29,7 +29,7 @@ public class IntakePull extends Command {
    * @param speed the given power of {intakeControl}.
    */
   public IntakePull() {
-    this.speed = speed;
+   
     requires(intake);
     requires(rider);
   }
@@ -44,7 +44,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeControl(-1);
+    intake.intakeControl(1);
   }
 
   /**

@@ -8,20 +8,22 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
+
 import frc.robot.subsystems.Intake;
 
 public class IntakeMovement extends Command {
 
   private Intake intake = Intake.getInstance();
-  private double speedUpAndDown;
+  Double speed;
 
   /**
    * Creates new {IntakeMovement} command.
+   * 
    * @param speedUpAndDown the given power of {intakeMovmentControl} motor.
    */
-  public IntakeMovement(double speedUpAndDown) {
+  public IntakeMovement(Double speed) {
+    this.speed = speed;
 
-    this.speedUpAndDown = speedUpAndDown;
     requires(intake);
   }
 
@@ -30,13 +32,12 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected void initialize() {
-    intake.intakeAngleControl(speedUpAndDown);
 
   }
 
   @Override
   protected void execute() {
-
+    intake.intakeAngleControl(speed);
   }
 
   /**
@@ -44,11 +45,12 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return  intake.isLimitSwitchUpPressed() || intake.isLimitSwitchDownPressed();
+    return (speed > 0 && intake.isLimitSwitchUpPressed() || speed < 0 && intake.isLimitSwitchDownPressed());
   }
 
   /**
-   * Disable the {intakeMovmentControl} function if {isFinished} function return true.
+   * Disable the {intakeMovmentControl} function if {isFinished} function return
+   * true.
    */
   @Override
   protected void end() {
@@ -56,7 +58,8 @@ public class IntakeMovement extends Command {
   }
 
   /**
-   * Disable the {intakeMovmentControl} function if {end} function was interrupted.
+   * Disable the {intakeMovmentControl} function if {end} function was
+   * interrupted.
    */
   @Override
   protected void interrupted() {
