@@ -10,7 +10,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.robot.commands.intake.*;
+import frc.robot.commands.intake.IntakeMovement;
+import frc.robot.commands.intake.IntakePull;
+import frc.robot.commands.intake.PistonCommandGroup;
+import frc.robot.commands.intake.PullBall;
+import frc.robot.commands.intake.PushBall;
 
 //import frc.robot.triggers.TriggerReset;
 //import frc.robot.util.JoystickUtil.XBOX;
@@ -34,6 +38,7 @@ public class OI {
 
   // Joystick buttons
   private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, 1);
+  private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, 4);
   //private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, 3);
   //private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, 5);
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, 6);
@@ -50,8 +55,9 @@ public class OI {
     moveIntakeDown.whileHeld(new IntakeMovement(-0.5)); 
     moveIntakeUp.whileHeld(new IntakeMovement(0.5)); 
     intakeSolenoid.whenPressed(new PistonCommandGroup());
-    intakePullBall.whenPressed(new PullBall());
-    intakePullBall.whenPressed(new PushIntake());
-
+    
+    intakePullBall.whileHeld(new PullBall());
+    intakePushBall.whileHeld(new PushBall());
+   
   }
 }

@@ -11,9 +11,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -67,8 +67,7 @@ public class Intake extends Subsystem {
     intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
     intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
-    // TODO Check if intakeAngleB needs to be inverted
-    intakeAngleMotorA.setInverted(true);
+    intakeAngleMotorB.setInverted(true);
     intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());
 
     encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_A, RobotMap.INTAKE_ENCODER_B, false, EncodingType.k4X);
@@ -84,7 +83,7 @@ public class Intake extends Subsystem {
    * @return Indication if {limitSwitchUp} is pressed
    */
   public boolean isLimitSwitchUpPressed() {
-    return limitSwitchUp.get();
+    return false; //limitSwitchUp.get();
   }
 
   /**
@@ -93,7 +92,7 @@ public class Intake extends Subsystem {
    * @return Indication if {limitSwitchDown} is pressed
    */
   public boolean isLimitSwitchDownPressed() {
-    return limitSwitchDown.get();
+    return false; //limitSwitchDown.get();
   }
 
   /**

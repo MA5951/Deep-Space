@@ -15,8 +15,8 @@ public class PullBall extends CommandGroup {
    * Add your docs here.
    */
   public PullBall() {
-addParallel(new IntakePull());
-addSequential(new RiderIntake());
+    addParallel(new IntakePull());
+    addSequential(new RiderIntake());
   
   }
 }

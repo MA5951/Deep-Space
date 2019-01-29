@@ -10,11 +10,11 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.rider.RiderOuttake;
 
-public class PushIntake extends CommandGroup {
+public class PushBall extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public PushIntake() {
+  public PushBall() {
     addParallel(new IntakeMoveBall());
    addSequential(new RiderOuttake());
  
