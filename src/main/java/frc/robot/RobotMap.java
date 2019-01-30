@@ -59,6 +59,7 @@ public class RobotMap {
   public static final int RIDER_ENCODER_B = 15;
   public static final int RIDER_ANGLE_LIMIT_SWITCH = 16;
   public static final int RIDER_INTAKE_LIMIT_SWITCH = 17;
+  public static final int RIDER_PROXIMITY_SENSOR = 18;
 
   // Pneumatic
   public static final int PCM = 0;

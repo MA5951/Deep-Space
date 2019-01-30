@@ -20,7 +20,7 @@ import frc.robot.RobotMap;
 
 // TODO Redesign rider commands after redesigning subsystem. 
 @Deprecated
-public class Rider extends Subsystem { // TODO Add javadoc
+public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
@@ -31,11 +31,11 @@ public class Rider extends Subsystem { // TODO Add javadoc
 
   private Encoder encoderAngle;
 
-  private DigitalInput limitSwitcAngleUp; 
+  private DigitalInput limitSwitcAngleUp;
   private DigitalInput limitSwitcAngleDown;
-  // TODO proximity sensor.
+  private DigitalInput ir;
 
-  private PIDController anglePIDController; 
+  private PIDController anglePIDController;
 
   public static final double KP_ANGLE = 0;
   public static final double KI_ANGLE = 0;
@@ -57,6 +57,7 @@ public class Rider extends Subsystem { // TODO Add javadoc
 
     limitSwitcAngleUp = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
     limitSwitcAngleDown = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
+    ir = new DigitalInput(RobotMap.RIDER_PROXIMITY_SENSOR);
 
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -98,7 +99,7 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * 
    * @param speed The given power
    */
-  public void controlIntakeMotor(double speed) { 
+  public void controlIntakeMotor(double speed) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -107,18 +108,54 @@ public class Rider extends Subsystem { // TODO Add javadoc
    * 
    * @param angleSpeed The given power
    */
-  public void controlAngleMotor(double angleSpeed) { 
+  public void controlAngleMotor(double angleSpeed) {
     angleMotor.set(ControlMode.PercentOutput, angleSpeed);
   }
 
-  public boolean isLimitSwitchAnglePressed() { // TODO Delete this function. Redesign with new sensors.
-    return limitSwitcAngleUp.get() || limitSwitcAngleDown.get();
+  /**
+   * Check whether {limitSwitcAngleUp} is pressed.
+   * 
+   * @return Indication if {limitSwitcAngleUp} is pressed.
+   */
+  public boolean isLimitSwitchAngleUpPressed() {
+    return limitSwitcAngleUp.get();
   }
 
+  /**
+   * Check whether {limitSwitcAngleDown} is pressed.
+   * 
+   * @return Indication if {limitSwitcAngleDown} is pressed.
+   */
+  public boolean isLimitSwitchAngleDownPressed() {
+    return limitSwitcAngleDown.get();
+  }
+
+  /**
+   * Check whether proximity sensor is on range.
+   * 
+   * @return Indication if proximity sensor is on range.
+   */
+  public boolean getProximitySensorInRange() {
+    return ir.get();
+  }
+
+  /**
+   * Check whether {encoderAngle} smaller than angle plus tolerance. 
+   * Check whether {encoderAngle} bigger than angle minus tolerance.
+   * 
+   * @param angle     the given angle.
+   * @param tolerance the given range.
+   * @return Indication if the angle is on the given range.
+   */
   public boolean isAngleInRange(double angle, double tolerance) {
     return encoderAngle.get() < angle + tolerance && encoderAngle.get() > angle - tolerance;
   }
 
+  /**
+   * Get the current angle.
+   * 
+   * @return Indication of the current angle.
+   */
   public int getCurrentAngle() {
     return encoderAngle.get();
   }

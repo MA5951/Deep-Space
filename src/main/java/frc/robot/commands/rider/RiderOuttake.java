@@ -39,7 +39,7 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return !rider.isLimitSwitchAnglePressed();
+    return !rider.getProximitySensorInRange();
   }
 
   /**
