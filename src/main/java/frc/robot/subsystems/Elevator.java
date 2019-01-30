@@ -10,12 +10,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
 
@@ -55,6 +56,16 @@ public class Elevator extends Subsystem {
     elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
+  }
+  
+  public void ElevatorSmartdashboardValue() {
+    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
+    SmartDashboard.putBoolean("Elevator Limit Switch Up Right", limitSwitchUpRight.get());
+    SmartDashboard.putBoolean("Elevator Limit Switch Down Right", limitSwitchDownRight.get());
+    SmartDashboard.putBoolean("Elevator Limit Switch Up Left", limitSwitchUpLeft.get());
+    SmartDashboard.putBoolean("Elevator Limit Switch Down Left", limitSwitchDownLeft.get());
+    
   }
 
   public void enablePID(boolean enable) {

@@ -10,12 +10,15 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.Chassis.TankDrive;
 
@@ -97,6 +100,12 @@ public class Chassis extends Subsystem {
 
     navXController.setAbsoluteTolerance(NAVX_TOLERANCE);
 
+  }
+
+  public void ChassisSmartdashboardValue() {
+    SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Left Chassis Motors", leftFrontMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Chassis Navx", navX.getAngle());
   }
 
   /**

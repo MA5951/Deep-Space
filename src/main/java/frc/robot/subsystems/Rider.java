@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 // TODO Redesign rider commands after redesigning subsystem. 
@@ -62,6 +63,16 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
+  }
+
+  public void RiderSmartdashboardValue() {
+    SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
+    SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
+    SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.get());
+    SmartDashboard.putBoolean("Rider Limit Switch Up", limitSwitcAngleUp.get());
+    SmartDashboard.putBoolean("Rider Limit Switch Down", limitSwitcAngleDown.get());
+    SmartDashboard.putBoolean("Rider Proximity Sensor", ir.get());
+
   }
 
   /**
@@ -138,6 +149,7 @@ public class Rider extends Subsystem {
   public boolean getProximitySensorInRange() {
     return ir.get();
   }
+
   /**
    * Get the current angle.
    * 

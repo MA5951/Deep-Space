@@ -17,7 +17,9 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.intake.StopIntakeMovement;
 
@@ -38,7 +40,7 @@ public class Intake extends Subsystem {
   private PIDController anglePID; 
 
   // Pneomatic Pistons
-  private DoubleSolenoid intakePiston;
+  private Solenoid intakePiston;
 
   private static Intake i_Instance;
 
@@ -59,8 +61,7 @@ public class Intake extends Subsystem {
     limitSwitchUp = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_UP);
     limitSwitchDown = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_DOWN);
 
-    intakePiston = new DoubleSolenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_FORWARD,
-        RobotMap.INTAKE_PISTON_BACKWARD);
+    intakePiston = new Solenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_FORWARD);
   
     intakeBallMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
 
@@ -77,6 +78,16 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
   }
 
+  public void IntakeSmartdashboardValue() {
+    SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.getMotorOutputPercent());
+    SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Intake Encoder", encoderIntake.get());
+    SmartDashboard.putBoolean("Intake Limit Switch Up", limitSwitchUp.get());
+    SmartDashboard.putBoolean("Intake Limit Switch Down", limitSwitchDown.get());
+    SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
+
+  }
+  
   /**
    * Check whether limit switch is pressed
    * 
@@ -153,7 +164,7 @@ public class Intake extends Subsystem {
    */
   @Deprecated
   public void PistonControlForward() {
-    intakePiston.set(Value.kForward);
+    intakePiston.set(true);
     
   }
 
@@ -161,15 +172,15 @@ public class Intake extends Subsystem {
    * Give power to the pistons (down)
    */
   public void PistonControlReverse() {
-    intakePiston.set(Value.kReverse);
+    intakePiston.set(false);
     
   }
 
   /**
    * Turn off the pistons.
    */
-  public void PistonControlOff() { // TODO Add javadoc
-    intakePiston.set(Value.kOff);
+  public void PistonControlOff() {
+    intakePiston.set(false);
   
   }
 

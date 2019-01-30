@@ -9,7 +9,11 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
   public static OI m_oi;
@@ -18,6 +22,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     m_oi = new OI();
     Chassis.getInstance();
+    
     
   }
 
@@ -53,7 +58,13 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
+    Chassis.getInstance().ChassisSmartdashboardValue();
+    Intake.getInstance().IntakeSmartdashboardValue();
+    Elevator.getInstance().ElevatorSmartdashboardValue();
+    Rider.getInstance().RiderSmartdashboardValue();
+    SmartDashboard.updateValues();
   }
+
 
   @Override
   public void testPeriodic() {
