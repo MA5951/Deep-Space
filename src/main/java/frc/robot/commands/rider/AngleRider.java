@@ -41,7 +41,7 @@ public class AngleRider extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return rider.isAngleInRange(angle, tolerance);
+    return speed<0&&rider.isLimitSwitchAngleDownPressed()||speed>0&&rider.isLimitSwitchAngleUpPressed();
   }
 
   /**

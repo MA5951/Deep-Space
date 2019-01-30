@@ -138,19 +138,6 @@ public class Rider extends Subsystem {
   public boolean getProximitySensorInRange() {
     return ir.get();
   }
-
-  /**
-   * Check whether {encoderAngle} smaller than angle plus tolerance. 
-   * Check whether {encoderAngle} bigger than angle minus tolerance.
-   * 
-   * @param angle     the given angle.
-   * @param tolerance the given range.
-   * @return Indication if the angle is on the given range.
-   */
-  public boolean isAngleInRange(double angle, double tolerance) {
-    return encoderAngle.get() < angle + tolerance && encoderAngle.get() > angle - tolerance;
-  }
-
   /**
    * Get the current angle.
    * 
