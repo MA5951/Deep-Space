@@ -11,22 +11,23 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
-  double setpoint;
+  double setSetpoint;
   Elevator elevator;
 
   public ElevatorPID(double setSetpoint) {
-    this.setpoint = setSetpoint;
+    this.setSetpoint = setSetpoint;
 
     elevator = Elevator.getInstance();
     requires(elevator);
 
-    elevator.setSetPoint(setSetpoint);
+   
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     elevator.enablePID(true);
+    elevator.setSetPoint(setSetpoint);
   }
 
   // Called repeatedly when this Command is scheduled to run
