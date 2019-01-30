@@ -54,10 +54,12 @@ public class Elevator extends Subsystem {
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
+    elevatorMotor.setInverted(true);
+
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
   }
-  
+
   public void ElevatorSmartdashboardValue() {
     SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
@@ -65,7 +67,7 @@ public class Elevator extends Subsystem {
     SmartDashboard.putBoolean("Elevator Limit Switch Down Right", limitSwitchDownRight.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Up Left", limitSwitchUpLeft.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Down Left", limitSwitchDownLeft.get());
-    
+
   }
 
   public void enablePID(boolean enable) {
@@ -95,14 +97,14 @@ public class Elevator extends Subsystem {
    * @return Checks if at least one limit switch is pressed
    */
   public boolean isLimitSwitchDownPressed() {
-    return limitSwitchDownLeft.get() || limitSwitchDownRight.get();
+    return false; // limitSwitchDownLeft.get() || limitSwitchDownRight.get();
   }
 
   /**
    * @return Checks if at least one limit switch is pressed
    */
   public boolean isLimitSwitchUpPressed() {
-    return limitSwitchUpLeft.get() || limitSwitchUpRight.get();
+    return false; // limitSwitchUpLeft.get() || limitSwitchUpRight.get();
   }
 
   /**

@@ -20,7 +20,6 @@ public class RobotMap {
   public static final int JOYSTICK_DRIVER_LEFT = 1;
   public static final int JOYSTICK_DRIVER_RIGHT = 2;
 
-  
   // Motors
   public static final int CHASSIS_LEFT_FRONT = 1;
   public static final int CHASSIS_LEFT_REAR = 2;
@@ -33,9 +32,8 @@ public class RobotMap {
 
   public static final int RIDER_ANGLE_MOTOR = 8;
   public static final int RIDER_INTAKE_MOTOR = 9;
-  
-  public static final int ELEVATOR_TALON = 10;
 
+  public static final int ELEVATOR_TALON = 10;
 
   // Sensors
   public static final int CHASSIS_RIGHT_ENCODER_A = 0;

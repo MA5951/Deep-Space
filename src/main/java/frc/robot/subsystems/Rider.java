@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.rider.AngleRider;
 
 // TODO Redesign rider commands after redesigning subsystem. 
 @Deprecated
@@ -138,7 +139,7 @@ public class Rider extends Subsystem {
    * @return Indication if {limitSwitcAngleDown} is pressed.
    */
   public boolean isLimitSwitchAngleDownPressed() {
-    return limitSwitcAngleDown.get();
+    return false; //limitSwitcAngleDown.get();
   }
 
   /**
@@ -147,7 +148,7 @@ public class Rider extends Subsystem {
    * @return Indication if proximity sensor is on range.
    */
   public boolean getProximitySensorInRange() {
-    return ir.get();
+    return false; //ir.get();
   }
 
   /**
@@ -179,6 +180,6 @@ public class Rider extends Subsystem {
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here
+    setDefaultCommand(new AngleRider());
   }
 }

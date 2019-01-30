@@ -40,7 +40,7 @@ public class AngleRider extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return speed < 0 && rider.isLimitSwitchAngleDownPressed() || speed > 0 && rider.isLimitSwitchAngleUpPressed();
+    return false; // speed < 0 && rider.isLimitSwitchAngleDownPressed() || speed > 0 && rider.isLimitSwitchAngleUpPressed();
   }
 
   /**

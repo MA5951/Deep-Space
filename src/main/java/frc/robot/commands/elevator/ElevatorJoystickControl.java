@@ -27,7 +27,7 @@ public class ElevatorJoystickControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() { // TODO For SAFETY check & set to zero if limit switch is pressed. 
-    elevator.controlSpeed(OI.OPERATOR_STICK.getY());
+    elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1));
   }
 
   // Make this return true when this Command no longer needs to run execute()
