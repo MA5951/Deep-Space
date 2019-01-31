@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.rider.AngleRider;
 
-// TODO Redesign rider commands after redesigning subsystem. 
 @Deprecated
 public class Rider extends Subsystem {
   // Put methods for controlling this subsystem

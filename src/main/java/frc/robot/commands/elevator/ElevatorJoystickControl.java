@@ -13,7 +13,7 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorJoystickControl extends Command {
   Elevator elevator;
-
+   double speed;
   public ElevatorJoystickControl() {
     elevator = Elevator.getInstance();
     requires(elevator);
@@ -26,14 +26,15 @@ public class ElevatorJoystickControl extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() { // TODO For SAFETY check & set to zero if limit switch is pressed. 
-    elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1));
+  protected void execute() {  
+    speed=OI.OPERATOR_STICK.getRawAxis(1);
+    elevator.controlSpeed(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return elevator.isLimitSwitchUpPressed()&&speed>0||elevator.isLimitSwitchDownPressed()&&speed<0;
   }
 
   // Called once after isFinished returns true
