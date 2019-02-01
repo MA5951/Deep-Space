@@ -12,7 +12,7 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorDown extends Command {
 
-  Elevator elevator;
+  Elevator elevator; 
 
   /**
    * Create an object of chassis (create a new instance of chassis)

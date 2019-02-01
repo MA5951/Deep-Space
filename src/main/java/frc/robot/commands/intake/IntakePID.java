@@ -50,7 +50,7 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return intake.isOnTarget();
+    return intake.isPIDOnTarget();
   }
 
   /**

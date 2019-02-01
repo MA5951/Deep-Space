@@ -25,7 +25,7 @@ public class PistonOff extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    intake.PistonControlOff();
+    intake.pistonControlOff();
   }
 
 }

@@ -43,7 +43,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeControl(1);
+    intake.intakeBallControl(1);
   }
 
   /**
@@ -59,7 +59,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void end() {
-    intake.intakeControl(0);
+    intake.intakeBallControl(0);
   }
 
   /**
@@ -67,6 +67,6 @@ public class IntakePull extends Command {
    */
   @Override
   protected void interrupted() {
-    intake.intakeControl(0);
+    intake.intakeBallControl(0);
   }
 }

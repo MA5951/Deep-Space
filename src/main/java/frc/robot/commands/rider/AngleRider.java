@@ -12,7 +12,7 @@ import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
 public class AngleRider extends Command {
-  double speed; // TODO no need for member
+  double speed; 
 
   private Rider rider = Rider.getInstance();
 
@@ -39,8 +39,8 @@ public class AngleRider extends Command {
    * If the current angle is the desire one, the getCurrentAngle will disable
    */
   @Override
-  protected boolean isFinished() { // TODO default command is always false, implement SAFETY in execute and interrupted
-    return false; // speed < 0 && rider.isLimitSwitchAngleDownPressed() || speed > 0 && rider.isLimitSwitchAngleUpPressed();
+  protected boolean isFinished() { 
+    return  speed < 0 && rider.isLimitSwitchAngleDownPressed() || speed > 0 && rider.isLimitSwitchAngleUpPressed();
   }
 
   /**

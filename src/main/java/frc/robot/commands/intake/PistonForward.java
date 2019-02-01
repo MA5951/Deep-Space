@@ -19,7 +19,7 @@ public class PistonForward extends InstantCommand {
    */
   @Override
   protected void initialize() {
-    intake.PistonControlForward();
+    intake.pistonControlForward();
   }
 
 }

@@ -26,7 +26,7 @@ public class PistonBack extends InstantCommand {
    */
   @Override
   protected void initialize() {
-    intake.PistonControlReverse();
+    intake.pistonControlReverse();
   }
 
 }

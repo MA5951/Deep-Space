@@ -60,9 +60,9 @@ public class Elevator extends Subsystem { // TODO Add javadoc
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
   }
 
-  public void ElevatorSmartdashboardValue() {
+  public void elevatorSmartdashboardValue() {
     SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get()); // TODO Use getDistance
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance()); 
     SmartDashboard.putBoolean("Elevator Limit Switch Up Right", limitSwitchUpRight.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Down Right", limitSwitchDownRight.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Up Left", limitSwitchUpLeft.get());

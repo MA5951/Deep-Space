@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
-  double setSetpoint; // TODO setPoint is a better name
+  double setPoint; 
   Elevator elevator;
 
-  public ElevatorPID(double setSetpoint) {
-    this.setSetpoint = setSetpoint;
+  public ElevatorPID(double setPoint) {
+    this.setPoint = setPoint;
 
     elevator = Elevator.getInstance();
     requires(elevator);
@@ -27,7 +27,7 @@ public class ElevatorPID extends Command {
   @Override
   protected void initialize() {
     elevator.enablePID(true);
-    elevator.setSetPoint(setSetpoint); // TODO suggestion, maybe make setpoint dynamic and controllable by joystick?
+    elevator.setSetPoint(setPoint); 
   }
 
   // Called repeatedly when this Command is scheduled to run

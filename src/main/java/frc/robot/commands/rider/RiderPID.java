@@ -15,18 +15,18 @@ import frc.robot.subsystems.Rider;
  */
 public class RiderPID extends Command {
   private double setPoint;
-  private double tolorance;
+  
   private Rider rider = Rider.getInstance();
 
-  public RiderPID(double setPoint, double tolorance) {
+  public RiderPID(double setPoint) {
     this.setPoint = setPoint;
-    this.tolorance = tolorance;
+    
     requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() { // TODO same tip as in elevator PID
+  protected void initialize() { 
     rider.setSetPoint(setPoint);
     rider.enablePID(true);
   }

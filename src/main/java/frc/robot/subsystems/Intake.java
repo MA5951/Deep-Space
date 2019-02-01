@@ -8,14 +8,12 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -56,6 +54,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
   public static final double KI_ENCODER = 0.0;
   public static final double KD_ENCODER = 0.0;
   private static final double DISTANCE_PER_PULSE = 1;
+  private static final double TOLERANCE = 0;
 
   /**
    * Initializes all Chassis components
@@ -80,12 +79,13 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
     encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
+    anglePID.setAbsoluteTolerance(TOLERANCE);
   }
 
-  public void IntakeSmartdashboardValue() {
-    SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.getMotorOutputPercent());
+  public void intakeSmartdashboardValue() {
+    SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.get());
     SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
-    SmartDashboard.putNumber("Intake Encoder", encoderIntake.get()); 
+    SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance()); 
     SmartDashboard.putBoolean("Intake Limit Switch Up", limitSwitchUp.get());
     SmartDashboard.putBoolean("Intake Limit Switch Down", limitSwitchDown.get());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
@@ -130,18 +130,13 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
     anglePID.setSetpoint(setpoint);
   }
 
-  /**
-   * Set the PIDController range
-   * 
-   * @param Tolerance The given range
-   */ // TODO Javadoc with no function?
-
+ 
   /**
    * Check whether {anglePIDController} is on target
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTarget() { // TODO isPIDOnTarget 
+  public boolean isPIDOnTarget() { 
     return anglePID.onTarget();
   }
 
@@ -150,7 +145,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
    * 
    * @param speed The given power
    */
-  public void intakeControl(double speed) { // TODO intakeBallControl maybe?
+  public void intakeBallControl(double speed) { 
     intakeBallMotor.set(speed);
   }
 
@@ -167,7 +162,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
    * Give power to the pistons (up).
    */
   @Deprecated
-  public void PistonControlForward() { // TODO lowercase
+  public void pistonControlForward() { 
     intakePiston.set(true);
     
   }
@@ -175,7 +170,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
   /**
    * Give power to the pistons (down)
    */
-  public void PistonControlReverse() {  // TODO lowercase
+  public void pistonControlReverse() {  
     intakePiston.set(false);
     
   }
@@ -183,7 +178,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
   /**
    * Turn off the pistons.
    */
-  public void PistonControlOff() {  // TODO lowercase
+  public void pistonControlOff() {  
     intakePiston.set(false);
   
   }

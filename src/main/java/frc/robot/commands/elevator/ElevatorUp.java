@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorUp extends Command {
-  Elevator elevator; // TODO Encapluation please (I won't write this on every encapsulation problem, please edit all members accordingly)
+  Elevator elevator; 
 
   public ElevatorUp() {
     elevator = Elevator.getInstance();

@@ -34,7 +34,7 @@ public class Rider extends Subsystem {
 
   private DigitalInput limitSwitcAngleUp;
   private DigitalInput limitSwitcAngleDown;
-  private DigitalInput ir; // TODO maybe proximity sensor is a better name? 
+  private DigitalInput proximitySensor; 
 
   private PIDController anglePIDController;
 
@@ -58,20 +58,20 @@ public class Rider extends Subsystem {
 
     limitSwitcAngleUp = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
     limitSwitcAngleDown = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
-    ir = new DigitalInput(RobotMap.RIDER_PROXIMITY_SENSOR);
+    proximitySensor = new DigitalInput(RobotMap.RIDER_PROXIMITY_SENSOR);
 
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
   }
 
-  public void RiderSmartdashboardValue() {
+  public void riderSmartdashboardValue() {
     SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
     SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
-    SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.get());
+    SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
     SmartDashboard.putBoolean("Rider Limit Switch Up", limitSwitcAngleUp.get());
     SmartDashboard.putBoolean("Rider Limit Switch Down", limitSwitcAngleDown.get());
-    SmartDashboard.putBoolean("Rider Proximity Sensor", ir.get());
+    SmartDashboard.putBoolean("Rider Proximity Sensor", proximitySensor.get());
 
   }
 
@@ -155,8 +155,8 @@ public class Rider extends Subsystem {
    * 
    * @return Indication of the current angle.
    */
-  public int getCurrentAngle() {
-    return encoderAngle.get();
+  public double getCurrentAngle() {
+    return encoderAngle.getDistance();
   }
 
   /**

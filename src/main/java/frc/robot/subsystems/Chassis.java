@@ -102,7 +102,7 @@ public class Chassis extends Subsystem {
 
   }
 
-  public void ChassisSmartdashboardValue() {
+  public void chassisSmartdashboardValue() {
     SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("Left Chassis Motors", leftFrontMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("Chassis Navx", navX.getAngle());

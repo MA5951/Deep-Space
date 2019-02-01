@@ -12,8 +12,9 @@ import frc.robot.OI;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorJoystickControl extends Command {
-  Elevator elevator; // TODO Encapsulation please
-   double speed; // TODO unnecessary member 
+  Elevator elevator;
+  double speed;
+
   public ElevatorJoystickControl() {
     elevator = Elevator.getInstance();
     requires(elevator);
@@ -26,15 +27,15 @@ public class ElevatorJoystickControl extends Command {
 
   // Called repeatedly when this Command is scheduled to run
   @Override
-  protected void execute() {  
-    speed=OI.OPERATOR_STICK.getRawAxis(1);
+  protected void execute() {
+    speed = OI.OPERATOR_STICK.getRawAxis(1);
     elevator.controlSpeed(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() { // TODO isfinished is supposed to be false in default command, add safety inside execute and interrupted. 
-    return elevator.isLimitSwitchUpPressed()&&speed>0||elevator.isLimitSwitchDownPressed()&&speed<0;
+  protected boolean isFinished() { 
+    return elevator.isLimitSwitchUpPressed() && speed > 0 || elevator.isLimitSwitchDownPressed() && speed < 0;
   }
 
   // Called once after isFinished returns true
