@@ -26,7 +26,7 @@ public class RiderPID extends Command {
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  protected void initialize() { // TODO same tip as in elevator PID
     rider.setSetPoint(setPoint);
     rider.enablePID(true);
   }

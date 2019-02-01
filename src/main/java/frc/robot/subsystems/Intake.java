@@ -26,7 +26,8 @@ import frc.robot.commands.intake.StopIntakeMovement;
 /**
  * The intake subsystem
  */
-public class Intake extends Subsystem {
+public class Intake extends Subsystem { // TODO Please take a look at the subsystem's commands
+                                        // It seems like there are too many commands and not all are used/valid
 
   // motors
   private WPI_TalonSRX intakeBallMotor; 
@@ -81,7 +82,7 @@ public class Intake extends Subsystem {
   public void IntakeSmartdashboardValue() {
     SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.getMotorOutputPercent());
     SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("Intake Encoder", encoderIntake.get());
+    SmartDashboard.putNumber("Intake Encoder", encoderIntake.get()); 
     SmartDashboard.putBoolean("Intake Limit Switch Up", limitSwitchUp.get());
     SmartDashboard.putBoolean("Intake Limit Switch Down", limitSwitchDown.get());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
@@ -93,7 +94,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {limitSwitchUp} is pressed
    */
-  public boolean isLimitSwitchUpPressed() {
+  public boolean isLimitSwitchUpPressed() { // TODO Remember to set to real function
     return false; //limitSwitchUp.get();
   }
 
@@ -102,7 +103,7 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {limitSwitchDown} is pressed
    */
-  public boolean isLimitSwitchDownPressed() {
+  public boolean isLimitSwitchDownPressed() {// TODO Remember to set to real function
     return false; //limitSwitchDown.get();
   }
 
@@ -130,14 +131,14 @@ public class Intake extends Subsystem {
    * Set the PIDController range
    * 
    * @param Tolerance The given range
-   */
+   */ // TODO Javadoc with no function?
 
   /**
    * Check whether {anglePIDController} is on target
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTarget() { 
+  public boolean isOnTarget() { // TODO isPIDOnTarget 
     return anglePID.onTarget();
   }
 
@@ -146,7 +147,7 @@ public class Intake extends Subsystem {
    * 
    * @param speed The given power
    */
-  public void intakeControl(double speed) {
+  public void intakeControl(double speed) { // TODO intakeBallControl maybe?
     intakeBallMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -163,7 +164,7 @@ public class Intake extends Subsystem {
    * Give power to the pistons (up).
    */
   @Deprecated
-  public void PistonControlForward() {
+  public void PistonControlForward() { // TODO lowercase
     intakePiston.set(true);
     
   }
@@ -171,7 +172,7 @@ public class Intake extends Subsystem {
   /**
    * Give power to the pistons (down)
    */
-  public void PistonControlReverse() {
+  public void PistonControlReverse() {  // TODO lowercase
     intakePiston.set(false);
     
   }
@@ -179,7 +180,7 @@ public class Intake extends Subsystem {
   /**
    * Turn off the pistons.
    */
-  public void PistonControlOff() {
+  public void PistonControlOff() {  // TODO lowercase
     intakePiston.set(false);
   
   }

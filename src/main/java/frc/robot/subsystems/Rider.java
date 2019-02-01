@@ -34,7 +34,7 @@ public class Rider extends Subsystem {
 
   private DigitalInput limitSwitcAngleUp;
   private DigitalInput limitSwitcAngleDown;
-  private DigitalInput ir;
+  private DigitalInput ir; // TODO maybe proximity sensor is a better name? 
 
   private PIDController anglePIDController;
 
@@ -146,7 +146,7 @@ public class Rider extends Subsystem {
    * 
    * @return Indication if proximity sensor is on range.
    */
-  public boolean getProximitySensorInRange() {
+  public boolean getProximitySensorInRange() {  // TODO Remember to make real function
     return false; //ir.get();
   }
 

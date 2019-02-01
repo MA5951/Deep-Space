@@ -21,7 +21,7 @@ import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 @Deprecated
-public class Elevator extends Subsystem {
+public class Elevator extends Subsystem { // TODO Add javadoc
   private PIDController elevatorEncoderPID;
   private WPI_TalonSRX elevatorMotor;
 
@@ -62,7 +62,7 @@ public class Elevator extends Subsystem {
 
   public void ElevatorSmartdashboardValue() {
     SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get()); // TODO Use getDistance
     SmartDashboard.putBoolean("Elevator Limit Switch Up Right", limitSwitchUpRight.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Down Right", limitSwitchDownRight.get());
     SmartDashboard.putBoolean("Elevator Limit Switch Up Left", limitSwitchUpLeft.get());
@@ -96,14 +96,14 @@ public class Elevator extends Subsystem {
   /**
    * @return Checks if at least one limit switch is pressed
    */
-  public boolean isLimitSwitchDownPressed() {
+  public boolean isLimitSwitchDownPressed() { // TODO Remember to set to real function
     return false; // limitSwitchDownLeft.get() || limitSwitchDownRight.get();
   }
 
   /**
    * @return Checks if at least one limit switch is pressed
    */
-  public boolean isLimitSwitchUpPressed() {
+  public boolean isLimitSwitchUpPressed() { // TODO Remember to set to real function
     return false; // limitSwitchUpLeft.get() || limitSwitchUpRight.get();
   }
 
@@ -114,7 +114,7 @@ public class Elevator extends Subsystem {
    * @param minDistance The minimum distance the encoder could pass in the range
    * @return Is the elevator encoder in the correct range in terms of distance
    */
-  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
+  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) { 
     return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
   }
 

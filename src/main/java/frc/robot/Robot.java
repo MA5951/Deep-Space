@@ -15,7 +15,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
-public class Robot extends TimedRobot {
+public class Robot extends TimedRobot { // TODO do not use encoder.get(), use encoder.getDistance() on ALL subsystems
   public static OI m_oi;
 
   @Override
@@ -57,10 +57,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-
+    // TODO All names should start with lowercase
+    // TODO Add javadoc
     Chassis.getInstance().ChassisSmartdashboardValue();
     Intake.getInstance().IntakeSmartdashboardValue();
-    Elevator.getInstance().ElevatorSmartdashboardValue();
+    Elevator.getInstance().ElevatorSmartdashboardValue(); // TODO Getting instance with no substantial subsystem will throw error. 
     Rider.getInstance().RiderSmartdashboardValue();
     SmartDashboard.updateValues();
   }
