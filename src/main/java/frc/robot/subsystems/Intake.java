@@ -8,7 +8,9 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -18,6 +20,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -30,9 +33,9 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
                                         // It seems like there are too many commands and not all are used/valid
 
   // motors
-  private WPI_TalonSRX intakeBallMotor; 
-  private WPI_TalonSRX intakeAngleMotorA; 
-  private WPI_TalonSRX intakeAngleMotorB; 
+  private Spark intakeBallMotor; 
+  private WPI_VictorSPX intakeAngleMotorA; 
+  private  WPI_VictorSPX intakeAngleMotorB; 
 
   // encoder
   private Encoder encoderIntake;
@@ -64,10 +67,10 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
 
     intakePiston = new Solenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_FORWARD);
   
-    intakeBallMotor = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
+    intakeBallMotor = new Spark(RobotMap.INTAKE_MOTORS_WHEELS);
 
-    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
-    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+    intakeAngleMotorA = new WPI_VictorSPX(RobotMap.INTAKE_MOTORS_ANGLE_A);
+    intakeAngleMotorB = new WPI_VictorSPX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
     intakeAngleMotorB.setInverted(true);
     intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());
@@ -81,7 +84,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
 
   public void IntakeSmartdashboardValue() {
     SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.getMotorOutputPercent());
-    SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
     SmartDashboard.putNumber("Intake Encoder", encoderIntake.get()); 
     SmartDashboard.putBoolean("Intake Limit Switch Up", limitSwitchUp.get());
     SmartDashboard.putBoolean("Intake Limit Switch Down", limitSwitchDown.get());
@@ -148,7 +151,7 @@ public class Intake extends Subsystem { // TODO Please take a look at the subsys
    * @param speed The given power
    */
   public void intakeControl(double speed) { // TODO intakeBallControl maybe?
-    intakeBallMotor.set(ControlMode.PercentOutput, speed);
+    intakeBallMotor.set(speed);
   }
 
   /**
