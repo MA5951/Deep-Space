@@ -35,7 +35,7 @@ public class RobotMap {
 
   public static final int ELEVATOR_TALON = 10;
 
-  // Sensors
+  // Sensors (RoboRIO DIO's)
   public static final int CHASSIS_RIGHT_ENCODER_A = 0;
   public static final int CHASSIS_RIGHT_ENCODER_B = 1;
   public static final int CHASSIS_LEFT_ENCODER_A = 2;
@@ -48,16 +48,18 @@ public class RobotMap {
 
   public static final int ELEVATOR_ENCODER_A = 8;
   public static final int ELEVATOR_ENCODER_B = 9;
+
+  // Sensors (navX DIO's)
   public static final int ELEVATOR_SWITCH_DOWN_LEFT = 10;
   public static final int ELEVATOR_SWITCH_DOWN_RIGHT = 11;
   public static final int ELEVATOR_SWITCH_UP_LEFT = 12;
   public static final int ELEVATOR_SWITCH_UP_RIGHT = 13;
 
-  public static final int RIDER_ENCODER_A = 14;
-  public static final int RIDER_ENCODER_B = 15;
-  public static final int RIDER_ANGLE_LIMIT_SWITCH = 16;
-  public static final int RIDER_INTAKE_LIMIT_SWITCH = 17;
-  public static final int RIDER_PROXIMITY_SENSOR = 18;
+  public static final int RIDER_ENCODER_A = 18;
+  public static final int RIDER_ENCODER_B = 19;
+  public static final int RIDER_ANGLE_LIMIT_SWITCH = 20;
+  public static final int RIDER_INTAKE_LIMIT_SWITCH = 21;
+  public static final int RIDER_PROXIMITY_SENSOR = 22;
 
   // Pneumatic
   public static final int PCM = 0;

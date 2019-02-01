@@ -17,8 +17,9 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.Chassis.TankDrive;
 
@@ -38,7 +39,7 @@ public class Chassis extends Subsystem {
   private Encoder encoderRight;
   private Encoder encoderLeft;
 
-  private AHRS navX;
+private AHRS navX;
 
   private PIDController leftChassisEncoderPID;
   private PIDController rightChassisEncoderPID;
@@ -61,6 +62,7 @@ public class Chassis extends Subsystem {
    * Initializes all Chassis components
    */
   private Chassis() {
+    navX=new AHRS(Port.kMXP);
     rightFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_FRONT);
     rightRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_REAR);
 
@@ -70,7 +72,6 @@ public class Chassis extends Subsystem {
     leftFrontMotor.setInverted(true);
     leftRearMotor.setInverted(true);
 
-    navX = new AHRS(Port.kMXP);
     navX.setPIDSourceType(PIDSourceType.kDisplacement);
 
     encoderLeft = new Encoder(RobotMap.CHASSIS_LEFT_ENCODER_A, RobotMap.CHASSIS_LEFT_ENCODER_B, false,
@@ -99,7 +100,6 @@ public class Chassis extends Subsystem {
     navXController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navX, rightFrontMotor);
 
     navXController.setAbsoluteTolerance(NAVX_TOLERANCE);
-
   }
 
   public void chassisSmartdashboardValue() {
