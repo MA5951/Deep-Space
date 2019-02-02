@@ -7,26 +7,16 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.rider.RiderIntake;
 
-public class PistonBack extends InstantCommand {
-
-  private Intake intake = Intake.getInstance();
-
+public class PullBall extends CommandGroup {
   /**
-   * requires the Intake subsystem.
+   * Add your docs here.
    */
-  public PistonBack() {
-    requires(intake);
+  public PullBall() {
+    addParallel(new IntakePull());
+    addSequential(new RiderIntake());
+  
   }
-
-  /**
-   * Run the {RelayControlRevers} function.
-   */
-  @Override
-  protected void initialize() {
-    intake.pistonControlReverse();
-  }
-
 }

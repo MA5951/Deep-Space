@@ -11,23 +11,23 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
-  double setpoint;
-  double absoluteTolerance;
+  double setPoint; 
   Elevator elevator;
 
-  public ElevatorPID(double setSetpoint, double setAbsoluteTolerance) {
-    this.setpoint = setSetpoint;
-    this.absoluteTolerance = setAbsoluteTolerance;
+  public ElevatorPID(double setPoint) {
+    this.setPoint = setPoint;
+
     elevator = Elevator.getInstance();
     requires(elevator);
-    elevator.setAbsoluteTolerance(setAbsoluteTolerance);
-    elevator.setSetpoint(setSetpoint);
+
+   
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID();
+    elevator.enablePID(true);
+    elevator.setSetPoint(setPoint); 
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -38,19 +38,19 @@ public class ElevatorPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isOnTarget();
+    return elevator.isPIDOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.disablePID();
+    elevator.enablePID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.disablePID();
+    elevator.enablePID(false);
   }
 }

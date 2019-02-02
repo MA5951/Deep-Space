@@ -8,37 +8,40 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.rider.AngleRider;
 
 public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
-  private static Rider instance; // r_Instance TODO
+  private static Rider r_Instance;
 
   private WPI_TalonSRX angleMotor;
-  private WPI_TalonSRX intakeMotor;
+  private WPI_VictorSPX intakeMotor;
 
   private Encoder encoderAngle;
 
-  private DigitalInput limitSwitchA;
-  private DigitalInput limitSwitchB;
+  private PIDController anglePIDController;
 
-  private PIDController angleController;
+  public static final double KP_ANGLE = 0;
+  public static final double KI_ANGLE = 0;
+  public static final double KD_ANGLE = 0;
 
-  public static final double KP_ANGLE = 1;
-  public static final double KI_ANGLE = 1;
-  public static final double KD_ANGLE = 1;
-
-  public static final double DISTANCE_PER_PULSE = 1.0;
+  private static final double DISTANCE_PER_PULSE = 0;
+  private static final double TOLERANCE = 0;
 
   /**
    * Initializes all Rider components
@@ -46,30 +49,31 @@ public class Rider extends Subsystem {
   private Rider() {
 
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
-    intakeMotor = new WPI_TalonSRX(RobotMap.RIDER_INTAKE_MOTOR);
+    intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
 
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
 
-    limitSwitchA = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
-    limitSwitchB = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
-
-    angleController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
+    anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
+    anglePIDController.setAbsoluteTolerance(TOLERANCE);
+  }
+
+  public void riderSmartdashboardValue() {
+    SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
+    SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
+    SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
   }
 
   /**
    * Enables the angle PID
    */
-  public void enablePID() {
-    angleController.enable();
-  }
-
-  /**
-   * Disables the angle PID
-   */
-  public void disablePID() {
-    angleController.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      anglePIDController.enable();
+    } else {
+      anglePIDController.disable();
+    }
   }
 
   /**
@@ -78,16 +82,7 @@ public class Rider extends Subsystem {
    * @param setPoint the destination.
    */
   public void setSetPoint(double setPoint) {
-    angleController.setSetpoint(setPoint);
-  }
-
-  /**
-   * Set the set point tolerance
-   * 
-   * @param tolerance The given tolerance
-   */
-  public void setPIDTolerance(double tolerance) {
-    angleController.setAbsoluteTolerance(tolerance);
+    anglePIDController.setSetpoint(setPoint);
   }
 
   /**
@@ -96,8 +91,8 @@ public class Rider extends Subsystem {
    * 
    * @return Indication if rider is on target
    */
-  public boolean isOnTarget() {
-    return angleController.onTarget();
+  public boolean isPIDOnTarget() {
+    return anglePIDController.onTarget();
   }
 
   /**
@@ -105,7 +100,7 @@ public class Rider extends Subsystem {
    * 
    * @param speed The given power
    */
-  public void setIntakeMotor(double speed) {
+  public void controlIntakeMotor(double speed) {
     intakeMotor.set(ControlMode.PercentOutput, speed);
   }
 
@@ -114,20 +109,26 @@ public class Rider extends Subsystem {
    * 
    * @param angleSpeed The given power
    */
-  public void setAngleMotor(double angleSpeed) {
-    angleMotor.set(ControlMode.PercentOutput, angleSpeed);
+  public void controlAngleMotor(double angleSpeed) {
+    angleMotor.set(angleSpeed);
   }
 
-  public boolean isLimitSwitchAnglePressed() {
-    return limitSwitchA.get() || limitSwitchB.get();
+  /**
+   * Check whether {limitSwitcAngleDown} is pressed.
+   * 
+   * @return Indication if {limitSwitcAngleDown} is pressed.
+   */
+  public boolean isLimitSwitchAngleDownPressed() {
+    return false;
   }
 
-  public boolean isAngleInRange(double angle, double tolerance) {
-    return encoderAngle.get() < angle + tolerance && encoderAngle.get() > angle - tolerance;
-  }
-
-  public int getCurrentAngle() {
-    return encoderAngle.get();
+  /**
+   * Get the current angle.
+   * 
+   * @return Indication of the current angle.
+   */
+  public double getCurrentAngle() {
+    return encoderAngle.getDistance();
   }
 
   /**
@@ -143,13 +144,13 @@ public class Rider extends Subsystem {
    * @return The instance
    */
   public static Rider getInstance() {
-    if (instance == null)
-      instance = new Rider();
-    return instance;
+    if (r_Instance == null)
+      r_Instance = new Rider();
+    return r_Instance;
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here
+    setDefaultCommand(new AngleRider());
   }
 }

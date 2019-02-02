@@ -15,21 +15,20 @@ import frc.robot.subsystems.Rider;
  */
 public class RiderPID extends Command {
   private double setPoint;
-  private double tolorance;
+  
   private Rider rider = Rider.getInstance();
-
-  public RiderPID(double setPoint, double tolorance) {
+  
+  public RiderPID(double setPoint) {
     this.setPoint = setPoint;
-    this.tolorance = tolorance;
+    
     requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() {
+  protected void initialize() { 
     rider.setSetPoint(setPoint);
-    rider.setPIDTolerance(tolorance);
-    rider.enablePID();
+    rider.enablePID(true);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -40,19 +39,19 @@ public class RiderPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isOnTarget();
+    return rider.isPIDOnTarget();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.disablePID();
+    rider.enablePID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.disablePID();
+    rider.enablePID(false);
   }
 }

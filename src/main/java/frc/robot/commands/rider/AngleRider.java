@@ -8,18 +8,16 @@
 package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
 public class AngleRider extends Command {
-  private double speed;
-  private double angle;
-  private double tolerance;
+  double speed; 
+
   private Rider rider = Rider.getInstance();
 
-  public AngleRider(double speed, double angle, double tolerance) {
-    this.tolerance = tolerance;
-    this.angle = angle;
-    this.speed = speed;
+  public AngleRider() {
+
     requires(rider);
   }
 
@@ -33,15 +31,13 @@ public class AngleRider extends Command {
 
   @Override
   protected void execute() {
-    rider.setAngleMotor(speed);
+    speed = OI.OPERATOR_STICK.getRawAxis(5);
+    rider.controlAngleMotor(speed);
   }
 
-  /**
-   * If the current angle is the desire one, the getCurrentAngle will disable
-   */
   @Override
-  protected boolean isFinished() {
-    return rider.isAngleInRange(angle, tolerance);
+  protected boolean isFinished() { 
+    return false;
   }
 
   /**
@@ -49,7 +45,7 @@ public class AngleRider extends Command {
    */
   @Override
   protected void end() {
-    rider.setAngleMotor(0);
+    rider.controlAngleMotor(0);
   }
 
   /**
@@ -57,6 +53,6 @@ public class AngleRider extends Command {
    */
   @Override
   protected void interrupted() {
-    rider.setAngleMotor(0);
+    rider.controlAngleMotor(0);
   }
 }

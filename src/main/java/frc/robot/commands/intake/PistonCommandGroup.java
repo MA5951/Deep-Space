@@ -21,6 +21,8 @@ public class PistonCommandGroup extends CommandGroup {
     addSequential(new PistonForward());
     addSequential(new TimedCommand(0.5));
     addSequential(new PistonBack());
+    addSequential(new TimedCommand(0.10));
+    addSequential(new  PistonOff());
 
   }
 }

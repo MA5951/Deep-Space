@@ -9,14 +9,20 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
+
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.intake.StopIntakeMovement;
 
 /**
  * The intake subsystem
@@ -24,82 +30,66 @@ import frc.robot.RobotMap;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_TalonSRX intakeBall;
-  private WPI_TalonSRX intakeAngleA;
-  private WPI_TalonSRX intakeAngleB;
+  private WPI_VictorSPX intakeBallMotor;  
+  private WPI_TalonSRX intakeAngleMotorA; 
+  private WPI_TalonSRX intakeAngleMotorB; 
 
   // encoder
   private Encoder encoderIntake;
 
   // PID
-  private PIDController anglePIDController;
+  private PIDController anglePID;
 
-  // Electric Pistons
-  private Relay intakePistonRight;
-  private Relay intakePistonLeft;
+  // Pneomatic Pistons
+  private Solenoid intakePiston;
 
-  private static Intake intakeSubsystem; // i_Instance TODO
+  private static Intake i_Instance;
 
-  // sensors
-  private DigitalInput limitSwitchUp;
-  private DigitalInput limitSwitchDown;
+  public static final double KP_ENCODER = 0.0;
+  public static final double KI_ENCODER = 0.0;
+  public static final double KD_ENCODER = 0.0;
+  private static final double DISTANCE_PER_PULSE = 1;
+  private static final double TOLERANCE = 0;
 
   /**
    * Initializes all Chassis components
    */
   private Intake() {
 
-    limitSwitchUp = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_UP);
-    limitSwitchDown = new DigitalInput(RobotMap.INTAKE_LIMIT_SWITCH_DOWN);
+    intakePiston = new Solenoid(RobotMap.PCM, RobotMap.INTAKE_PISTON_FORWARD);
 
-    intakePistonRight = new Relay(RobotMap.INTAKE_PISTON_RIGHT);
-    intakePistonLeft = new Relay(RobotMap.INTAKE_PISTON_LEFT);
+    intakeBallMotor = new WPI_VictorSPX(RobotMap.INTAKE_MOTORS_WHEELS);
 
-    intakeBall = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_WHEELS);
+    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
+    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
 
-    intakeAngleA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
-    intakeAngleB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+    intakeAngleMotorB.setInverted(true);
+    intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());
 
-    intakeAngleA.setInverted(true);
-    intakeAngleB.set(ControlMode.Follower, intakeAngleA.getDeviceID());
-
-    encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_B, RobotMap.INTAKE_ENCODER_A, false, EncodingType.k4X);
-    encoderIntake.setDistancePerPulse(1);
+    encoderIntake = new Encoder(RobotMap.INTAKE_ENCODER_A, RobotMap.INTAKE_ENCODER_B, false, EncodingType.k4X);
+    encoderIntake.setDistancePerPulse(DISTANCE_PER_PULSE);
     encoderIntake.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    anglePIDController = new PIDController(1, 1, 1, encoderIntake, intakeAngleA);
+    anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
+    anglePID.setAbsoluteTolerance(TOLERANCE);
   }
 
-  /**
-   * Check whether limit switch is pressed
-   * 
-   * @return Indication if {limitSwitchUp} is pressed
-   */
-  public boolean isLimitSwitchUp() {
-    return limitSwitchUp.get();
-  }
-
-  /**
-   * Check whether limit switch is pressed
-   * 
-   * @return Indication if {limitSwitchDown} is pressed
-   */
-  public boolean isLimitSwitchDown() {
-    return limitSwitchDown.get();
+  public void intakeSmartdashboardValue() {
+    SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.get());
+    SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
+    SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance());
+    SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
   }
 
   /**
    * Enables the PIDController
    */
-  public void enablePID() {
-    anglePIDController.enable();
-  }
-
-  /**
-   * Disables the PIDController
-   */
-  public void disablePID() {
-    anglePIDController.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      anglePID.enable();
+    } else {
+      anglePID.disable();
+    }
   }
 
   /**
@@ -107,17 +97,8 @@ public class Intake extends Subsystem {
    *
    * @param setpoint The given destination (setpoint)
    */
-  public void setSetpointPID(double setpoint) {
-    anglePIDController.setSetpoint(setpoint);
-  }
-
-  /**
-   * Set the PIDController range
-   * 
-   * @param Tolerance The given range
-   */
-  public void setTolerancePID(double Tolerance) {
-    anglePIDController.setAbsoluteTolerance(Tolerance);
+  public void setSetpoint(double setpoint) {
+    anglePID.setSetpoint(setpoint);
   }
 
   /**
@@ -125,8 +106,8 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isOnTargetPID() {
-    return anglePIDController.onTarget();
+  public boolean isPIDOnTarget() {
+    return anglePID.onTarget();
   }
 
   /**
@@ -134,8 +115,8 @@ public class Intake extends Subsystem {
    * 
    * @param speed The given power
    */
-  public void intakeControl(double speed) {
-    intakeBall.set(ControlMode.PercentOutput, speed);
+  public void intakeBallControl(double speed) {
+    intakeBallMotor.set(speed);
   }
 
   /**
@@ -143,25 +124,33 @@ public class Intake extends Subsystem {
    * 
    * @param speedUpAndDown The given power
    */
-  public void intakeMovmentControl(double speedUpAndDown) {
-    intakeAngleA.set(ControlMode.PercentOutput, speedUpAndDown);
+  public void intakeAngleControl(double speedUpAndDown) {
+    intakeAngleMotorA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
   /**
-   * Give power to the pistons (up). TODO Fix, intake is no longer relay
+   * Give power to the pistons (up).
    */
   @Deprecated
-  public void RelayControlForward() {
-    intakePistonRight.set(Relay.Value.kForward);
-    intakePistonLeft.set(Relay.Value.kForward);
+  public void pistonControlForward() {
+    intakePiston.set(true);
+
   }
 
   /**
-   * Give power to the pistons (down) TODO Fix, intake is no longer relay
+   * Give power to the pistons (down)
    */
-  public void RelayControlReverse() {
-    intakePistonRight.set(Relay.Value.kReverse);
-    intakePistonLeft.set(Relay.Value.kReverse);
+  public void pistonControlReverse() {
+    intakePiston.set(false);
+
+  }
+
+  /**
+   * Turn off the pistons.
+   */
+  public void pistonControlOff() {
+    intakePiston.set(false);
+
   }
 
   /**
@@ -177,15 +166,14 @@ public class Intake extends Subsystem {
    * @return Return the instance
    */
   public static Intake getInstance() {
-    if (intakeSubsystem == null) {
-      intakeSubsystem = new Intake();
+    if (i_Instance == null) {
+      i_Instance = new Intake();
     }
-    return intakeSubsystem;
+    return i_Instance;
   }
 
   @Override
   public void initDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new StopIntakeMovement());
   }
 }

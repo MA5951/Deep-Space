@@ -9,7 +9,6 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Rider;
 
 // USE COMMAND GROUP INSTEAD
 @Deprecated
@@ -17,21 +16,21 @@ public class IntakePull extends Command {
 
   // using rider subsystem
   // TODO check if good idea.
-  private Rider rider = Rider.getInstance();
+  //private Rider rider = Rider.getInstance();
 
   private Intake intake = Intake.getInstance();
 
-  private double speed;
+
 
   /**
    * Creates new {IntakePull} command.
    * 
    * @param speed the given power of {intakeControl}.
    */
-  public IntakePull(double speed) {
-    this.speed = speed;
+  public IntakePull() {
+   
     requires(intake);
-    requires(rider);
+    //requires(rider);
   }
 
   @Override
@@ -44,7 +43,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeControl(speed);
+    intake.intakeBallControl(1);
   }
 
   /**
@@ -52,7 +51,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return rider.isLimitSwitchAnglePressed();
+    return false; 
   }
 
   /**
@@ -60,7 +59,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void end() {
-    intake.intakeControl(0);
+    intake.intakeBallControl(0);
   }
 
   /**
@@ -68,6 +67,6 @@ public class IntakePull extends Command {
    */
   @Override
   protected void interrupted() {
-    intake.intakeControl(0);
+    intake.intakeBallControl(0);
   }
 }

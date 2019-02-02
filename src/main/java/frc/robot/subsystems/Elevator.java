@@ -10,81 +10,72 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
-@Deprecated
+
 public class Elevator extends Subsystem {
-  private PIDController PIDControllerElevator;
-  private WPI_TalonSRX elevatorTalon;
+  private PIDController elevatorEncoderPID;
+  private WPI_TalonSRX elevatorMotor;
 
-  private DigitalInput limitSwitchUpLeft;
-  private DigitalInput limitSwitchDownRight;
-  private DigitalInput limitSwitchDownLeft;
-  private DigitalInput limitSwitchUpRight;
+  private Encoder encoderElevator;
 
-  private Encoder elevatorEncoder;
+  public static final double KP_ENCODER = 0;
+  public static final double KI_ENCODER = 0;
+  public static final double KD_ENCODER = 0;
+  private static final double TOLERANCE = 0;
+  private static final double DISTANCE_PER_PULSE = 0;
 
-  private static Elevator m_instance; // e_Instance TODO
+  private static Elevator e_Instance;
 
+  /**
+   * Initializes all the elevator components.
+   */
   private Elevator() {
-    limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);
-    limitSwitchUpRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_RIGHT);
-    limitSwitchDownLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_LEFT);
-    limitSwitchDownRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_RIGHT);
 
-    elevatorEncoder = new Encoder(RobotMap.ELEVATOR_ENCODER_B, RobotMap.ELEVATOR_ENCODER_A, false, EncodingType.k4X);
-    elevatorEncoder.setDistancePerPulse(1);
-    elevatorEncoder.setPIDSourceType(PIDSourceType.kDisplacement);
+    encoderElevator = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B, false, EncodingType.k4X);
+    encoderElevator.setDistancePerPulse(DISTANCE_PER_PULSE);
+    encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    elevatorTalon = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
-    PIDControllerElevator = new PIDController(1.0, 1.0, 1.0, elevatorEncoder, elevatorTalon);
+    elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
+    elevatorMotor.setInverted(true);
+
+    elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
+    elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
   }
 
-  public void enablePID() {
-    PIDControllerElevator.enable();
+  public void elevatorSmartdashboardValue() {
+    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance());
   }
 
-  public void disablePID() {
-    PIDControllerElevator.disable();
+  public void enablePID(boolean enable) {
+    if (enable) {
+      elevatorEncoderPID.enable();
+    } else {
+      elevatorEncoderPID.disable();
+    }
   }
 
-  public void setSetpoint(double setSetpoint) {
-    PIDControllerElevator.setSetpoint(setSetpoint);
+  public void setSetPoint(double setSetpoint) {
+    elevatorEncoderPID.setSetpoint(setSetpoint);
   }
 
-  public void setAbsoluteTolerance(double setAbsoluteTolerance) {
-    PIDControllerElevator.setAbsoluteTolerance(setAbsoluteTolerance);
-  }
-
-  public boolean isOnTarget() {
-    return PIDControllerElevator.onTarget();
+  public boolean isPIDOnTarget() {
+    return elevatorEncoderPID.onTarget();
   }
 
   /**
    * Controls the speed of the talon
    */
   public void controlSpeed(double speed) {
-    elevatorTalon.set(ControlMode.PercentOutput, speed);
-  }
-
-  /**
-   * @return Checks if at least one limit switch is pressed
-   */
-  public boolean isLimitSwitchDown() {
-    return limitSwitchDownLeft.get() || limitSwitchDownRight.get();
-  }
-
-  /**
-   * @return Checks if at least one limit switch is pressed
-   */
-  public boolean isLimitSwitchUp() {
-    return limitSwitchUpLeft.get() || limitSwitchUpRight.get();
+    elevatorMotor.set(ControlMode.PercentOutput, speed);
   }
 
   /**
@@ -95,23 +86,23 @@ public class Elevator extends Subsystem {
    * @return Is the elevator encoder in the correct range in terms of distance
    */
   public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
-    return elevatorEncoder.getDistance() < maxDistance && elevatorEncoder.getDistance() > minDistance;
+    return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
   }
 
   /**
    * Reset's the encoder
    */
   public void resetEncoder() {
-    elevatorEncoder.reset();
+    encoderElevator.reset();
   }
 
   /**
    * Singleton
    */
-  public static Elevator getInstance() {
-    if (m_instance == null)
-      m_instance = new Elevator();
-    return m_instance;
+  public static Elevator getInstance() { 
+    if (e_Instance == null)
+      e_Instance = new Elevator();
+    return e_Instance;
   }
 
   @Override

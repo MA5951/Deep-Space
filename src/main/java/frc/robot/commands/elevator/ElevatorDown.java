@@ -12,7 +12,11 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorDown extends Command {
 
-  Elevator elevator;
+  Elevator elevator; 
+
+  /**
+   * Create an object of chassis (create a new instance of chassis)
+   */
 
   public ElevatorDown() {
     elevator = Elevator.getInstance();
@@ -33,7 +37,7 @@ public class ElevatorDown extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isLimitSwitchDown();
+    return false;
   }
 
   // Called once after isFinished returns true

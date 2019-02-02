@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorUp extends Command {
-  Elevator elevator;
+  Elevator elevator; 
 
   public ElevatorUp() {
     elevator = Elevator.getInstance();
@@ -32,7 +32,7 @@ public class ElevatorUp extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isLimitSwitchUp();
+    return false;
   }
 
   // Called once after isFinished returns true

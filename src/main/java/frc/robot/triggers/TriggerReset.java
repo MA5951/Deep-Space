@@ -8,7 +8,6 @@
 package frc.robot.triggers;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.subsystems.Intake;
 
 /**
  * Check if the high Intake limit switch is pressed.
@@ -16,6 +15,6 @@ import frc.robot.subsystems.Intake;
 public class TriggerReset extends Trigger {
   @Override
   public boolean get() {
-    return Intake.getInstance().isLimitSwitchUp();
+    return false;
   }
 }
