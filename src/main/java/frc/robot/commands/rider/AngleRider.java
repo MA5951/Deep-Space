@@ -35,12 +35,9 @@ public class AngleRider extends Command {
     rider.controlAngleMotor(speed);
   }
 
-  /**
-   * If the current angle is the desire one, the getCurrentAngle will disable
-   */
   @Override
   protected boolean isFinished() { 
-    return  speed < 0 && rider.isLimitSwitchAngleDownPressed() || speed > 0 && rider.isLimitSwitchAngleUpPressed();
+    return false;
   }
 
   /**

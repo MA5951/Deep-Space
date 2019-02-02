@@ -17,7 +17,7 @@ public class RiderPID extends Command {
   private double setPoint;
   
   private Rider rider = Rider.getInstance();
-
+  
   public RiderPID(double setPoint) {
     this.setPoint = setPoint;
     
@@ -39,7 +39,7 @@ public class RiderPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isOnTarget();
+    return rider.isPIDOnTarget();
   }
 
   // Called once after isFinished returns true

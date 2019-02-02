@@ -11,12 +11,11 @@ import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.robot.subsystems.Intake;
 
 /**
- * Check whether Intake low limit switch is pressed.
+ * Check if the high Intake limit switch is pressed.
  */
-public class LimitSwitchDownTrigger extends Trigger { 
-
+public class ResetIntakeEncoderTrigger extends Trigger {
   @Override
   public boolean get() {
-    return Intake.getInstance().isLimitSwitchDownPressed();
+    return false;
   }
 }

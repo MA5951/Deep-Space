@@ -17,19 +17,12 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.elevator.ElevatorJoystickControl;
 
-@Deprecated
-public class Elevator extends Subsystem { // TODO Add javadoc
+public class Elevator extends Subsystem {
   private PIDController elevatorEncoderPID;
   private WPI_TalonSRX elevatorMotor;
-
-  private DigitalInput limitSwitchUpLeft;
-  private DigitalInput limitSwitchUpRight;
-  private DigitalInput limitSwitchDownRight;
-  private DigitalInput limitSwitchDownLeft;
 
   private Encoder encoderElevator;
 
@@ -45,10 +38,6 @@ public class Elevator extends Subsystem { // TODO Add javadoc
    * Initializes all the elevator components.
    */
   private Elevator() {
-    limitSwitchUpLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_LEFT);
-    limitSwitchUpRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_UP_RIGHT);
-    limitSwitchDownLeft = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_LEFT);
-    limitSwitchDownRight = new DigitalInput(RobotMap.ELEVATOR_SWITCH_DOWN_RIGHT);
 
     encoderElevator = new Encoder(RobotMap.ELEVATOR_ENCODER_A, RobotMap.ELEVATOR_ENCODER_B, false, EncodingType.k4X);
     encoderElevator.setDistancePerPulse(DISTANCE_PER_PULSE);
@@ -63,12 +52,7 @@ public class Elevator extends Subsystem { // TODO Add javadoc
 
   public void elevatorSmartdashboardValue() {
     SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance()); 
-    SmartDashboard.putBoolean("Elevator Limit Switch Up Right", limitSwitchUpRight.get());
-    SmartDashboard.putBoolean("Elevator Limit Switch Down Right", limitSwitchDownRight.get());
-    SmartDashboard.putBoolean("Elevator Limit Switch Up Left", limitSwitchUpLeft.get());
-    SmartDashboard.putBoolean("Elevator Limit Switch Down Left", limitSwitchDownLeft.get());
-
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance());
   }
 
   public void enablePID(boolean enable) {
@@ -95,27 +79,13 @@ public class Elevator extends Subsystem { // TODO Add javadoc
   }
 
   /**
-   * @return Checks if at least one limit switch is pressed
-   */
-  public boolean isLimitSwitchDownPressed() { // TODO Remember to set to real function
-    return false; // limitSwitchDownLeft.get() || limitSwitchDownRight.get();
-  }
-
-  /**
-   * @return Checks if at least one limit switch is pressed
-   */
-  public boolean isLimitSwitchUpPressed() { // TODO Remember to set to real function
-    return false; // limitSwitchUpLeft.get() || limitSwitchUpRight.get();
-  }
-
-  /**
    * Specifies if the elevator encoder passed a distance within a certain range.
    * 
    * @param maxDistance The maximum distance the encoder could passed in the range
    * @param minDistance The minimum distance the encoder could pass in the range
    * @return Is the elevator encoder in the correct range in terms of distance
    */
-  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) { 
+  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
     return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
   }
 
@@ -129,7 +99,7 @@ public class Elevator extends Subsystem { // TODO Add javadoc
   /**
    * Singleton
    */
-  public static Elevator getInstance() {
+  public static Elevator getInstance() { 
     if (e_Instance == null)
       e_Instance = new Elevator();
     return e_Instance;

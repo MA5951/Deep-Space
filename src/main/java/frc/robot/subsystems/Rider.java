@@ -8,19 +8,21 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.rider.AngleRider;
 
-@Deprecated
 public class Rider extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
@@ -28,13 +30,9 @@ public class Rider extends Subsystem {
   private static Rider r_Instance;
 
   private WPI_TalonSRX angleMotor;
-  private WPI_TalonSRX intakeMotor;
+  private WPI_VictorSPX intakeMotor;
 
   private Encoder encoderAngle;
-
-  private DigitalInput limitSwitcAngleUp;
-  private DigitalInput limitSwitcAngleDown;
-  private DigitalInput proximitySensor; 
 
   private PIDController anglePIDController;
 
@@ -51,14 +49,10 @@ public class Rider extends Subsystem {
   private Rider() {
 
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
-    intakeMotor = new WPI_TalonSRX(RobotMap.RIDER_INTAKE_MOTOR);
+    intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
 
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
-
-    limitSwitcAngleUp = new DigitalInput(RobotMap.RIDER_ANGLE_LIMIT_SWITCH);
-    limitSwitcAngleDown = new DigitalInput(RobotMap.RIDER_INTAKE_LIMIT_SWITCH);
-    proximitySensor = new DigitalInput(RobotMap.RIDER_PROXIMITY_SENSOR);
 
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
@@ -69,10 +63,6 @@ public class Rider extends Subsystem {
     SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
     SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
     SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
-    SmartDashboard.putBoolean("Rider Limit Switch Up", limitSwitcAngleUp.get());
-    SmartDashboard.putBoolean("Rider Limit Switch Down", limitSwitcAngleDown.get());
-    SmartDashboard.putBoolean("Rider Proximity Sensor", proximitySensor.get());
-
   }
 
   /**
@@ -101,7 +91,7 @@ public class Rider extends Subsystem {
    * 
    * @return Indication if rider is on target
    */
-  public boolean isOnTarget() {
+  public boolean isPIDOnTarget() {
     return anglePIDController.onTarget();
   }
 
@@ -120,16 +110,7 @@ public class Rider extends Subsystem {
    * @param angleSpeed The given power
    */
   public void controlAngleMotor(double angleSpeed) {
-    angleMotor.set(ControlMode.PercentOutput, angleSpeed);
-  }
-
-  /**
-   * Check whether {limitSwitcAngleUp} is pressed.
-   * 
-   * @return Indication if {limitSwitcAngleUp} is pressed.
-   */
-  public boolean isLimitSwitchAngleUpPressed() {
-    return limitSwitcAngleUp.get();
+    angleMotor.set(angleSpeed);
   }
 
   /**
@@ -138,16 +119,7 @@ public class Rider extends Subsystem {
    * @return Indication if {limitSwitcAngleDown} is pressed.
    */
   public boolean isLimitSwitchAngleDownPressed() {
-    return false; //limitSwitcAngleDown.get();
-  }
-
-  /**
-   * Check whether proximity sensor is on range.
-   * 
-   * @return Indication if proximity sensor is on range.
-   */
-  public boolean getProximitySensorInRange() {  // TODO Remember to make real function
-    return false; //ir.get();
+    return false;
   }
 
   /**

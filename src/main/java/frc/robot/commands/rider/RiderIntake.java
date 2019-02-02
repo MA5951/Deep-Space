@@ -33,12 +33,9 @@ public class RiderIntake extends Command {
     rider.controlIntakeMotor(-1);
   }
 
-  /**
-   * If the limit switch is pressed, the isLimitSwitchAnglePressed will disable
-   */
   @Override
   protected boolean isFinished() {
-    return rider.getProximitySensorInRange();
+    return false;
   }
 
   /**

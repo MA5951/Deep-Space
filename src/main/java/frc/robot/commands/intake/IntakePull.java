@@ -51,7 +51,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return false; //rider.isLimitSwitchAnglePressed();
+    return false; 
   }
 
   /**

@@ -35,7 +35,7 @@ public class ElevatorJoystickControl extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() { 
-    return elevator.isLimitSwitchUpPressed() && speed > 0 || elevator.isLimitSwitchDownPressed() && speed < 0;
+    return false;
   }
 
   // Called once after isFinished returns true
