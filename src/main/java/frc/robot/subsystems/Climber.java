@@ -27,9 +27,11 @@ public class Climber extends Subsystem {
   private Encoder poleEncoder;
 
   public static final double MAX_POLE_ENCODER_TICKS = 10000; // TODO
+  public static final double MIN_POLE_ENCODER_TICKS = 0; // TODO
 
   public static final double START_CLIMB_HEIGHT = 1000000; // TODO
 
+  // TODO check if invert needed
   private Climber() {
     leftPoleMotor = new WPI_TalonSRX(RobotMap.LEFT_CLIMB_MOTOR);
     rightPoleMotor = new WPI_TalonSRX(RobotMap.RIGHT_CLIMB_MOTOR);
@@ -60,16 +62,25 @@ public class Climber extends Subsystem {
   }
 
   /**
+   * @return Has the robot has reached it's target height (and can finish
+   *         climbing).
+   */
+  public boolean poleDistance() {
+    return poleEncoder.getRaw() <= MIN_POLE_ENCODER_TICKS;
+  }
+
+  /**
    * Has the robot use it's backwards climbing pole with maximum strength.
    */
-  public void openPole() {
-    leftPoleMotor.set(1);
+  public void openAndClosePole(double speed) {
+    leftPoleMotor.set(speed);
+
   }
 
   /**
    * Stops the climbing mechanism from the back.
    */
-  public void stopOpeningPole() {
+  public void stopPole() {
     leftPoleMotor.set(0);
   }
 

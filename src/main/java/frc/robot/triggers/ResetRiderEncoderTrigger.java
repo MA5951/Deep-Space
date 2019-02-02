@@ -5,28 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.Intake;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.subsystems.Rider;
 
-public class PistonBack extends InstantCommand {
-
-  private Intake intake = Intake.getInstance();
-
-  /**
-   * requires the Intake subsystem.
-   */
-  public PistonBack() {
-    requires(intake);
-  }
-
-  /**
-   * Run the {RelayControlRevers} function.
-   */
+/**
+ * Add your docs here.
+ */
+public class ResetRiderEncoderTrigger extends Trigger {
   @Override
-  protected void initialize() {
-    intake.pistonControlReverse();
+  public boolean get() {
+    return Rider.getInstance().isLimitswitchClosed();
   }
-
 }

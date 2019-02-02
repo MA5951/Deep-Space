@@ -12,7 +12,7 @@ import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
 public class AngleRider extends Command {
-  double speed; 
+  double speed;
 
   private Rider rider = Rider.getInstance();
 
@@ -21,9 +21,6 @@ public class AngleRider extends Command {
     requires(rider);
   }
 
-  /**
-   * Give power to the angle motor
-   */
   @Override
   protected void initialize() {
 
@@ -36,7 +33,7 @@ public class AngleRider extends Command {
   }
 
   @Override
-  protected boolean isFinished() { 
+  protected boolean isFinished() {
     return false;
   }
 

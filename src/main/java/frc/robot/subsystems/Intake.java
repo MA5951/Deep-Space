@@ -12,13 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -30,9 +27,9 @@ import frc.robot.commands.intake.StopIntakeMovement;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_VictorSPX intakeBallMotor;  
-  private WPI_TalonSRX intakeAngleMotorA; 
-  private WPI_TalonSRX intakeAngleMotorB; 
+  private WPI_VictorSPX intakeBallMotor;
+  private WPI_TalonSRX intakeAngleMotorA;
+  private WPI_TalonSRX intakeAngleMotorB;
 
   // encoder
   private Encoder encoderIntake;
@@ -45,6 +42,7 @@ public class Intake extends Subsystem {
 
   private static Intake i_Instance;
 
+  // TODO
   public static final double KP_ENCODER = 0.0;
   public static final double KI_ENCODER = 0.0;
   public static final double KD_ENCODER = 0.0;
@@ -79,6 +77,15 @@ public class Intake extends Subsystem {
     SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
     SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
+  }
+
+  /**
+   * Check whether the limitswitch is pressed
+   * 
+   * @return Indication if the limitswitch is pressed.
+   */
+  public boolean isIntakeLimitswitchClosed() {
+    return intakeAngleMotorA.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**
@@ -134,14 +141,6 @@ public class Intake extends Subsystem {
   @Deprecated
   public void pistonControlForward() {
     intakePiston.set(true);
-
-  }
-
-  /**
-   * Give power to the pistons (down)
-   */
-  public void pistonControlReverse() {
-    intakePiston.set(false);
 
   }
 

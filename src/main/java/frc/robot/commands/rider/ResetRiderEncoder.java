@@ -1,3 +1,5 @@
+package frc.robot.commands.rider;
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -5,17 +7,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.subsystems.Intake;
+
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Rider;
+
 
 /**
- * Check if the high Intake limit switch is pressed.
+ * Add your docs here.
  */
-public class ResetIntakeEncoderTrigger extends Trigger {
-  @Override
-  public boolean get() {
-    return Intake.getInstance().isIntakeLimitswitchClosed();
+public class ResetRiderEncoder extends InstantCommand {
+  Rider rider = Rider.getInstance();
+
+  public ResetRiderEncoder() {
+    requires(rider);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    rider.resetEncoder();
+  }
+
 }

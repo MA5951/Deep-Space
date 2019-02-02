@@ -5,46 +5,46 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Climber;
 
-public class ElevatorUp extends Command {
-  Elevator elevator;
+public class ClosePole extends Command {
+  private Climber climber;
 
-  public ElevatorUp() {
-    elevator = Elevator.getInstance();
-    requires(elevator);
+
+  public ClosePole() {
+    requires(climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.controlSpeed(1);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    climber.openAndClosePole(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return climber.poleDistance();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.controlSpeed(0);
+    climber.stopPole();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.controlSpeed(0);
+    climber.stopPole(); 
   }
 }

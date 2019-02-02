@@ -8,16 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -36,11 +33,12 @@ public class Rider extends Subsystem {
 
   private PIDController anglePIDController;
 
+  // TODO
   public static final double KP_ANGLE = 0;
   public static final double KI_ANGLE = 0;
   public static final double KD_ANGLE = 0;
 
-  private static final double DISTANCE_PER_PULSE = 0;
+  private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 0;
 
   /**
@@ -63,6 +61,15 @@ public class Rider extends Subsystem {
     SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
     SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
     SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
+  }
+
+  /**
+   * Check whether the limitswitch is pressed.
+   * 
+   * @return Indication if the limitswitch is pressed.
+   */
+  public boolean isLimitswitchClosed() {
+    return angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**
@@ -111,24 +118,6 @@ public class Rider extends Subsystem {
    */
   public void controlAngleMotor(double angleSpeed) {
     angleMotor.set(angleSpeed);
-  }
-
-  /**
-   * Check whether {limitSwitcAngleDown} is pressed.
-   * 
-   * @return Indication if {limitSwitcAngleDown} is pressed.
-   */
-  public boolean isLimitSwitchAngleDownPressed() {
-    return false;
-  }
-
-  /**
-   * Get the current angle.
-   * 
-   * @return Indication of the current angle.
-   */
-  public double getCurrentAngle() {
-    return encoderAngle.getDistance();
   }
 
   /**

@@ -7,14 +7,12 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -22,15 +20,19 @@ import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 public class Elevator extends Subsystem {
   private PIDController elevatorEncoderPID;
-  private WPI_TalonSRX elevatorMotor;
+  private Spark elevatorMotor;
 
   private Encoder encoderElevator;
 
+  private DigitalInput elevatorLimitswitchUp;
+  private DigitalInput elevatorLimitswitchDown;
+
+  // TODO
   public static final double KP_ENCODER = 0;
   public static final double KI_ENCODER = 0;
   public static final double KD_ENCODER = 0;
   private static final double TOLERANCE = 0;
-  private static final double DISTANCE_PER_PULSE = 0;
+  private static final double DISTANCE_PER_PULSE = 1;
 
   private static Elevator e_Instance;
 
@@ -43,18 +45,35 @@ public class Elevator extends Subsystem {
     encoderElevator.setDistancePerPulse(DISTANCE_PER_PULSE);
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
+    elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
     elevatorMotor.setInverted(true);
+
+    elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
+    elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_DOWN);
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
   }
 
   public void elevatorSmartdashboardValue() {
-    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.get());
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance());
   }
 
+  /**
+   * Check whether limitswitch is pressed.
+   * 
+   * @return Indication if limitswitch is pressed.
+   */
+  public boolean isElevatorLimitswitchDownPressed() {
+    return elevatorLimitswitchDown.get();
+  }
+
+  /**
+   * Enables or disables the PIDController.
+   * 
+   * @param enable Is the PID enabled.
+   */
   public void enablePID(boolean enable) {
     if (enable) {
       elevatorEncoderPID.enable();
@@ -63,34 +82,44 @@ public class Elevator extends Subsystem {
     }
   }
 
+  /**
+   * Set the desired PID destination (setpoint).
+   * 
+   * @param setSetpoint The given destination (setpoint).
+   */
   public void setSetPoint(double setSetpoint) {
     elevatorEncoderPID.setSetpoint(setSetpoint);
   }
 
+  /**
+   * Check whether the robot reached the desire destination.
+   * 
+   * @return Indication if the robot is on the PID target.
+   */
   public boolean isPIDOnTarget() {
     return elevatorEncoderPID.onTarget();
   }
 
   /**
-   * Controls the speed of the talon
+   * Controls the speed of the elevator motor.
    */
   public void controlSpeed(double speed) {
-    elevatorMotor.set(ControlMode.PercentOutput, speed);
+    elevatorMotor.set(speed);
   }
 
   /**
-   * Specifies if the elevator encoder passed a distance within a certain range.
+   * Specifies if the the elevator encoder passed a distance within a certain range.
    * 
    * @param maxDistance The maximum distance the encoder could passed in the range
    * @param minDistance The minimum distance the encoder could pass in the range
-   * @return Is the elevator encoder in the correct range in terms of distance
+   * @return Indication if the elevator encoder in the correct range in terms of the distance.
    */
   public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
     return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
   }
 
   /**
-   * Reset's the encoder
+   * Reset the encoder
    */
   public void resetEncoder() {
     encoderElevator.reset();
@@ -99,7 +128,7 @@ public class Elevator extends Subsystem {
   /**
    * Singleton
    */
-  public static Elevator getInstance() { 
+  public static Elevator getInstance() {
     if (e_Instance == null)
       e_Instance = new Elevator();
     return e_Instance;

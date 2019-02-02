@@ -19,18 +19,20 @@ public class OpenPole extends Command {
 
   public OpenPole() {
     climber = Climber.getInstance();
+
     requires(climber);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    climber.openPole();
+
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    climber.openAndClosePole(1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -42,13 +44,13 @@ public class OpenPole extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    climber.stopOpeningPole();
+    climber.stopPole();
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    climber.stopOpeningPole();
+    climber.stopPole();
   }
 }

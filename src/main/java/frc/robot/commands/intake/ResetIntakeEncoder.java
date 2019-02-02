@@ -5,17 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Intake;
 
-/**
- * Check if the high Intake limit switch is pressed.
- */
-public class ResetIntakeEncoderTrigger extends Trigger {
-  @Override
-  public boolean get() {
-    return Intake.getInstance().isIntakeLimitswitchClosed();
+public class ResetIntakeEncoder extends InstantCommand {
+
+  private Intake intake = Intake.getInstance();
+
+  /**
+   * Requires the Intake subsystem
+   */
+  public ResetIntakeEncoder() {
+    requires(intake);
   }
+
+  /**
+   * Reset the encoder
+   */
+  @Override
+  protected void initialize() {
+    intake.resetEncoder();
+  }
+
 }

@@ -9,11 +9,11 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
+
 @Deprecated
 public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();
-  private double tolerance;
   private double setpoint;
 
   /**
@@ -22,9 +22,7 @@ public class IntakePID extends Command {
    * @param setpoint  The given destination.
    * @param tolerance The given range.
    */
-  public IntakePID(double setpoint, double tolerance) {
-
-    this.tolerance = tolerance;
+  public IntakePID(double setpoint) {
     this.setpoint = setpoint;
 
     requires(intake);
@@ -61,11 +59,12 @@ public class IntakePID extends Command {
   protected void end() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
+    
   }
 
   /**
-   * Disable the intake PIDController and disable the {intakeMovmentControl} motor if {end}
-   * function
+   * Disable the intake PIDController and disable the {intakeMovmentControl} motor
+   * if {end} function
    */
   @Override
   protected void interrupted() {
