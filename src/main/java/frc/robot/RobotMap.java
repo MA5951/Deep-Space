@@ -15,6 +15,12 @@ package frc.robot;
  */
 public class RobotMap {
 
+  public static final int LEFT_CLIMB_MOTOR = 1; // TODO
+  public static final int RIGHT_CLIMB_MOTOR = 2; // TODO
+
+  public static final int CLIMB_ENCODER_A_CHANNEL = 1; // TODO
+  public static final int CLIMB_ENCODER_B_CHANNEL = 2; // TODO
+
   // Joysticks
   public static final int JOYSTICK_OPERATOR = 0;
   public static final int JOYSTICK_DRIVER_LEFT = 1;
@@ -50,5 +56,4 @@ public class RobotMap {
 
   public static final int INTAKE_PISTON_FORWARD = 0;
   public static final int INTAKE_PISTON_BACKWARD = 1;
-
 }

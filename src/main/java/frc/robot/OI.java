@@ -8,6 +8,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.climber.OpenPole;
+import frc.robot.triggers.ClimbingPoleDown;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.intake.IntakeMovement;
@@ -37,6 +40,9 @@ public class OI {
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.RB);
 
+  //public static final ClimbingPoleDown CLIMBING_POLE_DOWN = new ClimbingPoleDown();
+  public static final Joystick CLIMBER_JOYSTICK = new Joystick(1);
+  public static final JoystickButton CLIMBER_BUTTON = new JoystickButton(CLIMBER_JOYSTICK, 3);
   // Joystick buttons
   private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, XBOX.LB);
@@ -61,5 +67,7 @@ public class OI {
     riderIntake.whileHeld(new RiderIntake());
     riderOuttake.whileHeld(new RiderOuttake());
 
+    CLIMBER_BUTTON.whileHeld(new OpenPole());
   }
+  
 }
