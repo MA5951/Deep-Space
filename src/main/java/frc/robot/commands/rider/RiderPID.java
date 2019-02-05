@@ -17,21 +17,21 @@ import frc.robot.subsystems.Rider;
 public class RiderPID extends Command {
   private double setPoint;
   private double lastTimeOnTarget;
-  private double waiteTime;
+  private double waitTime;
 
   private Rider rider = Rider.getInstance();
-  
-  public RiderPID(double setPoint,double waiteTime) {
+
+  public RiderPID(double setPoint, double waitTime) {
     this.setPoint = setPoint;
-     this.waiteTime=waiteTime;
+    this.waitTime = waitTime;
     requires(rider);
   }
 
   // Called just before this Command runs the first time
   @Override
-  protected void initialize() { 
-    rider.setSetPoint(setPoint);
+  protected void initialize() {
     rider.enablePID(true);
+    rider.setSetPoint(setPoint);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,10 +42,10 @@ public class RiderPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(!rider.isPIDOnTarget()){
-      lastTimeOnTarget=Timer.getFPGATimestamp();
+    if (!rider.isPIDOnTarget()) {
+      lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return rider.isPIDOnTarget() &&  Timer.getFPGATimestamp()-lastTimeOnTarget > waiteTime;
+    return rider.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   // Called once after isFinished returns true

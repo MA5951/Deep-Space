@@ -17,15 +17,15 @@ public class IntakePID extends Command {
   private Intake intake = Intake.getInstance();
   private double setpoint;
   private double lastTimeOnTarget;
-  private double waiteTime;
+  private double waitTime;
+
   /**
    * Creates new {IntakePID} command.
    * 
-   * @param setpoint  The given destination.
-   * @param tolerance The given range.
+   * @param setpoint The given destination.
    */
-  public IntakePID(double setpoint , double waiteTime ) {
-    this.waiteTime=waiteTime;
+  public IntakePID(double setpoint, double waitTime) {
+    this.waitTime = waitTime;
     this.setpoint = setpoint;
 
     requires(intake);
@@ -37,9 +37,8 @@ public class IntakePID extends Command {
    */
   @Override
   protected void initialize() {
-
-    intake.setSetpoint(setpoint);
     intake.enablePID(true);
+    intake.setSetpoint(setpoint);
   }
 
   @Override
@@ -51,12 +50,11 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    if(!intake.isPIDOnTarget()){
-      lastTimeOnTarget=Timer.getFPGATimestamp();
+    if (!intake.isPIDOnTarget()) {
+      lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return intake.isPIDOnTarget() &&  Timer.getFPGATimestamp()-lastTimeOnTarget > waiteTime;
+    return intake.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
-  
 
   /**
    * Disable the intake PIDContoller and disable the {intakeMovmentControl} motor
@@ -66,7 +64,7 @@ public class IntakePID extends Command {
   protected void end() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
-    
+
   }
 
   /**

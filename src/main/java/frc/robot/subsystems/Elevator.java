@@ -24,8 +24,8 @@ public class Elevator extends Subsystem {
 
   private Encoder encoderElevator;
 
-  private DigitalInput elevatorLimitswitch;
   private DigitalInput elevatorLimitswitchDown;
+  private DigitalInput elevatorLimitswitch;
 
   // TODO
   public static final double KP_ENCODER = 0;
@@ -48,8 +48,8 @@ public class Elevator extends Subsystem {
     elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
     elevatorMotor.setInverted(true);
 
-    elevatorLimitswitch = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH);
-
+    elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH);
+    
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);

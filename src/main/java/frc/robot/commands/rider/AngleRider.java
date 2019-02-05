@@ -29,7 +29,7 @@ public class AngleRider extends Command {
   @Override
   protected void execute() {
     speed = OI.OPERATOR_STICK.getRawAxis(5);
-    rider.controlAngleMotor(speed);
+    rider.controlAngleMotor(speed * 0.5);
   }
 
   @Override

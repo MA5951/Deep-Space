@@ -12,26 +12,25 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
-  double setPoint; 
+  double setPoint;
   Elevator elevator;
   private double lastTimeOnTarget;
-  private double waiteTime;
+  private double waitTime;
 
-  public ElevatorPID(double setPoint,double waiteTime) {
+  public ElevatorPID(double setPoint, double waitTime) {
     this.setPoint = setPoint;
-    this.waiteTime=waiteTime;
+    this.waitTime = waitTime;
 
     elevator = Elevator.getInstance();
     requires(elevator);
 
-   
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
     elevator.enablePID(true);
-    elevator.setSetPoint(setPoint); 
+    elevator.setSetPoint(setPoint);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -42,12 +41,11 @@ public class ElevatorPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if(!elevator.isPIDOnTarget()){
-      lastTimeOnTarget=Timer.getFPGATimestamp();
+    if (!elevator.isPIDOnTarget()) {
+      lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return elevator.isPIDOnTarget() &&  Timer.getFPGATimestamp()-lastTimeOnTarget > waiteTime;
+    return elevator.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
-  
 
   // Called once after isFinished returns true
   @Override

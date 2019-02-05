@@ -15,11 +15,6 @@ package frc.robot;
  */
 public class RobotMap {
 
-  public static final int LEFT_CLIMB_MOTOR = 10; 
-  public static final int RIGHT_CLIMB_MOTOR = 11; 
-
-  
-
   // Joysticks
   public static final int JOYSTICK_OPERATOR = 0;
   public static final int JOYSTICK_DRIVER_LEFT = 1;
@@ -38,6 +33,9 @@ public class RobotMap {
   public static final int RIDER_ANGLE_MOTOR = 8;
   public static final int RIDER_INTAKE_MOTOR = 9;
 
+  public static final int LEFT_CLIMB_MOTOR = 10; 
+  public static final int RIGHT_CLIMB_MOTOR = 11;
+
   public static final int ELEVATOR_SPARK = 0;
 
   // Sensors (RoboRIO DIO's)
@@ -47,17 +45,17 @@ public class RobotMap {
   public static final int RIDER_ENCODER_A = 2;
   public static final int RIDER_ENCODER_B = 3;
 
-  public static final int ELEVATOR_ENCODER_A =3;
-  public static final int ELEVATOR_ENCODER_B =4;
+  public static final int ELEVATOR_ENCODER_A =4;
+  public static final int ELEVATOR_ENCODER_B =5;
 
-  public static final int CLIMB_ENCODER_RIGHT_A_CHANNEL = 4; 
-  public static final int CLIMB_ENCODER_RIGHT_B_CHANNEL = 8;
+  public static final int CLIMB_ENCODER_RIGHT_A_CHANNEL = 6; 
+  public static final int CLIMB_ENCODER_RIGHT_B_CHANNEL = 7;
 
-  public static final int CLIMB_ENCODER_LEFT_A_CHANNEL = 5; 
-  public static final int CLIMB_ENCODER_LEFT_B_CHANNEL = 6;
+  public static final int CLIMB_ENCODER_LEFT_A_CHANNEL = 8; 
+  public static final int CLIMB_ENCODER_LEFT_B_CHANNEL = 9;
 
-
-  public static final int ELEVATOR_LIMITSWITCH = 7;
+  //Sensors (Navx DIO's)
+  public static final int ELEVATOR_LIMITSWITCH = 10;
 
   // Pneumatic
   public static final int PCM = 0;

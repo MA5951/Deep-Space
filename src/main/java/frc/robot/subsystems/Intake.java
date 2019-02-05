@@ -8,6 +8,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -70,6 +72,9 @@ public class Intake extends Subsystem {
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
+
+    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX,
+        LimitSwitchNormal.NormallyClosed);
   }
 
   public void intakeSmartdashboardValue() {

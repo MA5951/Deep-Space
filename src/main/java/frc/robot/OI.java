@@ -43,7 +43,7 @@ public class OI {
   public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
 
-   // Joystick buttons and triggers
+  // Joystick buttons and triggers
   private POVTrigger elevatorPIDUp = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
   private POVTrigger elevatorPIDDown = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
 
@@ -51,6 +51,9 @@ public class OI {
   private POVTrigger riderPIDLeft = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.A);
   private JoystickButton riderIntake = new JoystickButton(OPERATOR_STICK, XBOX.Y);
+
+
+  
 
   private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.A);
   private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, XBOX.Y);
@@ -76,26 +79,25 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(0.5));
     intakeSolenoid.whenPressed(new PistonCommandGroup());
 
-    intakePID.whileHeld(new IntakePID(0,0.5)); //TODO set setpoint
+    intakePID.whileHeld(new IntakePID(0, 0.5)); // TODO set setpoint
     intakePullBall.whileHeld(new PullBall());
     intakePushBall.whileHeld(new PushBall());
 
-    riderPIDRight.whileActive(new RiderPID(0,0.5)); //TODO set setpoint
-    riderPIDLeft.whileActive(new RiderPID(-0,0.5)); //TODO set setpoint
+    riderPIDRight.whileActive(new RiderPID(0, 0.5)); // TODO set setpoint
+    riderPIDLeft.whileActive(new RiderPID(-0, 0.5)); // TODO set setpoint
     riderIntake.whileHeld(new RiderIntake());
     riderOuttake.whileHeld(new RiderOuttake());
 
     climberOpenPole.whileHeld(new OpenPole());
     climberStopPole.whileHeld(new ClosePole());
 
-    elevatorPIDUp.whileActive(new ElevatorPID(0,0.5)); //TODO set setpoint
-    elevatorPIDDown.whileActive(new ElevatorPID(-0,0.5)); //TODO set setpoint
+    elevatorPIDUp.whileActive(new ElevatorPID(0, 0.5)); // TODO set setpoint
+    elevatorPIDDown.whileActive(new ElevatorPID(-0, 0.5)); // TODO set setpoint
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
 
-    
   }
 
 }
