@@ -24,10 +24,14 @@ public class Climber extends Subsystem {
   private static Climber m_instance;
 
   private WPI_TalonSRX leftPoleMotor, rightPoleMotor;
-  private Encoder poleEncoder;
 
-  public static final double MAX_POLE_ENCODER_TICKS = 10000; // TODO
-  public static final double MIN_POLE_ENCODER_TICKS = 0; // TODO
+  private Encoder poleEncoderRight;
+  private Encoder poleEncoderLeft;
+
+  public static final double MAX_POLE_ENCODER_TICKS_RIGHT = 10000; // TODO
+  public static final double MIN_POLE_ENCODER_TICKS_RIGHT = 0; 
+  public static final double MAX_POLE_ENCODER_TICKS_LEFT = 10000; // TODO
+  public static final double MIN_POLE_ENCODER_TICKS_LEFT = 0; 
 
   public static final double START_CLIMB_HEIGHT = 1000000; // TODO
 
@@ -37,9 +41,13 @@ public class Climber extends Subsystem {
     rightPoleMotor = new WPI_TalonSRX(RobotMap.RIGHT_CLIMB_MOTOR);
     rightPoleMotor.set(ControlMode.Follower, leftPoleMotor.getDeviceID());
 
-    poleEncoder = new Encoder(RobotMap.CLIMB_ENCODER_A_CHANNEL, RobotMap.CLIMB_ENCODER_B_CHANNEL, false,
+    poleEncoderRight = new Encoder(RobotMap.CLIMB_ENCODER_RIGHT_A_CHANNEL, RobotMap.CLIMB_ENCODER_RIGHT_B_CHANNEL, false,
         EncodingType.k4X);
-    poleEncoder.reset();
+    poleEncoderRight.reset();
+
+    poleEncoderLeft = new Encoder(RobotMap.CLIMB_ENCODER_LEFT_A_CHANNEL, RobotMap.CLIMB_ENCODER_LEFT_B_CHANNEL, false,
+        EncodingType.k4X);
+    poleEncoderLeft.reset();
   }
 
   /**
@@ -57,16 +65,24 @@ public class Climber extends Subsystem {
    * @return Has the robot has reached it's target height (and can finish
    *         climbing).
    */
-  public boolean isPoleOut() {
-    return poleEncoder.getRaw() >= MAX_POLE_ENCODER_TICKS;
+  public boolean isPoleOutRight() {
+    return poleEncoderRight.getRaw() >= MAX_POLE_ENCODER_TICKS_RIGHT;
   }
 
   /**
    * @return Has the robot has reached it's target height (and can finish
    *         climbing).
    */
-  public boolean poleDistance() {
-    return poleEncoder.getRaw() <= MIN_POLE_ENCODER_TICKS;
+  public boolean poleDistanceRight() {
+    return poleEncoderRight.getRaw() <= MIN_POLE_ENCODER_TICKS_RIGHT;
+  }
+
+  public boolean poleDistanceLeft() {
+    return poleEncoderRight.getRaw() <= MIN_POLE_ENCODER_TICKS_LEFT;
+  }
+
+  public boolean isPoleOutLeft() {
+    return poleEncoderRight.getRaw() >= MAX_POLE_ENCODER_TICKS_LEFT;
   }
 
   /**

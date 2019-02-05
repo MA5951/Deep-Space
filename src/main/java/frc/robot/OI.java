@@ -76,20 +76,20 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(0.5));
     intakeSolenoid.whenPressed(new PistonCommandGroup());
 
-    intakePID.whileHeld(new IntakePID(0)); //TODO set setpoint
+    intakePID.whileHeld(new IntakePID(0,0.5)); //TODO set setpoint
     intakePullBall.whileHeld(new PullBall());
     intakePushBall.whileHeld(new PushBall());
 
-    riderPIDRight.whileActive(new RiderPID(0)); //TODO set setpoint
-    riderPIDLeft.whileActive(new RiderPID(-0)); //TODO set setpoint
+    riderPIDRight.whileActive(new RiderPID(0,0.5)); //TODO set setpoint
+    riderPIDLeft.whileActive(new RiderPID(-0,0.5)); //TODO set setpoint
     riderIntake.whileHeld(new RiderIntake());
     riderOuttake.whileHeld(new RiderOuttake());
 
     climberOpenPole.whileHeld(new OpenPole());
     climberStopPole.whileHeld(new ClosePole());
 
-    elevatorPIDUp.whileActive(new ElevatorPID(0)); //TODO set setpoint
-    elevatorPIDDown.whileActive(new ElevatorPID(-0)); //TODO set setpoint
+    elevatorPIDUp.whileActive(new ElevatorPID(0,0.5)); //TODO set setpoint
+    elevatorPIDDown.whileActive(new ElevatorPID(-0,0.5)); //TODO set setpoint
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
@@ -15,14 +16,16 @@ public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();
   private double setpoint;
-
+  private double lastTimeOnTarget;
+  private double waiteTime;
   /**
    * Creates new {IntakePID} command.
    * 
    * @param setpoint  The given destination.
    * @param tolerance The given range.
    */
-  public IntakePID(double setpoint) {
+  public IntakePID(double setpoint , double waiteTime ) {
+    this.waiteTime=waiteTime;
     this.setpoint = setpoint;
 
     requires(intake);
@@ -48,8 +51,12 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return intake.isPIDOnTarget();
+    if(!intake.isPIDOnTarget()){
+      lastTimeOnTarget=Timer.getFPGATimestamp();
+    }
+    return intake.isPIDOnTarget() &&  Timer.getFPGATimestamp()-lastTimeOnTarget > waiteTime;
   }
+  
 
   /**
    * Disable the intake PIDContoller and disable the {intakeMovmentControl} motor

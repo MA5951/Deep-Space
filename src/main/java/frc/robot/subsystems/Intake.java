@@ -58,8 +58,8 @@ public class Intake extends Subsystem {
 
     intakeBallMotor = new WPI_VictorSPX(RobotMap.INTAKE_MOTORS_WHEELS);
 
-    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
-    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_LEFT_A);
+    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_RIGHT_B);
 
     intakeAngleMotorB.setInverted(true);
     intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());

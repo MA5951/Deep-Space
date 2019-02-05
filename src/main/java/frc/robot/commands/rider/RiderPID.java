@@ -7,6 +7,7 @@
 
 package frc.robot.commands.rider;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
@@ -15,12 +16,14 @@ import frc.robot.subsystems.Rider;
  */
 public class RiderPID extends Command {
   private double setPoint;
-  
+  private double lastTimeOnTarget;
+  private double waiteTime;
+
   private Rider rider = Rider.getInstance();
   
-  public RiderPID(double setPoint) {
+  public RiderPID(double setPoint,double waiteTime) {
     this.setPoint = setPoint;
-    
+     this.waiteTime=waiteTime;
     requires(rider);
   }
 
@@ -39,7 +42,10 @@ public class RiderPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return rider.isPIDOnTarget();
+    if(!rider.isPIDOnTarget()){
+      lastTimeOnTarget=Timer.getFPGATimestamp();
+    }
+    return rider.isPIDOnTarget() &&  Timer.getFPGATimestamp()-lastTimeOnTarget > waiteTime;
   }
 
   // Called once after isFinished returns true
