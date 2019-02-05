@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -58,8 +59,6 @@ public class Rider extends Subsystem {
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
 
-    angleMotor.configForwardLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed);
-    angleMotor.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed);
   }
 
   public void riderSmartdashboardValue() {
@@ -74,7 +73,7 @@ public class Rider extends Subsystem {
    * @return Indication if the limitswitch is pressed.
    */
   public boolean isLimitswitchClosed() {
-    return angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    return false; //angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**

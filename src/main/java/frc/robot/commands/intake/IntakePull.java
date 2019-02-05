@@ -43,7 +43,7 @@ public class IntakePull extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeBallControl(1);
+    intake.intakeBallControl(-1);
   }
 
   /**

@@ -74,9 +74,10 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
 
-    intakeAngleMotorA.configForwardLimitSwitchSource(RemoteLimitSwitchSource.RemoteTalonSRX,
-        LimitSwitchNormal.NormallyClosed, intakeAngleMotorA.getDeviceID());
+   
   }
+
+
 
   public void intakeSmartdashboardValue() {
     SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.get());

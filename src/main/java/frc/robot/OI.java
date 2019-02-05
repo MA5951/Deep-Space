@@ -14,6 +14,7 @@ import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
+import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.intake.PistonCommandGroup;
@@ -28,7 +29,6 @@ import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
-import frc.robot.util.JoystickUtil.JOYSTICK;
 import frc.robot.util.JoystickUtil.XBOX;
 
 //import frc.robot.triggers.TriggerReset;
@@ -55,8 +55,8 @@ public class OI {
 
   
 
-  private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.A);
-  private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, XBOX.Y);
+  private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.Y);
+  private JoystickButton intakePushBall = new JoystickButton(OPERATOR_STICK, XBOX.A);
   private JoystickButton intakePID = new JoystickButton(OPERATOR_STICK, XBOX.X);
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
@@ -79,25 +79,27 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(0.5));
     intakeSolenoid.whenPressed(new PistonCommandGroup());
 
-    intakePID.whileHeld(new IntakePID(0, 0.5)); // TODO set setpoint
-    intakePullBall.whileHeld(new PullBall());
-    intakePushBall.whileHeld(new PushBall());
+    intakePullBall.whileHeld(new IntakeMoveBall(1));
+    intakePushBall.whileHeld(new IntakeMoveBall(-1));
 
-    riderPIDRight.whileActive(new RiderPID(0, 0.5)); // TODO set setpoint
-    riderPIDLeft.whileActive(new RiderPID(-0, 0.5)); // TODO set setpoint
+    //intakePID.whileHeld(new IntakePID(0, 0.5)); // TODO set setpoint
+    //intakePullBall.whileHeld(new PullBall());
+    //intakePushBall.whileHeld(new PushBall());
+
+    //riderPIDRight.whileActive(new RiderPID(0, 0.5)); // TODO set setpoint
+    //riderPIDLeft.whileActive(new RiderPID(-0, 0.5)); // TODO set setpoint
     riderIntake.whileHeld(new RiderIntake());
     riderOuttake.whileHeld(new RiderOuttake());
 
     climberOpenPole.whileHeld(new OpenPole());
     climberStopPole.whileHeld(new ClosePole());
 
-    elevatorPIDUp.whileActive(new ElevatorPID(0, 0.5)); // TODO set setpoint
-    elevatorPIDDown.whileActive(new ElevatorPID(-0, 0.5)); // TODO set setpoint
+    //elevatorPIDUp.whileActive(new ElevatorPID(0, 0.5)); // TODO set setpoint
+    //elevatorPIDDown.whileActive(new ElevatorPID(-0, 0.5)); // TODO set setpoint
 
-    resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
-    resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
-    resetRiderEncoder.whenActive(new ResetRiderEncoder());
-
+    //resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
+    //resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
+    //resetRiderEncoder.whenActive(new ResetRiderEncoder());
   }
 
 }

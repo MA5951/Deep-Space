@@ -15,7 +15,7 @@ public class PushBall extends CommandGroup {
    * Add your docs here.
    */
   public PushBall() {
-    addParallel(new IntakeMoveBall());
+    //addParallel(new IntakeMoveBall());
    addSequential(new RiderOuttake());
  
   }

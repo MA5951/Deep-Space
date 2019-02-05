@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Climber;
 
 public class ClosePole extends Command {
-  private Climber climber;
+  private Climber climber = Climber.getInstance();
 
 
   public ClosePole() {
@@ -32,7 +32,7 @@ public class ClosePole extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return climber.poleDistanceLeft() && climber.poleDistanceRight();
+    return false; //climber.poleDistanceLeft() && climber.poleDistanceRight();
   }
 
   // Called once after isFinished returns true
