@@ -38,7 +38,7 @@ public class OpenPole extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return climber.isPoleOutLeft() && climber.isPoleOutRight();
+    return false; // climber.isPoleOutLeft() && climber.isPoleOutRight();
   }
 
   // Called once after isFinished returns true

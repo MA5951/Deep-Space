@@ -29,9 +29,9 @@ public class Climber extends Subsystem {
   private Encoder poleEncoderLeft;
 
   public static final double MAX_POLE_ENCODER_TICKS_RIGHT = 10000; // TODO
-  public static final double MIN_POLE_ENCODER_TICKS_RIGHT = 0; 
+  public static final double MIN_POLE_ENCODER_TICKS_RIGHT = 0;
   public static final double MAX_POLE_ENCODER_TICKS_LEFT = 10000; // TODO
-  public static final double MIN_POLE_ENCODER_TICKS_LEFT = 0; 
+  public static final double MIN_POLE_ENCODER_TICKS_LEFT = 0;
 
   public static final double START_CLIMB_HEIGHT = 1000000; // TODO
 
@@ -41,8 +41,8 @@ public class Climber extends Subsystem {
     rightPoleMotor = new WPI_TalonSRX(RobotMap.RIGHT_CLIMB_MOTOR);
     rightPoleMotor.set(ControlMode.Follower, leftPoleMotor.getDeviceID());
 
-    poleEncoderRight = new Encoder(RobotMap.CLIMB_ENCODER_RIGHT_A_CHANNEL, RobotMap.CLIMB_ENCODER_RIGHT_B_CHANNEL, false,
-        EncodingType.k4X);
+    poleEncoderRight = new Encoder(RobotMap.CLIMB_ENCODER_RIGHT_A_CHANNEL, RobotMap.CLIMB_ENCODER_RIGHT_B_CHANNEL,
+        false, EncodingType.k4X);
     poleEncoderRight.reset();
 
     poleEncoderLeft = new Encoder(RobotMap.CLIMB_ENCODER_LEFT_A_CHANNEL, RobotMap.CLIMB_ENCODER_LEFT_B_CHANNEL, false,

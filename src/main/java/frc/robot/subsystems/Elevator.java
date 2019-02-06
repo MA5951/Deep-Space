@@ -57,7 +57,7 @@ public class Elevator extends Subsystem {
 
   public void elevatorSmartdashboardValue() {
     SmartDashboard.putNumber("Elevator Motor", elevatorMotor.get());
-    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.getDistance());
+    SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
   }
 
   /**
@@ -123,6 +123,7 @@ public class Elevator extends Subsystem {
    */
   public void resetEncoder() {
     encoderElevator.reset();
+    System.out.println("RESETTED");
   }
 
   /**

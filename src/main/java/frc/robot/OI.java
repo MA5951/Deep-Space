@@ -97,8 +97,8 @@ public class OI {
     //elevatorPIDUp.whileActive(new ElevatorPID(0, 0.5)); // TODO set setpoint
     //elevatorPIDDown.whileActive(new ElevatorPID(-0, 0.5)); // TODO set setpoint
 
-    //resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
-    //resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
+    resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
+    resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     //resetRiderEncoder.whenActive(new ResetRiderEncoder());
   }
 
