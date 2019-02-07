@@ -142,6 +142,9 @@ public class Intake extends Subsystem {
     intakeAngleMotorA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
+  public boolean isEncoderInDistanceRangeIntake(double maxDistance, double minDistance) {
+    return encoderIntake.getDistance() <= maxDistance && encoderIntake.getDistance() >= minDistance;
+  }
   /**
    * Give power to the pistons (up).
    */

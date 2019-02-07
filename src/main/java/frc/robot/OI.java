@@ -14,6 +14,7 @@ import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
+import frc.robot.commands.intake.AutomaticTakeBall;
 import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.IntakePID;
@@ -80,7 +81,7 @@ public class OI {
     intakeSolenoid.whenPressed(new PistonCommandGroup());
 
     intakePullBall.whileHeld(new IntakeMoveBall(1));
-    intakePushBall.whileHeld(new IntakeMoveBall(-1));
+    intakePushBall.whileHeld(new AutomaticTakeBall());
 
     //intakePID.whileHeld(new IntakePID(0, 0.5)); // TODO set setpoint
     //intakePullBall.whileHeld(new PullBall());

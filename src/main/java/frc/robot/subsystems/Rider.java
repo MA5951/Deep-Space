@@ -95,7 +95,9 @@ public class Rider extends Subsystem {
   public void setSetPoint(double setPoint) {
     anglePIDController.setSetpoint(setPoint);
   }
-
+  public boolean isEncoderInDistanceRangeRider(double maxDistance, double minDistance) {
+    return encoderAngle.getDistance() <= maxDistance && encoderAngle.getDistance() >= minDistance;
+  }
   /**
    * 
    * Return if the robot reached the desired destination

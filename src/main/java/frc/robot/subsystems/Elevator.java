@@ -114,8 +114,8 @@ public class Elevator extends Subsystem {
    * @param minDistance The minimum distance the encoder could pass in the range
    * @return Indication if the elevator encoder in the correct range in terms of the distance.
    */
-  public boolean isEncoderInDistanceRange(double maxDistance, double minDistance) {
-    return encoderElevator.getDistance() < maxDistance && encoderElevator.getDistance() > minDistance;
+  public boolean isEncoderInDistanceRangeElevator(double maxDistance, double minDistance) {
+    return encoderElevator.getDistance() <= maxDistance && encoderElevator.getDistance() >= minDistance;
   }
 
   /**
