@@ -55,7 +55,9 @@ public class RobotMap {
   public static final int CLIMB_ENCODER_LEFT_B_CHANNEL = 9;
 
   //Sensors (Navx DIO's)
-  public static final int ELEVATOR_LIMITSWITCH = 10;
+  public static final int ELEVATOR_LIMITSWITCH_DOWN = 10;
+  public static final int ELEVATOR_LIMITSWITCH_UP = 11;
+  public static final int RIDER_LIMITSWITCH_BALL = 12;
 
   // Pneumatic
   public static final int PCM = 0;

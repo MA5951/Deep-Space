@@ -45,7 +45,8 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return false;
+    return speed > 0 && intake.isIntakeLimitswitchClosed();
+    
   }
 
   /**

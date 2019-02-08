@@ -8,48 +8,52 @@
 package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
-public class AngleRider extends Command {
-  double speed;
-
+public class MoveAngle extends Command {
   private Rider rider = Rider.getInstance();
+  private double speed;
+  private double minDistance;
+  private double maxDistance;
 
-  public AngleRider() {
-
-    requires(rider);
+  public MoveAngle(double maxDistance,double minDistance, double speed) {
+    this.maxDistance = maxDistance;
+    this.minDistance = minDistance;
+    this.speed = Math.abs(speed);
+     requires(rider);
   }
 
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    speed = OI.OPERATOR_STICK.getRawAxis(5);
-    rider.controlAngleMotor(speed * -0.3);
+    if (rider.getEncoder() > ((maxDistance + minDistance) / 2)) {
+      rider.controlAngleMotor(speed);
+    } else {
+      rider.controlAngleMotor(-speed);
+    }
     if (!rider.getLimitswitchBall())
       rider.controlIntakeMotor(0.35);
   }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return rider.isEncoderInDistanceRangeRider(maxDistance, minDistance);
   }
 
-  /**
-   * Reset the encoder and disable the angle motor if isFinished function is true
-   */
+  // Called once after isFinished returns true
   @Override
   protected void end() {
     rider.controlAngleMotor(0);
   }
 
-  /**
-   * Disable the angle motor if end function was interrupted
-   */
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
     rider.controlAngleMotor(0);

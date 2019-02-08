@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -35,6 +36,7 @@ public class Rider extends Subsystem {
   private Encoder encoderAngle;
 
   private PIDController anglePIDController;
+  DigitalInput riderLimitswitch;
 
   // TODO
   public static final double KP_ANGLE = 0;
@@ -48,7 +50,7 @@ public class Rider extends Subsystem {
    * Initializes all Rider components
    */
   private Rider() {
-
+    riderLimitswitch = new DigitalInput(RobotMap.RIDER_LIMITSWITCH_BALL);
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
     intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
 
@@ -108,6 +110,10 @@ public class Rider extends Subsystem {
     return anglePIDController.onTarget();
   }
 
+  public boolean getLimitswitchBall() {
+    return riderLimitswitch.get();
+  }
+
   /**
    * Control the intake motor power
    * 
@@ -131,6 +137,10 @@ public class Rider extends Subsystem {
    */
   public void resetEncoder() {
     encoderAngle.reset();
+  }
+
+  public double getEncoder() {
+    return encoderAngle.getDistance();
   }
 
   /**

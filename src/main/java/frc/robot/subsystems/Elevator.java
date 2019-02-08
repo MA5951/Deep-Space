@@ -25,7 +25,7 @@ public class Elevator extends Subsystem {
   private Encoder encoderElevator;
 
   private DigitalInput elevatorLimitswitchDown;
-  private DigitalInput elevatorLimitswitch;
+  private DigitalInput elevatorLimitswitchUp;
 
   // TODO
   public static final double KP_ENCODER = 0;
@@ -48,8 +48,8 @@ public class Elevator extends Subsystem {
     elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
     elevatorMotor.setInverted(true);
 
-    elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH);
-    
+    elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
+    elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_DOWN);
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
@@ -60,6 +60,15 @@ public class Elevator extends Subsystem {
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
   }
 
+  /**
+   * Check whether limitswitch is pressed.
+   * 
+   * @return Indication if limitswitch is pressed.
+   */
+  public boolean isElevatorLimitswitchUpPressed() {
+    return !elevatorLimitswitchUp.get();
+  }
+  
   /**
    * Check whether limitswitch is pressed.
    * 
@@ -123,7 +132,6 @@ public class Elevator extends Subsystem {
    */
   public void resetEncoder() {
     encoderElevator.reset();
-    System.out.println("RESETTED");
   }
 
   /**

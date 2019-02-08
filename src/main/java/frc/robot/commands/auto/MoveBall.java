@@ -5,20 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Rider;
 
-public class AutomaticIntake extends Command {
-  private Intake intake = Intake.getInstance();
-  double minDistance;
-  double maxDistance;
-  public AutomaticIntake(double maxDistance, double minDistance) {
-    this.minDistance=minDistance;
-    this.maxDistance=maxDistance;
-    requires(intake);
- 
+public class MoveBall extends Command {
+  private Elevator elevator = Elevator.getInstance();
+  public MoveBall() {
+     requires(elevator);
   }
 
   // Called just before this Command runs the first time
@@ -29,25 +25,25 @@ public class AutomaticIntake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    intake.intakeAngleControl(-0.5);
+    elevator.controlSpeed(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return intake.isEncoderInDistanceRangeIntake(maxDistance,minDistance);//TODO
+    return elevator.isEncoderInDistanceRangeElevator(0, -20);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    intake.intakeAngleControl(0);
+    elevator.controlSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    intake.intakeAngleControl(0);
+    elevator.controlSpeed(0);
   }
 }

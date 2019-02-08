@@ -5,24 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.rider;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.elevator.ElevatorDown;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Rider;
 
-public class AutomaticTakeBall extends CommandGroup {
+/**
+ * Add your docs here.
+ */
+public class StopRiderMovement extends InstantCommand {
+  Rider rider = Rider.getInstance();
   /**
    * Add your docs here.
    */
-  public AutomaticTakeBall() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
-
-  
-  //addParallel(new AutomaticIntake(0, 0));\
-  addSequential(new IntakeMoveBall(-1));
-  addSequential(new ElevatorDown());
+  public StopRiderMovement() {
+    requires(rider);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    rider.controlAngleMotor(0);
+  }
+
 }

@@ -10,35 +10,33 @@ package frc.robot.commands.elevator;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
-public class ElevatorDown extends Command {
-
-  Elevator elevator; 
-
-  /**
-   * Create an object of chassis (create a new instance of chassis)
-   */
-
-  public ElevatorDown() {
-    elevator = Elevator.getInstance();
-    requires(elevator);
+public class ElevatorEncoderControlMOtors extends Command {
+  Elevator elevator = Elevator.getInstance();
+  double speed;
+  double maxDistance;
+  double minDistance;
+  public ElevatorEncoderControlMOtors( double maxDistance, double minDistance,double speed) {
+    this.speed = speed;
+    this.maxDistance = maxDistance;
+    this.minDistance = minDistance;
+       requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.controlSpeed(-0.7);
+    elevator.controlSpeed(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !elevator.isElevatorLimitswitchDownPressed();
+    return elevator.isEncoderInDistanceRangeElevator(maxDistance, minDistance);
   }
 
   // Called once after isFinished returns true
@@ -46,6 +44,7 @@ public class ElevatorDown extends Command {
   protected void end() {
     elevator.controlSpeed(0);
   }
+  
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
@@ -53,4 +52,5 @@ public class ElevatorDown extends Command {
   protected void interrupted() {
     elevator.controlSpeed(0);
   }
-}
+  }
+

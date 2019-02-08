@@ -67,6 +67,9 @@ public class Robot extends TimedRobot {
     Elevator.getInstance().elevatorSmartdashboardValue(); 
     Rider.getInstance().riderSmartdashboardValue();
     SmartDashboard.updateValues();
+
+    Rider r = Rider.getInstance();
+    System.out.println(r.getLimitswitchBall());
   }
 
 

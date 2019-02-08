@@ -5,17 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Intake;
 
 /**
- * Reset the encoder if limit switch is pressed.
+ * Add your docs here.
  */
-public class ResetElevatorEncoderTrigger extends Trigger {
-  @Override
-  public boolean get() {
-    return Elevator.getInstance().isElevatorLimitswitchUpPressed();
+public class StopIntakeBallMovement extends InstantCommand {
+  Intake intake = Intake.getInstance();
+
+  /**
+   * Add your docs here.
+   */
+  public StopIntakeBallMovement() {
+    requires(intake);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    intake.intakeBallControl(0);
+  }
+
 }

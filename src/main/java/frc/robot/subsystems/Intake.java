@@ -145,6 +145,10 @@ public class Intake extends Subsystem {
   public boolean isEncoderInDistanceRangeIntake(double maxDistance, double minDistance) {
     return encoderIntake.getDistance() <= maxDistance && encoderIntake.getDistance() >= minDistance;
   }
+
+  public double getEncoder() {
+    return encoderIntake.getDistance();
+  }
   /**
    * Give power to the pistons (up).
    */

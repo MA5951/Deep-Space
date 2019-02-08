@@ -5,52 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 
-public class ElevatorDown extends Command {
+public class AutomaticIntake extends Command {
+  private Intake intake = Intake.getInstance();
+  private double minDistance;
+  private double maxDistance;
+  private double speed;
 
-  Elevator elevator; 
-
-  /**
-   * Create an object of chassis (create a new instance of chassis)
-   */
-
-  public ElevatorDown() {
-    elevator = Elevator.getInstance();
-    requires(elevator);
+  public AutomaticIntake(double maxDistance, double minDistance, double speed) {
+    this.minDistance = minDistance;
+    this.maxDistance = maxDistance;
+    this.speed = Math.abs(speed);
+    requires(intake);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.controlSpeed(-0.7);
+    if (intake.getEncoder() > ((maxDistance + minDistance) / 2)) {
+      intake.intakeAngleControl(-speed);
+    } else {
+      intake.intakeAngleControl(speed);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !elevator.isElevatorLimitswitchDownPressed();
+    return intake.isEncoderInDistanceRangeIntake(maxDistance, minDistance);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.controlSpeed(0);
+    intake.intakeAngleControl(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.controlSpeed(0);
+    intake.intakeAngleControl(0);
   }
 }

@@ -5,17 +5,18 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 
-/**
- * Reset the encoder if limit switch is pressed.
- */
-public class ResetElevatorEncoderTrigger extends Trigger {
-  @Override
-  public boolean get() {
-    return Elevator.getInstance().isElevatorLimitswitchUpPressed();
+public class AllAutomaticIntake extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public AllAutomaticIntake() {
+    addSequential(new AutomaticTakeBall());
+    addSequential(new WaitCommand(0.5));
+    addSequential(new ReturnToDefault());
   }
 }
