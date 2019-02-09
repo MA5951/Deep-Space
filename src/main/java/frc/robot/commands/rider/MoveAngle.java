@@ -36,9 +36,15 @@ public class MoveAngle extends Command {
     } else {
       rider.controlAngleMotor(-speed);
     }
-    if (!rider.getLimitswitchBall())
+    if (!rider.getBallLimitswitch()) {
+
       rider.controlIntakeMotor(0.35);
+    } else {
+      rider.controlIntakeMotor(0);
+    }
   }
+
+
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
@@ -50,6 +56,7 @@ public class MoveAngle extends Command {
   @Override
   protected void end() {
     rider.controlAngleMotor(0);
+    rider.controlIntakeMotor(0);
   }
 
   // Called when another command which requires one or more of the same
@@ -57,5 +64,6 @@ public class MoveAngle extends Command {
   @Override
   protected void interrupted() {
     rider.controlAngleMotor(0);
+    rider.controlIntakeMotor(0);
   }
 }

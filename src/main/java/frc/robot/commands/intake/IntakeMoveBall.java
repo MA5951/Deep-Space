@@ -46,7 +46,7 @@ public class IntakeMoveBall extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return !Rider.getInstance().getLimitswitchBall();
+    return !Rider.getInstance().getBallLimitswitch();
   }
 
   /**

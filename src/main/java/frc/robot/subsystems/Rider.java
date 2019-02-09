@@ -8,9 +8,6 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.RemoteLimitSwitchSource;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -33,10 +30,12 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_VictorSPX intakeMotor;
 
+  
+
   private Encoder encoderAngle;
 
   private PIDController anglePIDController;
-  DigitalInput riderLimitswitch;
+  private DigitalInput riderLimitswitch;
 
   // TODO
   public static final double KP_ANGLE = 0;
@@ -60,8 +59,9 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-
   }
+
+ 
 
   public void riderSmartdashboardValue() {
     SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
@@ -75,7 +75,7 @@ public class Rider extends Subsystem {
    * @return Indication if the limitswitch is pressed.
    */
   public boolean isLimitswitchClosed() {
-    return false; //angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    return !angleMotor.getSensorCollection().isRevLimitSwitchClosed();
   }
 
   /**
@@ -110,7 +110,7 @@ public class Rider extends Subsystem {
     return anglePIDController.onTarget();
   }
 
-  public boolean getLimitswitchBall() {
+  public boolean getBallLimitswitch() {
     return riderLimitswitch.get();
   }
 

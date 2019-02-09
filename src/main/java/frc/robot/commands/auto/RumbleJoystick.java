@@ -5,56 +5,52 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.OI;
 
-public class ElevatorEncoderControlMOtors extends Command {
-  Elevator elevator = Elevator.getInstance();
-  double speed;
-  double maxDistance;
-  double minDistance;
-  public ElevatorEncoderControlMOtors( double maxDistance, double minDistance,double speed) {
-    this.speed = speed;
-    this.maxDistance = maxDistance;
-    this.minDistance = minDistance;
-       requires(elevator);
+public class RumbleJoystick extends Command {
+
+  long startTime = -1;
+  double time = -1;
+
+  public RumbleJoystick(double time) {
+    this.time = time;
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    startTime = System.currentTimeMillis();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   
-      elevator.controlSpeed(speed);
-    }
-  
-    
-  
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isEncoderInDistanceRangeElevator(maxDistance, minDistance);
+    return System.currentTimeMillis() - startTime >= time;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.controlSpeed(0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
-  
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.controlSpeed(0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
-  }
-
+}

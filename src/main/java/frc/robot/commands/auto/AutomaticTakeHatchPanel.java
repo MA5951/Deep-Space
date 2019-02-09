@@ -9,14 +9,16 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorUp;
+import frc.robot.commands.rider.MoveAngle;
 
-public class AutomaticTakeHtachPanel extends CommandGroup {
+public class AutomaticTakeHatchPanel extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public AutomaticTakeHtachPanel() {
+  public AutomaticTakeHatchPanel() {
     addSequential(new ElevatorUp());
-    //TODO Move rider to the back
-    addSequential(new AutomaticIntake(-400, -430 , -0.5));
+    addSequential(new MoveAngle(6, -8, -0.3));
+    addSequential(new AutomaticIntake(-400, -430, -0.5));
+    addSequential(new RumbleJoystick(500));
   }
 }

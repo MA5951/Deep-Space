@@ -5,21 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Rider;
 
-public class ElevatorEncoderControlMOtors extends Command {
-  Elevator elevator = Elevator.getInstance();
-  double speed;
-  double maxDistance;
-  double minDistance;
-  public ElevatorEncoderControlMOtors( double maxDistance, double minDistance,double speed) {
-    this.speed = speed;
-    this.maxDistance = maxDistance;
-    this.minDistance = minDistance;
-       requires(elevator);
+public class MoveToLimitSwitch extends Command {
+  private Rider rider = Rider.getInstance();
+  public MoveToLimitSwitch() {
+     requires(rider);
   }
 
   // Called just before this Command runs the first time
@@ -30,31 +24,31 @@ public class ElevatorEncoderControlMOtors extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-   
-      elevator.controlSpeed(speed);
+    rider.controlAngleMotor(-0.3);
+    if (!rider.getBallLimitswitch()) {
+      rider.controlIntakeMotor(0.35);
+    } else {
+      rider.controlIntakeMotor(0);
     }
-  
-    
-  
-
+}
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevator.isEncoderInDistanceRangeElevator(maxDistance, minDistance);
+    return rider.isLimitswitchClosed();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.controlSpeed(0);
+    rider.controlAngleMotor(0);
+    rider.controlIntakeMotor(0);
   }
-  
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.controlSpeed(0);
+    rider.controlAngleMotor(0);
+    rider.controlIntakeMotor(0);
   }
-  }
-
+}

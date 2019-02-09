@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +28,9 @@ public class Robot extends TimedRobot {
     Rider.getInstance();
     Elevator.getInstance();
     Climber.getInstance();
+
+    // CameraServer.getInstance().startAutomaticCapture();
+    // CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
@@ -61,17 +65,12 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
 
-    // TODO Add javadoc
     Chassis.getInstance().chassisSmartdashboardValue();
     Intake.getInstance().intakeSmartdashboardValue();
-    Elevator.getInstance().elevatorSmartdashboardValue(); 
+    Elevator.getInstance().elevatorSmartdashboardValue();
     Rider.getInstance().riderSmartdashboardValue();
     SmartDashboard.updateValues();
-
-    Rider r = Rider.getInstance();
-    System.out.println(r.getLimitswitchBall());
   }
-
 
   @Override
   public void testPeriodic() {

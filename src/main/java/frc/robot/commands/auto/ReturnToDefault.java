@@ -10,7 +10,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.intake.IntakeMovement;
-import frc.robot.commands.rider.MoveAngle;
+import frc.robot.commands.rider.MoveToLimitSwitch;
 
 public class ReturnToDefault extends CommandGroup {
   /**
@@ -18,7 +18,8 @@ public class ReturnToDefault extends CommandGroup {
    */
   public ReturnToDefault() {
     addSequential(new ElevatorUp());
-    addSequential(new MoveAngle(6, -8, -0.3));
+    addSequential(new MoveToLimitSwitch());
     addSequential(new IntakeMovement(0.5));
+    addSequential(new RumbleJoystick(500));
   }
 }

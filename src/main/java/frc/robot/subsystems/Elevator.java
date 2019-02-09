@@ -60,6 +60,11 @@ public class Elevator extends Subsystem {
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
   }
 
+  public double getElevatorEncoder (){
+    return encoderElevator.getDistance();
+  }
+
+  
   /**
    * Check whether limitswitch is pressed.
    * 

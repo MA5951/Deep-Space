@@ -5,25 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class ResetElevatorEncoder extends InstantCommand {
-  Elevator elevator = Elevator.getInstance();
+public class OperatorControl extends Subsystem {
 
-  public ResetElevatorEncoder() {
-    requires(elevator);
-  }
+  private static OperatorControl operatorControl;
 
-  // Called once when the command executes
+  public static OperatorControl getInstance() {
+    if (operatorControl == null) {
+      operatorControl = new OperatorControl();
+    }
+    return operatorControl;
+  } 
+
   @Override
-  protected void initialize() {
-    elevator.resetEncoder();
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
-
 }

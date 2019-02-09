@@ -33,7 +33,9 @@ public class RiderOuttake extends Command {
 
   @Override
   protected void execute() {
+    
     rider.controlIntakeMotor(-1);
+   
   }
 
   /**
@@ -41,7 +43,8 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return  rider.getLimitswitchBall();
+    
+    return rider.getBallLimitswitch();
   }
 
   /**
@@ -50,9 +53,11 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void end() {
+    
     rider.controlIntakeMotor(-1);
     Timer.delay(0.5); // TODO : check if this works. If not, use a wait command and a command group.
     rider.controlIntakeMotor(0);
+    rider.controlAngleMotor(0);
   }
 
   /**
@@ -60,6 +65,8 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void interrupted() {
+    
     rider.controlIntakeMotor(0);
+    rider.controlAngleMotor(0);
   }
 }

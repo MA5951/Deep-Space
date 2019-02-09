@@ -5,25 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
 /**
  * Add your docs here.
  */
-public class ResetElevatorEncoder extends InstantCommand {
-  Elevator elevator = Elevator.getInstance();
-
-  public ResetElevatorEncoder() {
-    requires(elevator);
+public class StopMotors extends InstantCommand {
+  /**
+   * Add your docs here.
+   */
+  public StopMotors() {
+    super();
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Rider.getInstance());
+    requires(Elevator.getInstance());
+    requires(Intake.getInstance());
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    elevator.resetEncoder();
   }
-
 }

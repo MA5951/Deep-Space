@@ -37,7 +37,7 @@ public class RiderIntake extends Command {
 
   @Override
   protected boolean isFinished() {  
-    return !rider.getLimitswitchBall();
+    return !rider.getBallLimitswitch();
   }
 
   /**

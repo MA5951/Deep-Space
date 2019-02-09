@@ -9,13 +9,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.auto.AllAutomaticIntake;
 import frc.robot.commands.auto.AutomaticTakeBall;
-import frc.robot.commands.auto.AutomaticTakeHtachPanel;
+import frc.robot.commands.auto.AutomaticTakeHatchPanel;
 import frc.robot.commands.auto.MoveBall;
 import frc.robot.commands.auto.ReturnToDefault;
+import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.commands.elevator.ElevatorEncoderControlMOtors;
@@ -47,71 +49,43 @@ public class OI {
   public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
 
-  // Joystick buttons and triggers
-  //private POVTrigger elevatorPIDUp = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
-  //private POVTrigger elevatorPIDDown = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
+  private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
 
-  //private POVTrigger riderPIDRight = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
-  //private POVTrigger riderPIDLeft = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
-  private JoystickButton riderIntakeOut = new JoystickButton(OPERATOR_STICK, XBOX.BACK);
-
-  
+  private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.BACK);
 
   private JoystickButton autoHatchPanel = new JoystickButton(OPERATOR_STICK, XBOX.Y);
   private JoystickButton autoIntake = new JoystickButton(OPERATOR_STICK, XBOX.A);
-  private JoystickButton resetRiderEncoder = new JoystickButton(OPERATOR_STICK, XBOX.STICK_RIGHT);
+  private JoystickButton StopMotors = new JoystickButton(OPERATOR_STICK, XBOX.STICK_LEFT);
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
   private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.START);
 
-  //private JoystickButton climberOpenPole = new JoystickButton(RIGHT_DRIVER_STICK, 3);
-  //private JoystickButton climberStopPole = new JoystickButton(RIGHT_DRIVER_STICK, 5);
-
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
-  //private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
+  private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
 
-  // private TriggerReset resetIntake = new TriggerReset();
-
-  /**
-   * Initialize all the intake components and set all joystick buttons.
-   */
   public OI() {
+    StopMotors.whileHeld(new StopMotors());
     moveIntakeDown.whileHeld(new IntakeMovement(-0.5));
     moveIntakeUp.whileHeld(new IntakeMovement(0.5));
     intakeSolenoid.whenPressed(new PistonCommandGroup());
-
-    //intakePullBall.whileHeld(new IntakeMoveBall(1));
-    //intakePushBall.whileHeld(new IntakeMoveBall(-1));
+    
     autoIntake.whenPressed(new AutomaticTakeBall());
-    autoHatchPanel.whenPressed(new AutomaticTakeHtachPanel());
-
-    //intakePID.whileHeld(new IntakePID(0, 0.5)); // TODO set setpoint
-    intakePullBall.whileHeld(new RiderIntake());
-    intakePullBall.whileHeld(new IntakeMoveBall(-1d));
-
-    riderIntakeOut.whenPressed(new RiderOuttake());
-
-    //riderPIDRight.whileActive(new RiderPID(0, 0.5)); // TODO set setpoint
-    //riderPIDLeft.whileActive(new RiderPID(-0, 0.5)); // TODO set setpoint
+    autoHatchPanel.whenPressed(new AutomaticTakeHatchPanel());
     gotoDefault.whenPressed(new ReturnToDefault());
-    
-    //riderPIDRight.whileActive(new ElevatorEncoderControlMOtors(-135, -165, -0.7));
-    
-    
-    //riderOuttake.whileHeld(new RiderOuttake());
 
-    //climberOpenPole.whileHeld(new OpenPole());
-    //climberStopPole.whileHeld(new ClosePole());
+    intakePullBall.whileHeld(new RiderIntake());
+    intakePullBall.whileHeld(new IntakeMoveBall(-1.0));
 
-    //elevatorPIDUp.whileActive(new ElevatorPID(669, 0.5)); // TODO set setpoint
-    //elevatorPIDDown.whileActive(new ElevatorPID(-0, 0.5)); // TODO set setpoint
+    riderOuttake.whenPressed(new RiderOuttake());
 
+    autoRocket1.whenActive(new ElevatorEncoderControlMOtors(-3800, -3900, -0.7));
+    
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
-    resetRiderEncoder.whenPressed(new ResetRiderEncoder());
+    resetRiderEncoder.whenActive(new ResetRiderEncoder());
   }
 
   
