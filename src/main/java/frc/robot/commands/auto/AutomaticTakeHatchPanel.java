@@ -10,6 +10,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.rider.MoveAngle;
+import frc.robot.commands.rider.RiderMoveToLimitSwitch;
 
 public class AutomaticTakeHatchPanel extends CommandGroup {
   /**
@@ -17,7 +18,7 @@ public class AutomaticTakeHatchPanel extends CommandGroup {
    */
   public AutomaticTakeHatchPanel() {
     addSequential(new ElevatorUp());
-    addSequential(new MoveAngle(6, -8, -0.3));
+    addSequential(new RiderMoveToLimitSwitch());
     addSequential(new AutomaticIntake(-400, -430, -0.5));
     addSequential(new RumbleJoystick(500));
   }

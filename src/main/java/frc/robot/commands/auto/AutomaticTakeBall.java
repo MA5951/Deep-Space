@@ -16,6 +16,7 @@ import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.rider.MoveAngle;
 import frc.robot.commands.rider.RiderIntake;
+import frc.robot.commands.rider.RiderPID;
 
 public class AutomaticTakeBall extends CommandGroup {
   /**
@@ -28,8 +29,8 @@ public class AutomaticTakeBall extends CommandGroup {
     // these will run in order.
 
     
-    addSequential(new AutomaticIntake(-650, -700, -0.5));
-    addSequential(new MoveAngle(-550, -580, 0.3));
+    addSequential(new AutomaticIntake(-650, -700, 0.5));
+    addSequential(new RiderPID(-560, 0.1, 15));
     addSequential(new ElevatorDown());
     addSequential(new WaitCommand(0.1));
     addSequential(new RumbleJoystick(500));

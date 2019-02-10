@@ -23,14 +23,14 @@ public class AngleRider extends Command {
 
   @Override
   protected void initialize() {
-
   }
+
   
 
   @Override
   protected void execute() {
     speed = OI.OPERATOR_STICK.getRawAxis(5);
-    rider.controlAngleMotor(speed * -0.3);
+    rider.controlAngleMotor(speed *-0.3);
     if (!rider.getBallLimitswitch()) {
       rider.controlIntakeMotor(0.35);
   } else {

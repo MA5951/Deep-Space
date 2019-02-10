@@ -21,16 +21,20 @@ import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.commands.elevator.ElevatorEncoderControlMOtors;
+import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.IntakePull;
 import frc.robot.commands.intake.PistonCommandGroup;
 import frc.robot.commands.intake.ResetIntakeEncoder;
+import frc.robot.commands.rider.DisablePId;
 import frc.robot.commands.rider.MoveAngle;
 import frc.robot.commands.rider.ResetRiderEncoder;
 import frc.robot.commands.rider.RiderIntake;
 import frc.robot.commands.rider.RiderOuttake;
+import frc.robot.commands.rider.RiderPID;
+import frc.robot.triggers.DisablesPIDTrigger;
 import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
@@ -60,12 +64,12 @@ public class OI {
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.START);
+  private JoystickButton  intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.START);
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
-
+private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
   public OI() {
     StopMotors.whileHeld(new StopMotors());
     moveIntakeDown.whileHeld(new IntakeMovement(-0.5));
@@ -76,16 +80,20 @@ public class OI {
     autoHatchPanel.whenPressed(new AutomaticTakeHatchPanel());
     gotoDefault.whenPressed(new ReturnToDefault());
 
-    intakePullBall.whileHeld(new RiderIntake());
-    intakePullBall.whileHeld(new IntakeMoveBall(-1.0));
-
+    
+    //intakePullBall.whenPressed(new RiderPID(-680 , 0.5));
+    intakePullBall.whenPressed(new ElevatorUp());
     riderOuttake.whenPressed(new RiderOuttake());
+    //intakePullBall.whileHeld(new RiderIntake());
+    //intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
+    
 
     autoRocket1.whenActive(new ElevatorEncoderControlMOtors(-3800, -3900, -0.7));
     
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
+    disablesPIDTrigger.whenActive( new DisablePId());
   }
 
   

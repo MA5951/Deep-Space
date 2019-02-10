@@ -38,9 +38,9 @@ public class Rider extends Subsystem {
   private DigitalInput riderLimitswitch;
 
   // TODO
-  public static final double KP_ANGLE = 0;
-  public static final double KI_ANGLE = 0;
-  public static final double KD_ANGLE = 0;
+  public static final double KP_ANGLE = 0.008;
+  public static final double KI_ANGLE = 0.0000018;
+  public static final double KD_ANGLE = 0.0005;
 
   private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 0;
@@ -52,7 +52,7 @@ public class Rider extends Subsystem {
     riderLimitswitch = new DigitalInput(RobotMap.RIDER_LIMITSWITCH_BALL);
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
     intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
-
+    angleMotor.setInverted(true);
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
 
@@ -75,7 +75,7 @@ public class Rider extends Subsystem {
    * @return Indication if the limitswitch is pressed.
    */
   public boolean isLimitswitchClosed() {
-    return !angleMotor.getSensorCollection().isRevLimitSwitchClosed();
+    return !angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**
@@ -84,8 +84,10 @@ public class Rider extends Subsystem {
   public void enablePID(boolean enable) {
     if (enable) {
       anglePIDController.enable();
+      angleMotor.overrideLimitSwitchesEnable(false);
     } else {
       anglePIDController.disable();
+      angleMotor.overrideLimitSwitchesEnable(true);
     }
   }
 
@@ -106,8 +108,8 @@ public class Rider extends Subsystem {
    * 
    * @return Indication if rider is on target
    */
-  public boolean isPIDOnTarget() {
-    return anglePIDController.onTarget();
+  public boolean isPIDOnTarget(double ticks, double tolerance) {
+    return encoderAngle.get() >= ticks - tolerance && encoderAngle.get() <= ticks + tolerance;
   }
 
   public boolean getBallLimitswitch() {

@@ -90,7 +90,6 @@ public class Climber extends Subsystem {
    */
   public void openAndClosePole(double speed) {
     leftPoleMotor.set(speed);
-
   }
 
   /**

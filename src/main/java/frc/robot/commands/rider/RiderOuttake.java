@@ -33,9 +33,7 @@ public class RiderOuttake extends Command {
 
   @Override
   protected void execute() {
-    
     rider.controlIntakeMotor(-1);
-   
   }
 
   /**
@@ -65,8 +63,6 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void interrupted() {
-    
     rider.controlIntakeMotor(0);
-    rider.controlAngleMotor(0);
   }
 }

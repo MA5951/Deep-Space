@@ -10,9 +10,9 @@ package frc.robot.commands.rider;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
-public class MoveToLimitSwitch extends Command {
+public class RiderMoveToLimitSwitch extends Command {
   private Rider rider = Rider.getInstance();
-  public MoveToLimitSwitch() {
+  public RiderMoveToLimitSwitch() {
      requires(rider);
   }
 
