@@ -36,11 +36,14 @@ import frc.robot.commands.rider.ResetRiderEncoder;
 import frc.robot.commands.rider.RiderIntake;
 import frc.robot.commands.rider.RiderOuttake;
 import frc.robot.commands.rider.RiderPID;
+import frc.robot.commands.rider.setTheF;
 import frc.robot.triggers.DisablesPIDTrigger;
 import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
+import frc.robot.triggers.setNegativeF;
+import frc.robot.triggers.setPositiveF;
 import frc.robot.util.JoystickUtil.XBOX;
 
 //import frc.robot.triggers.TriggerReset;
@@ -71,17 +74,19 @@ public class OI {
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
-private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
+  private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
+ private setNegativeF setNegativeF = new setNegativeF();
+ private setPositiveF setPositiveF = new setPositiveF();
   public OI() {
     StopMotors.whileHeld(new StopMotors());
     moveIntakeDown.whileHeld(new IntakeMovement(-0.5));
     moveIntakeUp.whileHeld(new IntakeMovement(0.5));
     intakeSolenoid.whenPressed(new PistonCommandGroup());
     
-    autoIntake.whenPressed(new AutomaticTakeBall());
-    autoHatchPanel.whenPressed(new AutomaticTakeHatchPanel());
-    gotoDefault.whenPressed(new ReturnToDefault());
-    autoRocket1.whenActive(new Rooket1());
+    autoIntake.whileHeld(new AutomaticTakeBall());
+    autoHatchPanel.whileHeld(new AutomaticTakeHatchPanel());
+    gotoDefault.whileHeld(new ReturnToDefault());
+    autoRocket1.whileActive(new Rooket1());
     
 
      //intakePullBall.whileHeld(new RiderIntake());
@@ -95,6 +100,8 @@ private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
     disablesPIDTrigger.whenActive( new DisablePId());
+    //setPositiveF.whenActive(new setTheF(0.4));
+    //setNegativeF.whenActive(new setTheF(-0.4));
   }
 
   

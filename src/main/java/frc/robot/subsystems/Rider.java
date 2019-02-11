@@ -41,6 +41,7 @@ public class Rider extends Subsystem {
   public static final double KP_ANGLE = 0.009;
   public static final double KI_ANGLE = 0.000002;
   public static final double KD_ANGLE = 0.0006;
+  public static double KF_ANGLE ;
 
   private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 1;
@@ -59,9 +60,12 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
+    
   }
 
- 
+  public void setF(double f){
+    anglePIDController.setF(f);
+  }
 
   public void riderSmartdashboardValue() {
     SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());

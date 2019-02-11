@@ -17,10 +17,10 @@ public class Rooket1 extends CommandGroup {
    */
   public Rooket1() {
     // Add Commands here:
-     addSequential(new ElevatorPID(0, 0.2));
+
      addSequential(new RiderPID(0, 0.1, 15));
-     addSequential(new AutomaticIntake(-20, -38, 0.5));
-     addSequential(new ElevatorPID(-4000, 0.2));
+     addSequential(new AutomaticIntake(-25, -45, 0.5));
+     addSequential(new ElevatorPID(-3850, 0.2));
 
     // these will run in order.
 
