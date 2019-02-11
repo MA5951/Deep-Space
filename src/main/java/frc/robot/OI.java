@@ -21,6 +21,7 @@ import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
 import frc.robot.commands.elevator.ElevatorEncoderControlMOtors;
+import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMoveBall;
@@ -88,7 +89,7 @@ private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
     //intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
     
 
-    autoRocket1.whenActive(new ElevatorEncoderControlMOtors(-3800, -3900, -0.7));
+    autoRocket1.whenActive(new ElevatorPID(-5000, 0.5));
     
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
