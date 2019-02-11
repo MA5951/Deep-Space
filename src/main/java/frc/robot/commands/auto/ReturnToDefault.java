@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.rider.RiderMoveToLimitSwitch;
@@ -19,7 +20,7 @@ public class ReturnToDefault extends CommandGroup {
    * Add your docs here.
    */
   public ReturnToDefault() {
-    addSequential(new ElevatorUp());
+    addSequential(new ElevatorPID(0, 0.2));
     addSequential(new RiderPID(0, 0.2, 15));
     addSequential(new IntakeMovement(-0.5));
   }

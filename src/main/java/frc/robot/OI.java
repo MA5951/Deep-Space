@@ -17,6 +17,7 @@ import frc.robot.commands.auto.AutomaticTakeBall;
 import frc.robot.commands.auto.AutomaticTakeHatchPanel;
 import frc.robot.commands.auto.MoveBall;
 import frc.robot.commands.auto.ReturnToDefault;
+import frc.robot.commands.auto.Rooket1;
 import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.ClosePole;
 import frc.robot.commands.climber.OpenPole;
@@ -80,16 +81,15 @@ private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
     autoIntake.whenPressed(new AutomaticTakeBall());
     autoHatchPanel.whenPressed(new AutomaticTakeHatchPanel());
     gotoDefault.whenPressed(new ReturnToDefault());
-
+    autoRocket1.whenActive(new Rooket1());
     
+
+     //intakePullBall.whileHeld(new RiderIntake());
+    //intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
     //intakePullBall.whenPressed(new RiderPID(-680 , 0.5));
     intakePullBall.whenPressed(new ElevatorUp());
     riderOuttake.whenPressed(new RiderOuttake());
-    //intakePullBall.whileHeld(new RiderIntake());
-    //intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
     
-
-    autoRocket1.whenActive(new ElevatorPID(-5000, 0.5));
     
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());

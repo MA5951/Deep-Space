@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.commands.elevator.ElevatorDown;
+import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
@@ -31,7 +32,7 @@ public class AutomaticTakeBall extends CommandGroup {
     
     addSequential(new AutomaticIntake(-650, -700, 0.5));
     addSequential(new RiderPID(-560, 0.1, 15));
-    addSequential(new ElevatorDown());
+    addSequential(new ElevatorPID(-6295, 0.2));
     addSequential(new WaitCommand(0.1));
     addSequential(new RumbleJoystick(500));
     addParallel(new IntakeMoveBall(-1.0));

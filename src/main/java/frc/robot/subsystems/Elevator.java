@@ -28,8 +28,8 @@ public class Elevator extends Subsystem {
   private DigitalInput elevatorLimitswitchUp;
 
   // TODO
-  public static final double KP_ENCODER = 0.003;
-  public static final double KI_ENCODER = 0.0008;
+  public static final double KP_ENCODER = 0.005;
+  public static final double KI_ENCODER = 0.0009;
   public static final double KD_ENCODER = 0.003;
   private static final double TOLERANCE = 50;
   private static final double DISTANCE_PER_PULSE = 1;
