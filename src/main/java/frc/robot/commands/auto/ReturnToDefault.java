@@ -21,7 +21,10 @@ public class ReturnToDefault extends CommandGroup {
    */
   public ReturnToDefault() {
     addSequential(new ElevatorPID(0, 0.2));
+    //addSequential(new RumbleJoystick(50));
     addSequential(new RiderPID(0, 0.2, 15));
-    addSequential(new IntakeMovement(-0.5));
+    //addSequential(new RumbleJoystick(50));
+    addSequential(new IntakeMovement(0.5));
+    //addSequential(new RumbleJoystick(50));
   }
 }

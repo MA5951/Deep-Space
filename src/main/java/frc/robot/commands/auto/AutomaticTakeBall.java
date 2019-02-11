@@ -31,13 +31,13 @@ public class AutomaticTakeBall extends CommandGroup {
 
     
     addSequential(new AutomaticIntake(-650, -700, 0.5));
-    addSequential(new RiderPID(-560, 0.1, 15));
-    addSequential(new ElevatorPID(-6295, 0.2));
+    addSequential(new RiderPID(-585, 0.1, 15));
+    addSequential(new ElevatorPID(-6310, 0.2));
     addSequential(new WaitCommand(0.1));
-    addSequential(new RumbleJoystick(500));
+    addSequential(new RumbleJoystick(50));
     addParallel(new IntakeMoveBall(-1.0));
     addParallel(new RiderIntake());
-    addSequential(new RumbleJoystick(500));
+    addSequential(new RumbleJoystick(50));
   
    
     

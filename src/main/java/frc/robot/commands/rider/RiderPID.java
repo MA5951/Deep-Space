@@ -47,7 +47,7 @@ public class RiderPID extends Command {
     if (!rider.isPIDOnTarget(setPoint, tolerance)) {
       lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return rider.isPIDOnTarget(setPoint, 5) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return rider.isPIDOnTarget(setPoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   // Called once after isFinished returns true
