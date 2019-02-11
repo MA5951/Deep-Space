@@ -43,7 +43,7 @@ public class Intake extends Subsystem {
   private static Intake i_Instance;
 
   // TODO
-  public static final double KP_ENCODER = 0.0;
+  public static final double KP_ENCODER = 0.002;
   public static final double KI_ENCODER = 0.0;
   public static final double KD_ENCODER = 0.0;
   private static final double DISTANCE_PER_PULSE = 1;
@@ -71,10 +71,7 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
 
-   
   }
-
-
 
   public void intakeSmartdashboardValue() {
     SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.get());
@@ -117,8 +114,8 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isPIDOnTarget() {
-    return anglePID.onTarget();
+  public boolean isPIDOnTarget(double ticks, double tolerance) {
+    return encoderIntake.get() >= ticks - tolerance && encoderIntake.get() <= ticks + tolerance;
   }
 
   /**
@@ -146,6 +143,7 @@ public class Intake extends Subsystem {
   public double getEncoder() {
     return encoderIntake.getDistance();
   }
+
   /**
    * Give power to the pistons (up).
    */

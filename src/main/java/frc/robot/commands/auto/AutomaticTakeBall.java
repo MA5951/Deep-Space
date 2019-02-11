@@ -7,15 +7,11 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorPID;
-import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.intake.IntakeMoveBall;
-import frc.robot.commands.intake.IntakeMovement;
-import frc.robot.commands.rider.MoveAngle;
+import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderIntake;
 import frc.robot.commands.rider.RiderPID;
 
@@ -29,22 +25,18 @@ public class AutomaticTakeBall extends CommandGroup {
     // addSequential(new Command2());
     // these will run in order.
 
-    
-    addSequential(new AutomaticIntake(-650, -700, 0.5));
-    addSequential(new RiderPID(-585, 0.1, 15));
+    addSequential(new IntakePID(-830, 0.1, 15));
+    addSequential(new RiderPID(-570, 0.1, 15));
     addSequential(new ElevatorPID(-6310, 0.2));
     addSequential(new WaitCommand(0.1));
     addSequential(new RumbleJoystick(50));
     addParallel(new IntakeMoveBall(-1.0));
     addParallel(new RiderIntake());
     addSequential(new RumbleJoystick(50));
-  
-   
-    
-  
-    //addSequential(new  MoveAngle(0, -20, -0.3));
-    //addSequential (new IntakeMovement(0.5));
-    //addParallel TODO add rider angle moved command reverse
-   
+
+    // addSequential(new MoveAngle(0, -20, -0.3));
+    // addSequential (new IntakeMovement(0.5));
+    // addParallel TODO add rider angle moved command reverse
+
   }
 }

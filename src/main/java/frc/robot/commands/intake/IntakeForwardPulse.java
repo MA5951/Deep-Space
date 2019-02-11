@@ -5,62 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.rider;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
-/**
- * Gets the Rider to a specific angle using PID.
- */
-public class RiderPID extends Command {
-  private double setPoint;
-  private double lastTimeOnTarget;
-  private double tolerance;
-  private double waitTime;
+public class IntakeForwardPulse extends Command {
+  Intake intake = Intake.getInstance();
 
-  private Rider rider = Rider.getInstance();
+  private double startTime;
 
-  public RiderPID(double setPoint, double waitTime, double tolerance) {
-    this.setPoint = setPoint;
-    this.waitTime = waitTime;
-    this.tolerance = tolerance;
-    requires(rider);
+  public IntakeForwardPulse() {
+    requires(intake);
   }
 
-  // Called just before this Command runs the first time
+
   @Override
   protected void initialize() {
-    rider.enablePID(true);
-    rider.setSetPoint(setPoint);
+    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!rider.isPIDOnTarget(setPoint, tolerance)) {
-      lastTimeOnTarget = Timer.getFPGATimestamp();
-    }
-    return rider.isPIDOnTarget(setPoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-
   }
 }

@@ -13,7 +13,7 @@ import frc.robot.subsystems.Rider;
 /**
  * Add your docs here.
  */
-public class setTheF extends InstantCommand {
+public class setPIDF extends InstantCommand {
   /**
    * Add your docs here.
    */
@@ -21,7 +21,7 @@ public class setTheF extends InstantCommand {
 
   Rider rider = Rider.getInstance();
 
-  public setTheF(double F) {
+  public setPIDF(double F) {
     this.F = F;
     requires(rider);
 

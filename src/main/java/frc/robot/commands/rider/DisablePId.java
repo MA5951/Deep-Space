@@ -13,12 +13,12 @@ import frc.robot.subsystems.Rider;
 /**
  * Add your docs here.
  */
-public class DisablePId extends InstantCommand {
+public class DisablePID extends InstantCommand {
   Rider rider = Rider.getInstance();
   /**
    * Add your docs here.
    */
-  public DisablePId() {
+  public DisablePID() {
 
     super();
     requires(rider) ;

@@ -9,18 +9,19 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorPID;
+import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
 
-public class Rooket1 extends CommandGroup {
+public class Rocket1 extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public Rooket1() {
+  public Rocket1() {
     // Add Commands here:
 
-     addSequential(new RiderPID(0, 0.1, 15));
-     addSequential(new AutomaticIntake(-25, -45, 0.5));
-     addSequential(new ElevatorPID(-3850, 0.2));
+     addSequential(new RiderPID(0, 1, 15));
+     addSequential(new IntakePID(-100, 0.1, 15));
+     addSequential(new ElevatorPID(-2750, 0.2));
 
     // these will run in order.
 

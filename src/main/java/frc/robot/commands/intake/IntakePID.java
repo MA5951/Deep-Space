@@ -11,11 +11,12 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
-@Deprecated
+
 public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();
   private double setpoint;
+  private double tolerance;
   private double lastTimeOnTarget;
   private double waitTime;
 
@@ -24,9 +25,10 @@ public class IntakePID extends Command {
    * 
    * @param setpoint The given destination.
    */
-  public IntakePID(double setpoint, double waitTime) {
+  public IntakePID(double setpoint, double waitTime, double tolerance) {
     this.waitTime = waitTime;
     this.setpoint = setpoint;
+    this.tolerance = tolerance;
 
     requires(intake);
   }
@@ -50,10 +52,10 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    if (!intake.isPIDOnTarget()) {
+    if (!intake.isPIDOnTarget(setpoint, tolerance)) {
       lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return intake.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return intake.isPIDOnTarget(setpoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   /**

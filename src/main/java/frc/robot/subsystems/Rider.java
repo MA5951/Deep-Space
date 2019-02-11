@@ -14,6 +14,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDBase;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -30,8 +31,6 @@ public class Rider extends Subsystem {
   private WPI_TalonSRX angleMotor;
   private WPI_VictorSPX intakeMotor;
 
-  
-
   private Encoder encoderAngle;
 
   private PIDController anglePIDController;
@@ -41,7 +40,7 @@ public class Rider extends Subsystem {
   public static final double KP_ANGLE = 0.009;
   public static final double KI_ANGLE = 0.000002;
   public static final double KD_ANGLE = 0.0006;
-  public static double KF_ANGLE ;
+  public static final double KF_ANGLE = 0.0;
 
   private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 1;
@@ -57,14 +56,14 @@ public class Rider extends Subsystem {
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
 
-    anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, encoderAngle, angleMotor);
+    anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-    
+
   }
 
-  public void setF(double f){
-    anglePIDController.setF(f);
+  public void setF(double f) {
+    // anglePIDController.setF(f);
   }
 
   public void riderSmartdashboardValue() {
@@ -103,9 +102,11 @@ public class Rider extends Subsystem {
   public void setSetPoint(double setPoint) {
     anglePIDController.setSetpoint(setPoint);
   }
+
   public boolean isEncoderInDistanceRangeRider(double maxDistance, double minDistance) {
     return encoderAngle.getDistance() <= maxDistance && encoderAngle.getDistance() >= minDistance;
   }
+
   /**
    * 
    * Return if the robot reached the desired destination
