@@ -5,56 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.rider;
+package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Rider;
+import frc.robot.subsystems.Chassis;
 
-/**
- * Intakes from the Rider.
- */
-public class RiderIntake extends Command {
-  private Rider rider = Rider.getInstance();
+public class MoveBackwards extends Command {
+  Chassis chassis = Chassis.getInstance();
 
-  public RiderIntake() {
-    requires(rider);
+  public MoveBackwards() {
+    requires(chassis);
   }
 
-  /**
-   * Give power to the intake motors
-   */
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    chassis.driveWestCoast(0.5, 0.5);
+    Timer.delay(0.3);
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(1);
-    
   }
 
+  // Make this return true when this Command no longer needs to run execute()
   @Override
-  protected boolean isFinished() {  
-    return rider.getBallLimitswitch();
+  protected boolean isFinished() {
+    return true;
   }
 
-  /**
-   * disable the intake motor if isFinished is function is true
-   */
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.controlIntakeMotor(0.35);
-    Timer.delay(1); // TODO : check if this works. If not, use a wait command and a command group.
-    rider.controlIntakeMotor(0);
+    chassis.driveWestCoast(0, 0);
   }
 
-  /**
-   * disable the intake motor if a function was interrupted
-   */
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMotor(0);
+    chassis.driveWestCoast(0, 0);
   }
 }

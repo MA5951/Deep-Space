@@ -5,18 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.Chassis.MoveBackwards;
-import frc.robot.commands.intake.IntakeMovement;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.OI;
 
-public class AutomaticTakeHatchPanel extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public AutomaticTakeHatchPanel() {
-    addParallel(new IntakeMovement(0.5));
-    addParallel(new MoveBackwards());
+/**
+ * Add your docs here.
+ */
+public class IntakPushTrigger extends Trigger {
+  @Override
+  public boolean get() {
+    return OI.OPERATOR_STICK.getRawAxis(2)>0.1;
   }
 }

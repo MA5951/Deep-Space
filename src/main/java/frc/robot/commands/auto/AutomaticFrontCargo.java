@@ -8,15 +8,19 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.Chassis.MoveBackwards;
-import frc.robot.commands.intake.IntakeMovement;
+import frc.robot.commands.elevator.ElevatorUp;
+import frc.robot.commands.intake.IntakePID;
+import frc.robot.commands.rider.RiderPID;
 
-public class AutomaticTakeHatchPanel extends CommandGroup {
+public class AutomaticFrontCargo extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public AutomaticTakeHatchPanel() {
-    addParallel(new IntakeMovement(0.5));
-    addParallel(new MoveBackwards());
+  public AutomaticFrontCargo() {
+    addSequential(new ElevatorUp());
+    addSequential(new IntakePID(-535, 0.1, 15));
+    addSequential(new RiderPID(-740, 0.1, 15));
+    addSequential(new IntakePID(0, 0.1, 15));
+    addSequential(new RumbleJoystick(500));
   }
 }

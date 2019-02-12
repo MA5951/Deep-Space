@@ -120,7 +120,7 @@ public class Rider extends Subsystem {
   }
 
   public boolean getBallLimitswitch() {
-    return riderLimitswitch.get();
+    return !riderLimitswitch.get();
   }
 
   /**

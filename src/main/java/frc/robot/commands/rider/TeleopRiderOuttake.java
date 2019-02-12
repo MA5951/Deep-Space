@@ -5,31 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.rider;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
-public class IntakeForwardPulse extends Command {
-  Intake intake = Intake.getInstance();
+public class TeleopRiderOuttake extends Command {
+  Rider rider = Rider.getInstance();
 
-  private double startTime;
-
-  public IntakeForwardPulse() {
-    requires(intake);
+  public TeleopRiderOuttake() {
+    requires(rider);
   }
 
-
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    startTime = Timer.getFPGATimestamp();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    rider.controlAngleMotor(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,11 +37,13 @@ public class IntakeForwardPulse extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    rider.controlIntakeMotor(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    rider.controlIntakeMotor(0);
   }
 }

@@ -8,15 +8,15 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.rider.RiderOuttake;
+import edu.wpi.first.wpilibj.command.WaitCommand;
+import frc.robot.commands.rider.TeleopRiderOuttake;
 
 public class PushBall extends CommandGroup {
   /**
    * Add your docs here.
    */
   public PushBall() {
-    //addParallel(new IntakeMoveBall());
-   addSequential(new RiderOuttake());
- 
+    addParallel(new IntakePush());
+    addParallel(new TeleopRiderOuttake());
   }
 }

@@ -10,6 +10,7 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
 
 public class IntakePID extends Command {
@@ -66,7 +67,7 @@ public class IntakePID extends Command {
   protected void end() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
-
+    
   }
 
   /**
@@ -77,5 +78,6 @@ public class IntakePID extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
+    
   }
 }

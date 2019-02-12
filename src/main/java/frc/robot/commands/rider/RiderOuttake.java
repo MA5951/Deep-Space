@@ -27,7 +27,7 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void initialize() {
-
+    rider.controlIntakeMotor(0);
   }
 
   @Override

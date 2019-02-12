@@ -11,13 +11,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
 // USE COMMAND GROUP INSTEAD
-@Deprecated
+
 public class IntakePull extends Command {
 
-  // using rider subsystem
-  // TODO check if good idea.
-  //private Rider rider = Rider.getInstance();
-
+ 
   private Intake intake = Intake.getInstance();
 
 
@@ -55,6 +52,8 @@ public class IntakePull extends Command {
   }
 
   /**
+   * 
+   * 
    * Disables the {intakeControl} function if {isFinished} function return true.
    */
   @Override
