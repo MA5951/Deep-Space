@@ -7,61 +7,45 @@
 
 package frc.robot.commands.rider;
 
-
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
-/**
- * Outtakes from the Rider.
- */
-public class RiderOuttake extends Command {
-  private Rider rider = Rider.getInstance();
-  public RiderOuttake() {
-    requires(rider);
+
+public class HoldRiderPID extends Command {
+  Rider rider = Rider.getInstance();
+  public HoldRiderPID() {
+     requires(rider);
   }
 
-  /**
-   * Set the intake motor to the max power
-   */
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-
+    rider.setSetPoint(rider.getEncoder());
+    rider.enablePID(true);
   }
 
+  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(-1);
-}
+  }
 
-  /**
-   * If the limit switch is pressed, the isLimitSwitchAnglePressed will disable
-   */
+  // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    
-    return rider.getBallLimitswitch();
+    return OI.OPERATOR_STICK.getRawAxis(5)>0.1||OI.OPERATOR_STICK.getRawAxis(5)<-0.1;
   }
 
-  /**
-   * set the intake motor to the max power , set Timer to 0.5 and disable the the
-   * intake motor if isFinished is function is true
-   */
+  // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.controlIntakeMotor(-1);
-    Timer.delay(0.8); 
-    rider.controlIntakeMotor(0);
-
+    rider.enablePID(false);
   }
 
-  /**
-   * disable the intake motor if a function was interrupted
-   */
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMotor(0);
-   
+    rider.enablePID(false);
   }
 }

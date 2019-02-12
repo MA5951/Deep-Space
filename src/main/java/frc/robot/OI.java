@@ -31,6 +31,7 @@ import frc.robot.commands.intake.IntakePull;
 import frc.robot.commands.intake.PistonCommandGroup;
 import frc.robot.commands.intake.ResetIntakeEncoder;
 import frc.robot.commands.rider.DisablePID;
+import frc.robot.commands.rider.HoldRiderPID;
 import frc.robot.commands.rider.MoveAngle;
 import frc.robot.commands.rider.ResetRiderEncoder;
 import frc.robot.commands.rider.RiderIntake;
@@ -42,6 +43,7 @@ import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
+import frc.robot.triggers.enablePIDTrigger;
 import frc.robot.triggers.setNegativeF;
 import frc.robot.triggers.setPositiveF;
 import frc.robot.util.JoystickUtil.XBOX;
@@ -69,12 +71,13 @@ public class OI {
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  private JoystickButton intakePullBall = new JoystickButton(OPERATOR_STICK, XBOX.START);
+  private JoystickButton riderPIDForward = new JoystickButton(OPERATOR_STICK, XBOX.START);
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
   private DisablesPIDTrigger disablesPIDTrigger = new DisablesPIDTrigger();
+  private enablePIDTrigger enablePIDRTigger= new enablePIDTrigger();
   private setNegativeF setNegativeF = new setNegativeF();
   private setPositiveF setPositiveF = new setPositiveF();
 
@@ -89,8 +92,8 @@ public class OI {
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
 
-    riderOuttake.whenPressed(new RiderOuttake());
-
+    riderOuttake.whileHeld(new RiderOuttake());
+    riderPIDForward.whileActive(new RiderPID(-700, 0.5, 15));
     // intakePullBall.whileHeld(new RiderIntake());
     // intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
     // intakePullBall.whenPressed(new RiderPID(-680 , 0.5));
@@ -99,7 +102,6 @@ public class OI {
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
-    disablesPIDTrigger.whenActive(new DisablePID());
     setPositiveF.whenActive(new setPIDF(0.4));
     setNegativeF.whenActive(new setPIDF(-0.4));
   }

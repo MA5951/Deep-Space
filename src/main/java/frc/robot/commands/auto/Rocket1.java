@@ -19,9 +19,9 @@ public class Rocket1 extends CommandGroup {
   public Rocket1() {
     // Add Commands here:
 
-     addSequential(new RiderPID(0, 1, 15));
+     addSequential(new RiderPID(0, 1, 20));
      addSequential(new AutomaticIntake(-150,-200,0.8));
-     addSequential(new ElevatorPID(-2750, 0.2));
+     addSequential(new ElevatorPID(-2700, 0.2));
 
     // these will run in order.
 

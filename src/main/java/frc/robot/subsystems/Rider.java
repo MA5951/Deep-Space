@@ -34,6 +34,7 @@ public class Rider extends Subsystem {
   private Encoder encoderAngle;
 
   private PIDController anglePIDController;
+
   private DigitalInput riderLimitswitch;
 
   // TODO
@@ -59,6 +60,7 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
+
 
   }
 
