@@ -89,12 +89,13 @@ public class OI {
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
 
+    riderOuttake.whenPressed(new RiderOuttake());
+
     // intakePullBall.whileHeld(new RiderIntake());
     // intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
     // intakePullBall.whenPressed(new RiderPID(-680 , 0.5));
-    intakePullBall.whenPressed(new ElevatorUp());
-    riderOuttake.whenPressed(new RiderOuttake());
-
+    //intakePullBall.whenPressed(new ElevatorUp());
+    
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());

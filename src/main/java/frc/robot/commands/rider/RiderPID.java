@@ -39,6 +39,11 @@ public class RiderPID extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(rider.getBallLimitswitch()){
+      rider.controlIntakeMotor(0.35);
+    }else{
+      rider.controlIntakeMotor(0);
+    }
 
   }
 

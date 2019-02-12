@@ -20,7 +20,7 @@ public class Rocket1 extends CommandGroup {
     // Add Commands here:
 
      addSequential(new RiderPID(0, 1, 15));
-     addSequential(new IntakePID(-100, 0.1, 15));
+     addSequential(new AutomaticIntake(-150,-200,0.8));
      addSequential(new ElevatorPID(-2750, 0.2));
 
     // these will run in order.

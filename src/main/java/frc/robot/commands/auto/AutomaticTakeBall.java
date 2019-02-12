@@ -25,8 +25,8 @@ public class AutomaticTakeBall extends CommandGroup {
     // addSequential(new Command2());
     // these will run in order.
 
-    addSequential(new IntakePID(-830, 0.1, 15));
-    addSequential(new RiderPID(-570, 0.1, 15));
+    addSequential(new IntakePID(-780, 0.1, 15));
+    addSequential(new RiderPID(-580, 0.1, 15));
     addSequential(new ElevatorPID(-6310, 0.2));
     addSequential(new WaitCommand(0.1));
     addSequential(new RumbleJoystick(50));

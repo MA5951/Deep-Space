@@ -19,8 +19,6 @@ public class DisablePID extends InstantCommand {
    * Add your docs here.
    */
   public DisablePID() {
-
-    super();
     requires(rider) ;
   }
 
