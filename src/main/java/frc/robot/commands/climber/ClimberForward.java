@@ -5,19 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Climber;
 
-public class AllAutomaticIntake extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public AllAutomaticIntake() {
-    addSequential(new AutomaticTakeBall());
-    addSequential(new WaitCommand(0.5));
-    addSequential(new ReturnToDefault());
-    addSequential(new RumbleJoystick(500));
+/**
+ * Add your docs here.
+ */
+public class ClimberForward extends InstantCommand {
+ 
+  public ClimberForward() {
+    requires(Climber.getInstance());
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    Climber.getInstance().climberSolenoidForward();
+  }
+
 }

@@ -21,8 +21,8 @@ import frc.robot.commands.auto.MoveBall;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
-import frc.robot.commands.climber.ClosePole;
-import frc.robot.commands.climber.OpenPole;
+import frc.robot.commands.climber.ClimberForward;
+import frc.robot.commands.climber.ClimberRevers;
 import frc.robot.commands.elevator.ElevatorEncoderControlMOtors;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ElevatorUp;
@@ -109,12 +109,8 @@ public class OI {
     autoFrontCargo.whenActive(new AutomaticFrontCargo());
 
     riderOuttake.whileHeld(new TeleopRiderOuttake());
-    CLimber.whileActive(new RiderPID(-700, 0.5, 15));
-    // intakePullBall.whileHeld(new RiderIntake());
-    // intakePullBall.whileHeld(new IntakeMoveBall(-0.5d));
-    // intakePullBall.whenPressed(new RiderPID(-680 , 0.5));
-    //intakePullBall.whenPressed(new ElevatorUp());
-
+    CLimber.whileHeld(new ClimberForward());
+    CLimber.whenReleased(new ClimberRevers());
 
     IntakePullTrigger.whileActive(new pullBall());
 
