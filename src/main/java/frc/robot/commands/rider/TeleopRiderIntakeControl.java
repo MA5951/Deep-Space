@@ -10,10 +10,11 @@ package frc.robot.commands.rider;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
-public class TeleopRiderOuttake extends Command {
+public class TeleopRiderIntakeControl extends Command {
   Rider rider = Rider.getInstance();
-
-  public TeleopRiderOuttake() {
+  private double speed;
+  public TeleopRiderIntakeControl(double speed) {
+    this.speed=speed;
     requires(rider);
   }
 
@@ -25,7 +26,7 @@ public class TeleopRiderOuttake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlAngleMotor(-1);
+    rider.controlAngleMotor(speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()

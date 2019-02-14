@@ -27,7 +27,6 @@ public class IntakePull extends Command {
   public IntakePull() {
    
     requires(intake);
-    //requires(rider);
   }
 
   @Override

@@ -9,13 +9,14 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.rider.RiderIntake;
+import frc.robot.commands.rider.TeleopRiderIntakeControl;
 
-public class pullBall extends CommandGroup {
+public class PullBall extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public pullBall() {
+  public PullBall() {
     addParallel(new IntakePull());
-    addParallel(new RiderIntake());
+    addParallel(new TeleopRiderIntakeControl(1));
   }
 }

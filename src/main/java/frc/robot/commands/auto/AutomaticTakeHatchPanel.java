@@ -18,6 +18,6 @@ public class AutomaticTakeHatchPanel extends CommandGroup {
   public AutomaticTakeHatchPanel() {
     addParallel(new IntakeMovement(0.5));
     addParallel(new MoveBackwards());
-    addSequential(new RumbleJoystick(500));
+    addSequential(new RumbleJoystick(50));
   }
 }

@@ -21,6 +21,6 @@ public class AutomaticFrontCargo extends CommandGroup {
     addSequential(new IntakePID(-535, 0.1, 15));
     addSequential(new RiderPID(-740, 0.1, 15));
     addSequential(new IntakePID(0, 0.1, 15));
-    addSequential(new RumbleJoystick(500));
+    addSequential(new RumbleJoystick(50));
   }
 }

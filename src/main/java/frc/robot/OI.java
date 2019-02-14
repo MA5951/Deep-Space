@@ -9,59 +9,32 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.commands.auto.AllAutomaticIntake;
 import frc.robot.commands.auto.AutomaticFrontCargo;
 import frc.robot.commands.auto.AutomaticTakeBall;
 import frc.robot.commands.auto.AutomaticTakeHatchPanel;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
-import frc.robot.commands.auto.MoveBall;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.ClimberForward;
 import frc.robot.commands.climber.ClimberRevers;
-import frc.robot.commands.elevator.ElevatorEncoderControlMOtors;
-import frc.robot.commands.elevator.ElevatorPID;
-import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
-import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakeMovement;
-import frc.robot.commands.intake.IntakePull;
-import frc.robot.commands.intake.IntakePush;
-import frc.robot.commands.intake.PistonCommandGroup;
 import frc.robot.commands.intake.PistonForward;
 import frc.robot.commands.intake.PistonOff;
+import frc.robot.commands.intake.PullBall;
 import frc.robot.commands.intake.PushBall;
 import frc.robot.commands.intake.ResetIntakeEncoder;
-import frc.robot.commands.intake.pullBall;
-import frc.robot.commands.rider.DisablePID;
-import frc.robot.commands.rider.HoldRiderPID;
-import frc.robot.commands.rider.MoveAngle;
 import frc.robot.commands.rider.ResetRiderEncoder;
-import frc.robot.commands.rider.RiderIntake;
-import frc.robot.commands.rider.RiderOuttake;
-import frc.robot.commands.rider.RiderPID;
-import frc.robot.commands.rider.TeleopRiderOuttake;
-import frc.robot.commands.rider.setPIDF;
-import frc.robot.triggers.DisablesPIDTrigger;
+import frc.robot.commands.rider.TeleopRiderIntakeControl;
 import frc.robot.triggers.IntakPushTrigger;
 import frc.robot.triggers.IntakePullTrigger;
 import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
-import frc.robot.triggers.enablePIDTrigger;
-import frc.robot.triggers.setNegativeF;
-import frc.robot.triggers.setPositiveF;
 import frc.robot.util.JoystickUtil.XBOX;
-
-//import frc.robot.triggers.TriggerReset;
-//import frc.robot.util.JoystickUtil.XBOX;
-//import frc.robot.triggers.POVTrigger;
-
 /**
  * Maps commands to buttons/POVs/triggers
  */
@@ -106,17 +79,14 @@ public class OI {
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
     autoTakeHatchPanel.whileActive(new AutomaticTakeHatchPanel());
-    autoFrontCargo.whenActive(new AutomaticFrontCargo());
+    autoFrontCargo.whileActive(new AutomaticFrontCargo());
 
-    riderOuttake.whileHeld(new TeleopRiderOuttake());
     CLimber.whileHeld(new ClimberForward());
     CLimber.whenReleased(new ClimberRevers());
 
-    IntakePullTrigger.whileActive(new pullBall());
-
-    IntakePushTrigger.whenActive(new PushBall());
-
-    riderOuttake.whileHeld(new TeleopRiderOuttake());
+    IntakePullTrigger.whileActive(new PullBall());
+    IntakePushTrigger.whileActive(new PushBall());
+    riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
     
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
