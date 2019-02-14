@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
-  double setPoint;
-  Elevator elevator;
+  private double setPoint;
+  private Elevator elevator;
   private double lastTimeOnTarget;
   private double waitTime;
 

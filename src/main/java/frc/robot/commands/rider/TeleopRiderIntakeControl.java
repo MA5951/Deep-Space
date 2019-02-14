@@ -7,7 +7,10 @@
 
 package frc.robot.commands.rider;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
+import frc.robot.subsystems.OperatorControl;
 import frc.robot.subsystems.Rider;
 
 public class TeleopRiderIntakeControl extends Command {
@@ -26,8 +29,16 @@ public class TeleopRiderIntakeControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlAngleMotor(speed);
-  }
+    rider.controlIntakeMotor(speed);
+    if(rider.getBallLimitswitch()&&speed>0||!rider.getBallLimitswitch()&&speed<0){
+      OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+      OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+}else{
+  OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+  OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+}
+}
+
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
@@ -39,6 +50,9 @@ public class TeleopRiderIntakeControl extends Command {
   @Override
   protected void end() {
     rider.controlIntakeMotor(0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+    
   }
 
   // Called when another command which requires one or more of the same
@@ -46,5 +60,7 @@ public class TeleopRiderIntakeControl extends Command {
   @Override
   protected void interrupted() {
     rider.controlIntakeMotor(0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
 }

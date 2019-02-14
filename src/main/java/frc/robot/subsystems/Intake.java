@@ -42,7 +42,7 @@ public class Intake extends Subsystem {
 
   private static Intake i_Instance;
 
-  // TODO
+
   public static final double KP_ENCODER = 0.002;
   public static final double KI_ENCODER = 0.0;
   public static final double KD_ENCODER = 0.0;
@@ -99,7 +99,9 @@ public class Intake extends Subsystem {
       anglePID.disable();
     }
   }
-
+   public double PIDspeed(){
+return anglePID.get();
+}
   /**
    * Set the PIDController destination (setpoint)
    *

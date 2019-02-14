@@ -37,7 +37,7 @@ public class Rider extends Subsystem {
 
   private DigitalInput riderLimitswitch;
 
-  // TODO
+  
   public static final double KP_ANGLE = 0.009;
   public static final double KI_ANGLE = 0.000002;
   public static final double KD_ANGLE = 0.0006;
