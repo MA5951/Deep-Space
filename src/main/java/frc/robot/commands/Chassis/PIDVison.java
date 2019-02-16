@@ -26,7 +26,7 @@ public class PIDVison extends Command {
   @Override
   protected void execute() {
     speed = chassis.PIDVison(0); //TODO
-    chassis.driveWestCoast(speed*0.5, speed);
+    chassis.driveWestCoast(0.5, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
