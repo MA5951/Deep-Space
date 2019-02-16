@@ -43,9 +43,9 @@ public class Intake extends Subsystem {
   private static Intake i_Instance;
 
 
-  public static final double KP_ENCODER = 0.002;
-  public static final double KI_ENCODER = 0.0;
-  public static final double KD_ENCODER = 0.0;
+  public static final double KP_ENCODER = 0.004 ;
+  public static final double KI_ENCODER = 0.00045;
+  public static final double KD_ENCODER = 0.004;
   private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 0;
 

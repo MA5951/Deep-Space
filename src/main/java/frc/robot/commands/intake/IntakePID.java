@@ -56,7 +56,8 @@ public class IntakePID extends Command {
     if (!intake.isPIDOnTarget(setpoint, tolerance)) {
       lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return intake.isPIDOnTarget(setpoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime||intake.isIntakeLimitswitchClosed()&& intake.PIDspeed()>0 ;
+    return 
+      intake.isPIDOnTarget(setpoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   /**

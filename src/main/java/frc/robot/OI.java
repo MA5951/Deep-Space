@@ -69,8 +69,8 @@ public class OI {
 
   public OI() {
     StopMotors.whileHeld(new StopMotors());
-    moveIntakeDown.whileHeld(new IntakeMovement(-0.5));
-    moveIntakeUp.whileHeld(new IntakeMovement(0.5));
+    moveIntakeDown.whileHeld(new IntakeMovement(0.5));
+    moveIntakeUp.whileHeld(new IntakeMovement(-0.5));
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
 
