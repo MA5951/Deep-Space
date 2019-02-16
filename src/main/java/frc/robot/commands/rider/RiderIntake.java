@@ -45,8 +45,6 @@ public class RiderIntake extends Command {
    */
   @Override
   protected void end() {
-    rider.controlIntakeMotor(0.35);
-    Timer.delay(1); // TODO : check if this works. If not, use a wait command and a command group.
     rider.controlIntakeMotor(0);
   }
 

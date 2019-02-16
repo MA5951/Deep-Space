@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.commands.Chassis.MoveBackwards;
 import frc.robot.commands.intake.IntakeMovement;
 
@@ -16,8 +17,9 @@ public class AutomaticTakeHatchPanel extends CommandGroup {
    * Add your docs here.
    */
   public AutomaticTakeHatchPanel() {
-    addParallel(new IntakeMovement(0.5));
-    addParallel(new MoveBackwards());
+    addSequential(new IntakeMovement(0.4));
+    addSequential(new WaitCommand(0.3));
+    addSequential(new MoveBackwards());
     addSequential(new RumbleJoystick(500));
   }
 }

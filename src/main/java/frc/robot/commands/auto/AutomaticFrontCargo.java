@@ -8,7 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.elevator.ElevatorUp;
+import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
 
@@ -17,9 +17,9 @@ public class AutomaticFrontCargo extends CommandGroup {
    * Add your docs here.
    */
   public AutomaticFrontCargo() {
-    addSequential(new ElevatorUp());
-    addSequential(new IntakePID(-800, 0.1, 15));
-    addSequential(new RiderPID(-990, 0.1, 15));
+    addSequential(new ElevatorPID(0, 0.1));
+    addSequential(new IntakePID(-535, 0.1, 15));
+    addSequential(new RiderPID(-740, 0.1, 15));
     addSequential(new IntakePID(0, 0.1, 15));
     addSequential(new RumbleJoystick(500));
   }

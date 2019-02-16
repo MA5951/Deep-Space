@@ -8,7 +8,6 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakePID;
@@ -20,15 +19,10 @@ public class AutomaticTakeBall extends CommandGroup {
    * Add your docs here.
    */
   public AutomaticTakeBall() {
-    // Add Commands here:
-    // e.g. addSequential(new Command1());
-    // addSequential(new Command2());
-    // these will run in order.
-
     addSequential(new IntakePID(-800, 0.1, 15));
     addSequential(new RiderPID(-580, 0.1, 15));
     addSequential(new ElevatorPID(-6310, 0.2));
-    addSequential(new RumbleJoystick(50));
+    addSequential(new RumbleJoystick(500));
     addParallel(new IntakeMoveBall(-1.0));
     addParallel(new RiderIntake());
     addSequential(new RumbleJoystick(500));

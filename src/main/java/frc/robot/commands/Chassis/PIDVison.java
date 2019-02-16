@@ -5,16 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.rider;
+package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Rider;
+import frc.robot.subsystems.Chassis;
 
-public class TeleopRiderOuttake extends Command {
-  Rider rider = Rider.getInstance();
-
-  public TeleopRiderOuttake() {
-    requires(rider);
+public class PIDVison extends Command {
+  private double speed;
+  Chassis chassis = Chassis.getInstance();
+  public PIDVison() {
+    requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -25,25 +25,26 @@ public class TeleopRiderOuttake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(-1);
+    speed = chassis.PIDVison(0); //TODO
+    chassis.driveWestCoast(0.5, speed);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return chassis.isOnTargetPIDVison();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    rider.controlIntakeMotor(0);
+    chassis.driveWestCoast(0, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    rider.controlIntakeMotor(0);
+    chassis.driveWestCoast(0, 0);
   }
 }
