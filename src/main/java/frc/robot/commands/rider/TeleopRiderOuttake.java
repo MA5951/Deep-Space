@@ -25,7 +25,7 @@ public class TeleopRiderOuttake extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    rider.controlAngleMotor(-1);
+    rider.controlIntakeMotor(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()

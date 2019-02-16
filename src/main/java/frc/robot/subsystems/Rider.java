@@ -80,7 +80,7 @@ public class Rider extends Subsystem {
    * @return Indication if the limitswitch is pressed.
    */
   public boolean isLimitswitchClosed() {
-    return !angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    return angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**

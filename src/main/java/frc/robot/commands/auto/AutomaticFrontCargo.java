@@ -18,8 +18,8 @@ public class AutomaticFrontCargo extends CommandGroup {
    */
   public AutomaticFrontCargo() {
     addSequential(new ElevatorUp());
-    addSequential(new IntakePID(-535, 0.1, 15));
-    addSequential(new RiderPID(-740, 0.1, 15));
+    addSequential(new IntakePID(-800, 0.1, 15));
+    addSequential(new RiderPID(-990, 0.1, 15));
     addSequential(new IntakePID(0, 0.1, 15));
     addSequential(new RumbleJoystick(500));
   }

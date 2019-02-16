@@ -19,7 +19,7 @@ public class MoveToHatchPanelPosition extends CommandGroup {
   public MoveToHatchPanelPosition() {
     addSequential(new ElevatorUp());
     addSequential(new RiderPID(0, 0.1, 15));
-    addSequential(new IntakePID(-560, 0.1, 15));
+    addSequential(new IntakePID(-410, 0.1, 15));
     addSequential(new RumbleJoystick(500));
   }
 }

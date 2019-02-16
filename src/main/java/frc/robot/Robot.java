@@ -29,8 +29,8 @@ public class Robot extends TimedRobot {
     Elevator.getInstance();
     Climber.getInstance();
 
-    // CameraServer.getInstance().startAutomaticCapture();
-    // CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
