@@ -39,25 +39,18 @@ public class RobotMap {
   public static final int ELEVATOR_SPARK = 0;
 
   // Sensors (RoboRIO DIO's)
-  public static final int INTAKE_ENCODER_A = 0;
-  public static final int INTAKE_ENCODER_B =1;
+  public static final int INTAKE_ENCODER_A = 1;
+  public static final int INTAKE_ENCODER_B =2;
 
-  public static final int RIDER_ENCODER_A = 2;
-  public static final int RIDER_ENCODER_B = 3;
+  public static final int RIDER_ENCODER_A = 8;
+  public static final int RIDER_ENCODER_B = 9;
 
   public static final int ELEVATOR_ENCODER_A =4;
   public static final int ELEVATOR_ENCODER_B =5;
-
-  public static final int CLIMB_ENCODER_RIGHT_A_CHANNEL = 6; 
-  public static final int CLIMB_ENCODER_RIGHT_B_CHANNEL = 7;
-
-  public static final int CLIMB_ENCODER_LEFT_A_CHANNEL = 8; 
-  public static final int CLIMB_ENCODER_LEFT_B_CHANNEL = 9;
-
-  //Sensors (Navx DIO's)
-  public static final int ELEVATOR_LIMITSWITCH_DOWN = 10;
-  public static final int ELEVATOR_LIMITSWITCH_UP = 11;
-  public static final int RIDER_LIMITSWITCH_BALL = 12;
+  
+  public static final int ELEVATOR_LIMITSWITCH_DOWN = 3;
+  public static final int ELEVATOR_LIMITSWITCH_UP = 0;
+  public static final int RIDER_LIMITSWITCH_BALL = 7;
 
   // Pneumatic
   public static final int PCM = 0;

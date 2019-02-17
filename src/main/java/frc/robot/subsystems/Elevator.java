@@ -45,7 +45,7 @@ public class Elevator extends Subsystem {
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
-    elevatorMotor.setInverted(true);
+    
 
     elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
     elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_DOWN);

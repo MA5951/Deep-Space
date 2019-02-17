@@ -7,23 +7,42 @@
 
 package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.command.InstantCommand;
+import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Climber;
 
-/**
- * Add your docs here.
- */
-public class climerDown extends InstantCommand {
+public class climerDown extends Command {
   Climber climber = Climber.getInstance();
   public climerDown() {
-    super();
- requires(climber);
+     requires(climber);
   }
 
-  // Called once when the command executes
+  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+  }
+
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
     climber.kreversClamber();
   }
 
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return false;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+    climber.kreversClamber();
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+    climber.kreversClamber();
+  }
 }
