@@ -25,8 +25,8 @@ import frc.robot.commands.Chassis.TankDrive;
  */
 public class Chassis extends Subsystem {
   public double setPoint;
-  private final double TOLERANCEPIDVISON=0;
-  private final double KPVISON=0;
+  private final double TOLERANCEPIDVISON = 0;
+  private final double KPVISON = 0;
   private static Chassis c_Instance = new Chassis();
 
   private WPI_TalonSRX leftFrontMotor;
@@ -47,7 +47,7 @@ public class Chassis extends Subsystem {
    * Initializes all Chassis components
    */
   private Chassis() {
-    
+
     navx = new AHRS(Port.kMXP);
     rightFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_FRONT);
     rightRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_REAR);
@@ -66,23 +66,25 @@ public class Chassis extends Subsystem {
     navxController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navx, rightFrontMotor);
 
     navxController.setAbsoluteTolerance(NAVX_TOLERANCE);
-      
+
   }
 
-public double PIDVison(double setPoint){
-  this.setPoint=setPoint;
-  return (setPoint - Robot.xEntry.getDouble(Robot.x))*KPVISON;
-}
-public boolean isOnTargetPIDVison(){
-  return setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint-TOLERANCEPIDVISON ||setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint+TOLERANCEPIDVISON;
-}
+  public double PIDVison(double setPoint) {
+    this.setPoint = setPoint;
+    return (setPoint - Robot.xEntry.getDouble(Robot.x)) * KPVISON;
+  }
 
+  public boolean isOnTargetPIDVison() {
+    return setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint - TOLERANCEPIDVISON
+        || setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint + TOLERANCEPIDVISON;
+  }
 
   public void chassisSmartdashboardValue() {
     SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("Left Chassis Motors", leftFrontMotor.getMotorOutputPercent());
     SmartDashboard.putNumber("Chassis Navx", navx.getAngle());
   }
+
   /**
    * Give power to the motors
    * 

@@ -11,14 +11,13 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.auto.AutomaticFrontCargo;
+import frc.robot.commands.auto.AutomaticMoveToPanel;
 import frc.robot.commands.auto.AutomaticTakeBall;
 import frc.robot.commands.auto.AutomaticTakeHatchPanel;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
-import frc.robot.commands.climber.ClimberForward;
-import frc.robot.commands.climber.ClimberRevers;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.PistonForward;
@@ -46,6 +45,7 @@ public class OI {
   private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
   private POVTrigger autoTakeHatchPanel = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
+  private POVTrigger automaticMoveToPanel = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
@@ -56,7 +56,6 @@ public class OI {
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  private JoystickButton CLimber = new JoystickButton(OPERATOR_STICK, XBOX.BACK);
   
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
@@ -75,14 +74,12 @@ public class OI {
     intakeSolenoid.whenReleased(new PistonOff());
 
     autoIntake.whileHeld(new AutomaticTakeBall());
-    autoHatchPanel.whenPressed(new MoveToHatchPanelPosition());
+    autoHatchPanel.whileHeld(new MoveToHatchPanelPosition());
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
     autoTakeHatchPanel.whileActive(new AutomaticTakeHatchPanel());
     autoFrontCargo.whileActive(new AutomaticFrontCargo());
-
-    CLimber.whileHeld(new ClimberForward());
-    CLimber.whenReleased(new ClimberRevers());
+    automaticMoveToPanel.whileActive(new AutomaticMoveToPanel());
 
     IntakePullTrigger.whileActive(new PullBall());
 
