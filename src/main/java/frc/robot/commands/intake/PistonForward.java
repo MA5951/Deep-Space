@@ -21,5 +21,4 @@ public class PistonForward extends InstantCommand {
   protected void initialize() {
     intake.pistonControlForward();
   }
-
 }

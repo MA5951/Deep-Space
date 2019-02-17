@@ -19,7 +19,7 @@ import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.climberUp;
-import frc.robot.commands.climber.climerDown;
+import frc.robot.commands.climber.climberDown;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.PistonForward;
@@ -89,7 +89,7 @@ public class OI {
     riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
     
     climber.whileHeld(new climberUp());
-    climber.whenReleased(new climerDown());
+    climber.whenReleased(new climberDown());
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());

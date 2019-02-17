@@ -25,7 +25,7 @@ private Climber() {
 public void kforwardeClamber(){
   climbeSolenoid.set(true);
 }
-public void kreversClamber(){
+public void kReverseClimber(){
   climbeSolenoid.set(false);
   
 }

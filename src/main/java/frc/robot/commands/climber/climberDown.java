@@ -13,19 +13,19 @@ import frc.robot.subsystems.Climber;
 /**
  * Add your docs here.
  */
-public class climberUp extends InstantCommand {
+public class climberDown extends InstantCommand {
   Climber climber = Climber.getInstance();
   /**
    * Add your docs here.
    */
-  public climberUp() {
+  public climberDown() {
     requires(climber);
   }
 
   // Called once when the command executes
   @Override
   protected void initialize() {
-    climber.kforwardeClamber();
+    climber.kReverseClimber();
   }
 
 }
