@@ -53,7 +53,6 @@ public class Rider extends Subsystem {
     riderLimitswitch = new DigitalInput(RobotMap.RIDER_LIMITSWITCH_BALL);
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
     intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
-    angleMotor.setInverted(true);
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
 

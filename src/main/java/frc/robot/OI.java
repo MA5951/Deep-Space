@@ -45,7 +45,7 @@ public class OI {
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
 
   private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
-  private POVTrigger autoTakeHatchPanel = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
+  private POVTrigger climberXboxControler = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
   private POVTrigger automaticMoveToPanel = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
@@ -79,7 +79,7 @@ public class OI {
     autoHatchPanel.whileHeld(new MoveToHatchPanelPosition());
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
-    autoTakeHatchPanel.whileActive(new AutomaticTakeHatchPanel());
+    //climberXboxControler.whileActive(new AutomaticTakeHatchPanel()); 
     autoFrontCargo.whileActive(new AutomaticFrontCargo());
     automaticMoveToPanel.whileActive(new AutomaticMoveToPanel());
 
@@ -90,6 +90,9 @@ public class OI {
     
     climber.whileHeld(new climberUp());
     climber.whenReleased(new climberDown());
+
+    climberXboxControler.whileActive(new climberUp());
+    climberXboxControler.whenInactive(new climberDown());
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
