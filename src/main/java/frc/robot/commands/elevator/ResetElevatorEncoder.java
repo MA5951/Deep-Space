@@ -5,18 +5,25 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.elevator;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Elevator;
 
-public class PushBall extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public PushBall() {
-    addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+/**
+ * Add your docs here.
+ */
+public class ResetElevatorEncoder extends InstantCommand {
+  Elevator elevator = Elevator.getInstance();
+
+  public ResetElevatorEncoder() {
+    requires(elevator);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    elevator.resetEncoder();
+  }
+
 }

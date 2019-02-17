@@ -5,18 +5,32 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.rider;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Rider;
 
-public class PushBall extends CommandGroup {
+/**
+ * Add your docs here.
+ */
+public class setPIDF extends InstantCommand {
   /**
    * Add your docs here.
    */
-  public PushBall() {
-    addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+  double F;
+
+  Rider rider = Rider.getInstance();
+
+  public setPIDF(double F) {
+    this.F = F;
+    requires(rider);
+
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    rider.setF(F);
+  }
+
 }

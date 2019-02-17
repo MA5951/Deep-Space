@@ -7,6 +7,8 @@
 
 package frc.robot.commands.rider;
 
+
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
@@ -16,7 +18,6 @@ import frc.robot.subsystems.Rider;
  */
 public class RiderOuttake extends Command {
   private Rider rider = Rider.getInstance();
-
   public RiderOuttake() {
     requires(rider);
   }
@@ -26,20 +27,21 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void initialize() {
-
+    rider.controlIntakeMotor(0);
   }
 
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(1);
-  }
+    rider.controlIntakeMotor(-1);
+}
 
   /**
    * If the limit switch is pressed, the isLimitSwitchAnglePressed will disable
    */
   @Override
   protected boolean isFinished() {
-    return false;
+    
+    return rider.getBallLimitswitch();
   }
 
   /**
@@ -48,9 +50,10 @@ public class RiderOuttake extends Command {
    */
   @Override
   protected void end() {
-    rider.controlIntakeMotor(1);
-    Timer.delay(0.5); // TODO : check if this works. If not, use a wait command and a command group.
+    rider.controlIntakeMotor(-1);
+    Timer.delay(0.8); 
     rider.controlIntakeMotor(0);
+
   }
 
   /**
@@ -59,5 +62,6 @@ public class RiderOuttake extends Command {
   @Override
   protected void interrupted() {
     rider.controlIntakeMotor(0);
+   
   }
 }

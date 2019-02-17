@@ -16,6 +16,6 @@ import frc.robot.subsystems.Intake;
 public class ResetIntakeEncoderTrigger extends Trigger {
   @Override
   public boolean get() {
-    return false;
+    return Intake.getInstance().isIntakeLimitswitchClosed();
   }
 }

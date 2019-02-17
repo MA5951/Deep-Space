@@ -7,25 +7,29 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
-@Deprecated
+import frc.robot.subsystems.Rider;
+
+
 public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();
-  private double tolerance;
   private double setpoint;
+  private double tolerance;
+  private double lastTimeOnTarget;
+  private double waitTime;
 
   /**
    * Creates new {IntakePID} command.
    * 
-   * @param setpoint  The given destination.
-   * @param tolerance The given range.
+   * @param setpoint The given destination.
    */
-  public IntakePID(double setpoint, double tolerance) {
-
-    this.tolerance = tolerance;
+  public IntakePID(double setpoint, double waitTime, double tolerance) {
+    this.waitTime = waitTime;
     this.setpoint = setpoint;
+    this.tolerance = tolerance;
 
     requires(intake);
   }
@@ -36,9 +40,8 @@ public class IntakePID extends Command {
    */
   @Override
   protected void initialize() {
-
-    intake.setSetpoint(setpoint);
     intake.enablePID(true);
+    intake.setSetpoint(setpoint);
   }
 
   @Override
@@ -50,7 +53,11 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return intake.isPIDOnTarget();
+    if (!intake.isPIDOnTarget(setpoint, tolerance)) {
+      lastTimeOnTarget = Timer.getFPGATimestamp();
+    }
+    return 
+      intake.isPIDOnTarget(setpoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   /**
@@ -61,15 +68,17 @@ public class IntakePID extends Command {
   protected void end() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
+    
   }
 
   /**
-   * Disable the intake PIDController and disable the {intakeMovmentControl} motor if {end}
-   * function
+   * Disable the intake PIDController and disable the {intakeMovmentControl} motor
+   * if {end} function
    */
   @Override
   protected void interrupted() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
+    
   }
 }

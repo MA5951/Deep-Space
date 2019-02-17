@@ -19,11 +19,11 @@ public class POVTrigger extends Trigger {
   private GenericHID controller;
   private int POVNum;
 
-  public POVTrigger(int angle, GenericHID controller) {
-    this(angle, controller, 0);
+  public POVTrigger(GenericHID controller, int angle) {
+    this(controller, angle, 0);
   }
 
-  public POVTrigger(int angle, GenericHID controller, int POVNum) {
+  public POVTrigger(GenericHID controller, int angle, int POVNum) {
     this.angle = angle;
     this.controller = controller;
     this.POVNum = POVNum;

@@ -5,58 +5,45 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Rider;
 
-public class ElevatorPID extends Command {
-  private double setPoint;
-  private Elevator elevator;
-  private double lastTimeOnTarget;
-  private double waitTime;
-
-  public ElevatorPID(double setPoint, double waitTime) {
-    this.setPoint = setPoint;
-    this.waitTime = waitTime;
-
-    elevator = Elevator.getInstance();
-    requires(elevator);
-
+public class MoveBall extends Command {
+  private Elevator elevator = Elevator.getInstance();
+  public MoveBall() {
+     requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID(true);
-    elevator.setSetPoint(setPoint);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    elevator.controlSpeed(-1);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!elevator.isPIDOnTarget()) {
-      lastTimeOnTarget = Timer.getFPGATimestamp();
-    }
-    return elevator.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return elevator.isEncoderInDistanceRangeElevator(0, -20);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.enablePID(false);
+    elevator.controlSpeed(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.enablePID(false);
+    elevator.controlSpeed(0);
   }
 }

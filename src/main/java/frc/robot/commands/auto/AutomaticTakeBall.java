@@ -5,18 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.elevator.ElevatorPID;
+import frc.robot.commands.intake.IntakeMoveBall;
+import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderIntake;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import frc.robot.commands.rider.RiderPID;
 
-public class PullBall extends CommandGroup {
+public class AutomaticTakeBall extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public PullBall() {
-    addParallel(new IntakePull());
-    addParallel(new TeleopRiderIntakeControl(1));
+  public AutomaticTakeBall() {
+    addSequential(new IntakePID(-800, 0.1, 15));
+    addSequential(new RiderPID(-580, 0.1, 15));
+    addSequential(new ElevatorPID(-6310, 0.2));
+    addSequential(new RumbleJoystick(500));
+    addParallel(new IntakeMoveBall(-1.0));
+    addParallel(new RiderIntake());
+    addSequential(new RumbleJoystick(500));
+
   }
 }

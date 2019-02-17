@@ -12,13 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
-import edu.wpi.first.wpilibj.DigitalInput;
-
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -30,9 +27,9 @@ import frc.robot.commands.intake.StopIntakeMovement;
 public class Intake extends Subsystem {
 
   // motors
-  private WPI_VictorSPX intakeBallMotor;  
-  private WPI_TalonSRX intakeAngleMotorA; 
-  private WPI_TalonSRX intakeAngleMotorB; 
+  private WPI_VictorSPX intakeBallMotor;
+  private WPI_TalonSRX intakeAngleMotorA;
+  private WPI_TalonSRX intakeAngleMotorB;
 
   // encoder
   private Encoder encoderIntake;
@@ -45,9 +42,11 @@ public class Intake extends Subsystem {
 
   private static Intake i_Instance;
 
-  public static final double KP_ENCODER = 0.0;
-  public static final double KI_ENCODER = 0.0;
-  public static final double KD_ENCODER = 0.0;
+
+  public static final double KP_ENCODER = 0.005;
+  public static final double KI_ENCODER = 0.0005
+  ;
+  public static final double KD_ENCODER = 0.007;
   private static final double DISTANCE_PER_PULSE = 1;
   private static final double TOLERANCE = 0;
 
@@ -60,8 +59,8 @@ public class Intake extends Subsystem {
 
     intakeBallMotor = new WPI_VictorSPX(RobotMap.INTAKE_MOTORS_WHEELS);
 
-    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_A);
-    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_B);
+    intakeAngleMotorA = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_LEFT_A);
+    intakeAngleMotorB = new WPI_TalonSRX(RobotMap.INTAKE_MOTORS_ANGLE_RIGHT_B);
 
     intakeAngleMotorB.setInverted(true);
     intakeAngleMotorB.set(ControlMode.Follower, intakeAngleMotorA.getDeviceID());
@@ -72,6 +71,7 @@ public class Intake extends Subsystem {
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
+    anglePID.setOutputRange(-0.5, 0.5);
   }
 
   public void intakeSmartdashboardValue() {
@@ -79,6 +79,15 @@ public class Intake extends Subsystem {
     SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
     SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
+  }
+
+  /**
+   * Check whether the limitswitch is pressed
+   * 
+   * @return Indication if the limitswitch is pressed.
+   */
+  public boolean isIntakeLimitswitchClosed() {
+    return intakeAngleMotorA.getSensorCollection().isFwdLimitSwitchClosed();
   }
 
   /**
@@ -91,7 +100,9 @@ public class Intake extends Subsystem {
       anglePID.disable();
     }
   }
-
+   public double PIDspeed(){
+return anglePID.get();
+}
   /**
    * Set the PIDController destination (setpoint)
    *
@@ -106,8 +117,8 @@ public class Intake extends Subsystem {
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isPIDOnTarget() {
-    return anglePID.onTarget();
+  public boolean isPIDOnTarget(double ticks, double tolerance) {
+    return encoderIntake.get() >= ticks - tolerance && encoderIntake.get() <= ticks + tolerance;
   }
 
   /**
@@ -128,20 +139,20 @@ public class Intake extends Subsystem {
     intakeAngleMotorA.set(ControlMode.PercentOutput, speedUpAndDown);
   }
 
+  public boolean isEncoderInDistanceRangeIntake(double maxDistance, double minDistance) {
+    return encoderIntake.getDistance() <= maxDistance && encoderIntake.getDistance() >= minDistance;
+  }
+
+  public double getEncoder() {
+    return encoderIntake.getDistance();
+  }
+
   /**
    * Give power to the pistons (up).
    */
   @Deprecated
   public void pistonControlForward() {
     intakePiston.set(true);
-
-  }
-
-  /**
-   * Give power to the pistons (down)
-   */
-  public void pistonControlReverse() {
-    intakePiston.set(false);
 
   }
 

@@ -5,20 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- * A trigger that start's when the intake is in the correct height. The trigger
- * will pull the back pole out.
+ * Add your docs here.
  */
-public class ClimbingPoleDown extends Trigger {
+public class OperatorControl extends Subsystem {
+
+  private static OperatorControl operatorControl;
+
+  public static OperatorControl getInstance() {
+    if (operatorControl == null) {
+      operatorControl = new OperatorControl();
+    }
+    return operatorControl;
+  } 
 
   @Override
-  public boolean get() {
-    return false;
-    // return Intake.getInstance().getHeight() >= Climber.START_CLIMB_HEIGHT;
-    // TODO
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
 }

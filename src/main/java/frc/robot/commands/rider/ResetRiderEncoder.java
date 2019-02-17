@@ -1,3 +1,5 @@
+package frc.robot.commands.rider;
+
 /*----------------------------------------------------------------------------*/
 /* Copyright (c) 2018 FIRST. All Rights Reserved.                             */
 /* Open Source Software - may be modified and shared by FRC teams. The code   */
@@ -5,18 +7,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
 
-public class PushBall extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public PushBall() {
-    addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Rider;
+
+
+/**
+ * Add your docs here.
+ */
+public class ResetRiderEncoder extends InstantCommand {
+  Rider rider = Rider.getInstance();
+
+  public ResetRiderEncoder() {
+    requires(rider);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    rider.resetEncoder();
+  }
+
 }

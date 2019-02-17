@@ -5,16 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import frc.robot.commands.elevator.ElevatorPID;
 
-/**
- * Check if the high Intake limit switch is pressed.
- */
-public class TriggerReset extends Trigger {
-  @Override
-  public boolean get() {
-    return false;
+import frc.robot.commands.rider.RiderPID;
+
+public class Rocket1 extends CommandGroup {
+  /**
+   * Add your docs here.
+   */
+  public Rocket1() {
+ 
+
+     addSequential(new RiderPID(0, 1, 20));
+     addSequential(new AutomaticIntake(-150,-200,1));
+     addSequential(new ElevatorPID(-3435, 0.2));
+     addSequential(new RumbleJoystick(500));
+
   }
 }

@@ -5,58 +5,48 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.Chassis;
 
-public class ElevatorPID extends Command {
-  private double setPoint;
-  private Elevator elevator;
-  private double lastTimeOnTarget;
-  private double waitTime;
-
-  public ElevatorPID(double setPoint, double waitTime) {
-    this.setPoint = setPoint;
-    this.waitTime = waitTime;
-
-    elevator = Elevator.getInstance();
-    requires(elevator);
-
+public class AutomaticMoveToPanel extends Command {
+  Chassis chassis = Chassis.getInstance();
+  public AutomaticMoveToPanel() {
+    // Use requires() here to declare subsystem dependencies
+     requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID(true);
-    elevator.setSetPoint(setPoint);
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    double speed = SmartDashboard.getNumber("x", 0);
+    double r = 0.5*Math.min(1, 1 - Math.sin(Math.toRadians(speed)));
+    double l = 0.5*Math.min(1, 1 - Math.sin(Math.toRadians(-speed)));
+    chassis.driveWestCoast(-l, -r);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!elevator.isPIDOnTarget()) {
-      lastTimeOnTarget = Timer.getFPGATimestamp();
-    }
-    return elevator.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return false;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.enablePID(false);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.enablePID(false);
   }
 }

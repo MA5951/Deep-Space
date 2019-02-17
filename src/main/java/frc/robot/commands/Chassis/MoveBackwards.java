@@ -5,32 +5,24 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.elevator;
+package frc.robot.commands.Chassis;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Chassis;
 
-public class ElevatorPID extends Command {
-  private double setPoint;
-  private Elevator elevator;
-  private double lastTimeOnTarget;
-  private double waitTime;
+public class MoveBackwards extends Command {
+  Chassis chassis = Chassis.getInstance();
 
-  public ElevatorPID(double setPoint, double waitTime) {
-    this.setPoint = setPoint;
-    this.waitTime = waitTime;
-
-    elevator = Elevator.getInstance();
-    requires(elevator);
-
+  public MoveBackwards() {
+    requires(chassis);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID(true);
-    elevator.setSetPoint(setPoint);
+    chassis.driveWestCoast(0.5, 0.5);
+    Timer.delay(0.3);
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -41,22 +33,19 @@ public class ElevatorPID extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    if (!elevator.isPIDOnTarget()) {
-      lastTimeOnTarget = Timer.getFPGATimestamp();
-    }
-    return elevator.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return true;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.enablePID(false);
+    chassis.driveWestCoast(0, 0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.enablePID(false);
+    chassis.driveWestCoast(0, 0);
   }
 }

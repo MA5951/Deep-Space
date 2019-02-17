@@ -12,31 +12,50 @@ import frc.robot.OI;
 import frc.robot.subsystems.Rider;
 
 public class AngleRider extends Command {
-  double speed; 
+  double speed;
 
   private Rider rider = Rider.getInstance();
+
+  private boolean firstPID_Run = true;
 
   public AngleRider() {
 
     requires(rider);
   }
 
-  /**
-   * Give power to the angle motor
-   */
   @Override
   protected void initialize() {
-
+    
   }
+
+  
 
   @Override
   protected void execute() {
-    speed = OI.OPERATOR_STICK.getRawAxis(5);
-    rider.controlAngleMotor(speed);
-  }
+    if(OI.OPERATOR_STICK.getRawAxis(5)<0.1|| OI.OPERATOR_STICK.getRawAxis(5)>-0.1){
+      if (firstPID_Run) {
+        rider.setSetPoint(rider.getEncoder());
+        rider.enablePID(true);
+        firstPID_Run = false;
+      } 
+     
+    }
+    if(OI.OPERATOR_STICK.getRawAxis(5)>0.1||OI.OPERATOR_STICK.getRawAxis(5)<-0.1){
+      rider.enablePID(false);
+      firstPID_Run = true;
+      speed = OI.OPERATOR_STICK.getRawAxis(5);
+      rider.controlAngleMotor(speed *-0.5);
+      if (rider.getBallLimitswitch()) {
+        rider.controlIntakeMotor(0.35);
+    } else {
+      rider.controlIntakeMotor(0);
+    }
+    }
+ 
+}
 
   @Override
-  protected boolean isFinished() { 
+  protected boolean isFinished() {
     return false;
   }
 

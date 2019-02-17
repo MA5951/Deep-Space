@@ -8,7 +8,7 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 
 public class IntakeMovement extends Command {
@@ -38,6 +38,8 @@ public class IntakeMovement extends Command {
   @Override
   protected void execute() {
     intake.intakeAngleControl(speed);
+    if (intake.isIntakeLimitswitchClosed())
+      intake.resetEncoder();
   }
 
   /**
@@ -45,7 +47,8 @@ public class IntakeMovement extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return false;
+    return speed > 0 && intake.isIntakeLimitswitchClosed();
+    
   }
 
   /**

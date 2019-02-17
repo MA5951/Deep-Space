@@ -5,28 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.rider;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
-public class PistonBack extends InstantCommand {
-
-  private Intake intake = Intake.getInstance();
-
+/**
+ * Add your docs here.
+ */
+public class StopRiderMovement extends InstantCommand {
+  Rider rider = Rider.getInstance();
   /**
-   * requires the Intake subsystem.
+   * Add your docs here.
    */
-  public PistonBack() {
-    requires(intake);
+  public StopRiderMovement() {
+    requires(rider);
   }
 
-  /**
-   * Run the {RelayControlRevers} function.
-   */
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    intake.pistonControlReverse();
+    rider.controlAngleMotor(0);
   }
 
 }

@@ -7,16 +7,26 @@
 
 package frc.robot.commands.intake;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Intake;
 
-public class PushBall extends CommandGroup {
+/**
+ * Add your docs here.
+ */
+public class StopIntakeBallMovement extends InstantCommand {
+  Intake intake = Intake.getInstance();
+
   /**
    * Add your docs here.
    */
-  public PushBall() {
-    addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+  public StopIntakeBallMovement() {
+    requires(intake);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    intake.intakeBallControl(0);
+  }
+
 }

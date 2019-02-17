@@ -5,18 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.command.WaitCommand;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import frc.robot.commands.elevator.ElevatorPID;
+import frc.robot.commands.intake.IntakePID;
+import frc.robot.commands.rider.RiderPID;
+import frc.robot.subsystems.Rider;
 
-public class PushBall extends CommandGroup {
+
+public class ReturnToDefault extends CommandGroup {
   /**
    * Add your docs here.
    */
-  public PushBall() {
-    addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+  public ReturnToDefault() {
+    addSequential(new ElevatorPID(0, 0.1));
+    addSequential(new RiderPID(0, 0.3, 15));
+    addSequential(new IntakePID(0, 0.1, 15));
+    addSequential(new RumbleJoystick(500));
   }
 }

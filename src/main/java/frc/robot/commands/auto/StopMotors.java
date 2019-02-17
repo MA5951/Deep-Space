@@ -5,28 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
-public class ResetEncoder extends InstantCommand {
-
-  private Intake intake = Intake.getInstance();
-
+/**
+ * Add your docs here.
+ */
+public class StopMotors extends InstantCommand {
   /**
-   * Requires the Intake subsystem
+   * Add your docs here.
    */
-  public ResetEncoder() {
-    requires(intake);
+  public StopMotors() {
+    super();
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Rider.getInstance());
+    requires(Elevator.getInstance());
+    requires(Intake.getInstance());
   }
 
-  /**
-   * Reset the encoder
-   */
+  // Called once when the command executes
   @Override
   protected void initialize() {
-    intake.resetEncoder();
   }
-
 }

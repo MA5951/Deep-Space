@@ -5,50 +5,56 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.climber;
+package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Climber;
+import frc.robot.subsystems.Elevator;
 
-/**
- * Opens the pole in the Climbing subsystem as much as possible (maximum
- * length).
- */
-public class OpenPole extends Command {
-  private Climber climber;
-
-  public OpenPole() {
-    climber = Climber.getInstance();
-    requires(climber);
+public class ElevatorEncoderControlMOtors extends Command {
+  Elevator elevator = Elevator.getInstance();
+  double speed;
+  double maxDistance;
+  double minDistance;
+  public ElevatorEncoderControlMOtors( double maxDistance, double minDistance,double speed) {
+    this.speed = speed;
+    this.maxDistance = maxDistance;
+    this.minDistance = minDistance;
+       requires(elevator);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    climber.openPole();
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-  }
+   
+      elevator.controlSpeed(speed);
+    }
+  
+    
+  
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return climber.isPoleOut();
+    return elevator.isEncoderInDistanceRangeElevator(maxDistance, minDistance);
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    climber.stopOpeningPole();
+    elevator.controlSpeed(0);
   }
+  
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    climber.stopOpeningPole();
+    elevator.controlSpeed(0);
   }
-}
+  }
+

@@ -7,22 +7,24 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Rider;
 
 public class IntakeMoveBall extends Command {
 
   private Intake intake = Intake.getInstance();
 
- 
+  Double speed;
 
   /**
    * Creates new {IntakePush} command.
    * 
    * @param speed The given speed of the {intakeControl}.
    */
-  public IntakeMoveBall() {
-
+  public IntakeMoveBall(Double speed) {
+    this.speed = speed;
     requires(intake);
   }
 
@@ -36,7 +38,7 @@ public class IntakeMoveBall extends Command {
    */
   @Override
   protected void execute() {
-    intake.intakeBallControl(-1);
+    intake.intakeBallControl(speed);
   }
 
   /**
@@ -44,7 +46,7 @@ public class IntakeMoveBall extends Command {
    */
   @Override
   protected boolean isFinished() {
-    return false;
+    return Rider.getInstance().getBallLimitswitch();
   }
 
   /**
