@@ -15,11 +15,11 @@ import frc.robot.RobotMap;
 /**
  * Add your docs here.
  */
-public class climbe extends Subsystem {
+public class Climber extends Subsystem {
  private Solenoid climbeSolenoid;
- private static climbe Climber;
+ private static Climber Climber;
 
-private climbe(){
+private Climber() {
   climbeSolenoid = new Solenoid(RobotMap.CLIMBIR_PISTON_FORWARD , RobotMap.CLIMBIR_PISTON_REVERS);
 }
 public void kforwardeClamber(){
@@ -29,9 +29,9 @@ public void kreversClamber(){
   climbeSolenoid.set(false);
   
 }
-public static climbe getInstance(){
+public static Climber getInstance() {
   if(Climber == null){
-    Climber = new climbe();
+    Climber = new Climber();
   }
   return Climber;
 }

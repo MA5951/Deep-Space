@@ -8,13 +8,13 @@
 package frc.robot.commands.climber;
 
 import edu.wpi.first.wpilibj.command.InstantCommand;
-import frc.robot.subsystems.climbe;
+import frc.robot.subsystems.Climber;
 
 /**
  * Add your docs here.
  */
 public class climberUp extends InstantCommand {
-  climbe climber = climbe.getInstance();
+  Climber climber = Climber.getInstance();
   public climberUp() {
    
      requires(climber);
