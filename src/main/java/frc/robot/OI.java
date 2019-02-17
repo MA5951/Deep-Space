@@ -18,6 +18,8 @@ import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
+import frc.robot.commands.climber.climberUp;
+import frc.robot.commands.climber.climerDown;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.PistonForward;
@@ -56,7 +58,7 @@ public class OI {
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  
+  private JoystickButton climber = new  JoystickButton (RIGHT_DRIVER_STICK , 4);
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
@@ -86,6 +88,9 @@ public class OI {
     IntakePushTrigger.whileActive(new PushBall());
     riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
     
+    climber.whileHeld(new climberUp());
+    climber.whenReleased(new climerDown());
+
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
