@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDBase;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -54,13 +53,12 @@ public class Rider extends Subsystem {
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
     intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
     angleMotor.setInverted(true);
-    encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
+    encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_B, RobotMap.RIDER_ENCODER_A, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
-
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-
+    
 
   }
 

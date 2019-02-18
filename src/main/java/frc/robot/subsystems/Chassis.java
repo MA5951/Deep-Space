@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Robot;
+
 import frc.robot.RobotMap;
 import frc.robot.commands.Chassis.TankDrive;
 
@@ -25,8 +25,6 @@ import frc.robot.commands.Chassis.TankDrive;
  */
 public class Chassis extends Subsystem {
   public double setPoint;
-  private final double TOLERANCEPIDVISON = 0;
-  private final double KPVISON = 0;
   private static Chassis c_Instance = new Chassis();
 
   private WPI_TalonSRX leftFrontMotor;
@@ -69,15 +67,7 @@ public class Chassis extends Subsystem {
 
   }
 
-  public double PIDVison(double setPoint) {
-    this.setPoint = setPoint;
-    return (setPoint - Robot.xEntry.getDouble(Robot.x)) * KPVISON;
-  }
 
-  public boolean isOnTargetPIDVison() {
-    return setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint - TOLERANCEPIDVISON
-        || setPoint - Robot.xEntry.getDouble(Robot.x) == setPoint + TOLERANCEPIDVISON;
-  }
 
   public void chassisSmartdashboardValue() {
     SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());

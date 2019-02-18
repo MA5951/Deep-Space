@@ -9,7 +9,6 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorPID;
-import frc.robot.commands.elevator.ElevatorUp;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
 
