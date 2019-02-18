@@ -16,6 +16,6 @@ public class PushBall extends CommandGroup {
    */
   public PushBall() {
     addParallel(new IntakePush());
-    addParallel(new TeleopRiderIntakeControl(-1));
+    addParallel(new TeleopRiderIntakeControl(1));
   }
 }

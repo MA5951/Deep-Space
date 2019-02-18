@@ -46,7 +46,7 @@ public class OI {
   private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
   private POVTrigger climberXbox = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
-  private POVTrigger automaticMoveToPanel = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
+  private POVTrigger climberXboxControler = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
@@ -79,7 +79,7 @@ public class OI {
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
     autoFrontCargo.whileActive(new AutomaticFrontCargo());
-    automaticMoveToPanel.whileActive(new AutomaticMoveToPanel());
+
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
@@ -90,6 +90,9 @@ public class OI {
     
     climberXbox.whileActive(new climberUp());
     climberXbox.whenInactive(new climberDown());
+
+    climberXboxControler.whileActive(new climberUp());
+    climberXboxControler.whenInactive(new climberDown());
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
