@@ -16,6 +16,6 @@ import frc.robot.subsystems.Rider;
 public class ResetRiderEncoderTrigger extends Trigger {
   @Override
   public boolean get() {
-    return Rider.getInstance().isLimitswitchClosed();
+    return Rider.getInstance().isLimitswitchClosed() && Rider.getInstance().isPID_Disabled();
   }
 }

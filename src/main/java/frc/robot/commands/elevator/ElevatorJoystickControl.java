@@ -27,7 +27,7 @@ public class ElevatorJoystickControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.controlSpeed(-OI.OPERATOR_STICK.getRawAxis(1)
+    elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1)
         * Math.min(1, 0.6 + Math.sin(2 * Math.PI * (1 / (2 * 6616)) * Math.abs(elevator.getElevatorEncoder()))));
    
   }

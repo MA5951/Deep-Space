@@ -8,6 +8,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.WaitCommand;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
@@ -17,9 +18,10 @@ public class MoveToHatchPanelPosition extends CommandGroup {
    * Add your docs here.
    */
   public MoveToHatchPanelPosition() {
-    addSequential(new ElevatorPID(0, 0.2));
-    addSequential(new RiderPID(0, 0.1, 15));
+   // addSequential(new ElevatorPID(0, 0.2));
+    // addSequential(new RiderPID(0, 0.1, 15);
     addSequential(new IntakePID(-520, 0.1, 15));
     addSequential(new RumbleJoystick(500));
+    //addParallel(new WaitCommand(10));  //chack if work 
   }
 }

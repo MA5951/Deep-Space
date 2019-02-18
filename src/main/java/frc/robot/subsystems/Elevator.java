@@ -45,13 +45,14 @@ public class Elevator extends Subsystem {
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
     elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
-    
+    elevatorMotor.setInverted(true);
 
     elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
     elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_DOWN);
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
+    elevatorEncoderPID.setOutputRange(-0.7, 0.7);
   }
 
   public void elevatorSmartdashboardValue() {

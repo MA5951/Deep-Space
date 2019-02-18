@@ -71,7 +71,8 @@ public class Intake extends Subsystem {
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
-    anglePID.setOutputRange(-0.5, 0.5);
+    anglePID.setOutputRange(-0.7, 0.7);
+    
   }
 
   public void intakeSmartdashboardValue() {

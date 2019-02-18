@@ -75,6 +75,9 @@ public class Chassis extends Subsystem {
     SmartDashboard.putNumber("Chassis Navx", navx.getAngle());
   }
 
+  public boolean isRobotFall(double axicZFoward , double axicZRevers ) {
+    return navx.getDisplacementZ() > axicZFoward || navx.getDisplacementZ() < axicZRevers;
+}
   /**
    * Give power to the motors
    * 

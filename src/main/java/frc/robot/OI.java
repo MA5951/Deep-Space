@@ -21,6 +21,7 @@ import frc.robot.commands.climber.climberUp;
 import frc.robot.commands.climber.climberDown;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
+import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.intake.PistonForward;
 import frc.robot.commands.intake.PistonOff;
 import frc.robot.commands.intake.PullBall;
@@ -31,6 +32,7 @@ import frc.robot.commands.rider.TeleopRiderIntakeControl;
 import frc.robot.triggers.IntakPushTrigger;
 import frc.robot.triggers.IntakePullTrigger;
 import frc.robot.triggers.POVTrigger;
+import frc.robot.triggers.PreventFall;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
@@ -46,7 +48,7 @@ public class OI {
   private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
   private POVTrigger climberXbox = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
-  private POVTrigger climberXboxControler = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
+  private POVTrigger PIDVisonTarget = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
@@ -63,7 +65,8 @@ public class OI {
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
   private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger(); 
-  private IntakPushTrigger IntakePushTrigger= new IntakPushTrigger();
+  private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
+  private PreventFall PreventFall =  new PreventFall();
   
 
 
@@ -79,24 +82,27 @@ public class OI {
     gotoDefault.whileHeld(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
     autoFrontCargo.whileActive(new AutomaticFrontCargo());
+    PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
     riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
     
-    climber.whileHeld(new climberUp());
-    climber.whenReleased(new climberDown());
+    //climber.whileHeld(new climberUp());
+    //climber.whenReleased(new climberDown());
     
-    climberXbox.whileActive(new climberUp());
-    climberXbox.whenInactive(new climberDown());
+    //climberXbox.whileActive(new climberUp());
+    //climberXbox.whenInactive(new climberDown());
 
-    climberXboxControler.whileActive(new climberUp());
-    climberXboxControler.whenInactive(new climberDown());
+   
+  
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
+   // PreventFall.whileActive(new IntakePID(-0, 0, 0)); //TODO
+   // PreventFall.whenInactive(new IntakePID(0, 0, 0)); //TODO
  
   }
 

@@ -5,24 +5,17 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.elevator.ElevatorPID;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.subsystems.Chassis;
 
-import frc.robot.commands.rider.RiderPID;
-
-public class Rocket1 extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public Rocket1() {
- 
-
-     addSequential(new RiderPID(0, 1, 20));
-     addSequential(new AutomaticIntake(-150,-200,1));
-     addSequential(new ElevatorPID(2935, 0.2));
-     addSequential(new RumbleJoystick(500));
-
+/**
+ * Add your docs here.
+ */
+public class PreventFall extends Trigger {
+  @Override
+  public boolean get() {
+    return Chassis.getInstance().isRobotFall(0, 0); //TODO
   }
 }

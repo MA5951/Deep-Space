@@ -31,7 +31,7 @@ public class RiderIntake extends Command {
 
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(1);
+    rider.controlIntakeMotor(-1);
     
   }
 

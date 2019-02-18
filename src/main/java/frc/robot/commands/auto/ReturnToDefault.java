@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
-import frc.robot.subsystems.Rider;
 
 
 public class ReturnToDefault extends CommandGroup {
