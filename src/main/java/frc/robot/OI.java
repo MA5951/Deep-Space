@@ -66,7 +66,7 @@ public class OI {
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
   private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger(); 
   private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
-  private PreventFall PreventFall =  new PreventFall();
+  //private PreventFall PreventFall =  new PreventFall();
   
 
 

@@ -186,6 +186,6 @@ return anglePID.get();
 
   @Override
   public void initDefaultCommand() {
-    setDefaultCommand(new StopIntakeMovement());
+    //setDefaultCommand();
   }
 }
