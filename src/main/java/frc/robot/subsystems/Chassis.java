@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.commands.Chassis.TankDrive;
 
@@ -67,7 +67,7 @@ public class Chassis extends Subsystem {
 
   }
 
-
+ 
 
   public void chassisSmartdashboardValue() {
     SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());
@@ -75,9 +75,14 @@ public class Chassis extends Subsystem {
     SmartDashboard.putNumber("Chassis Navx", navx.getAngle());
   }
 
-  public boolean isRobotFall(double axicZFoward , double axicZRevers ) {
-    return navx.getDisplacementZ() > axicZFoward || navx.getDisplacementZ() < axicZRevers;
-}
+  
+  public double getAngle() {
+    return navx.getAngle() % 180;
+  }
+
+  public double getAcceleration() {
+    return navx.getRawAccelZ();
+  }
   /**
    * Give power to the motors
    * 

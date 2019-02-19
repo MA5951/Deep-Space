@@ -16,6 +16,6 @@ import frc.robot.OI;
 public class IntakPushTrigger extends Trigger {
   @Override
   public boolean get() {
-    return OI.OPERATOR_STICK.getRawAxis(2)>0.1;
+    return OI.OPERATOR_STICK.getRawAxis(2) > 0.1;
   }
 }

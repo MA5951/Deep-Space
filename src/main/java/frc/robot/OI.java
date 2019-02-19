@@ -17,8 +17,8 @@ import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.Rocket1;
 import frc.robot.commands.auto.StopMotors;
-import frc.robot.commands.climber.climberUp;
 import frc.robot.commands.climber.climberDown;
+import frc.robot.commands.climber.climberUp;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.IntakePID;
@@ -55,31 +55,33 @@ public class OI {
 
   private JoystickButton autoHatchPanel = new JoystickButton(OPERATOR_STICK, XBOX.Y);
   private JoystickButton autoIntake = new JoystickButton(OPERATOR_STICK, XBOX.A);
-  private JoystickButton StopMotors = new JoystickButton(OPERATOR_STICK, XBOX.STICK_LEFT);
+  private JoystickButton StopMotorsJoyStickRight = new JoystickButton(OPERATOR_STICK, XBOX.STICK_RIGHT);
+  private JoystickButton StopMotorsJoyStickLeft = new JoystickButton(OPERATOR_STICK, XBOX.STICK_LEFT);
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
-  private JoystickButton climber = new  JoystickButton (RIGHT_DRIVER_STICK , 4);
+ // private JoystickButton climber = new  JoystickButton (RIGHT_DRIVER_STICK , 4);
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
   private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger(); 
   private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
-  //private PreventFall PreventFall =  new PreventFall();
+  private PreventFall PreventFall =  new PreventFall();
   
 
 
   public OI() {
-    StopMotors.whileHeld(new StopMotors());
+    StopMotorsJoyStickRight.whileActive(new StopMotors());
+    StopMotorsJoyStickLeft.whileActive(new StopMotors());
     moveIntakeDown.whileHeld(new IntakeMovement(0.5));
     moveIntakeUp.whileHeld(new IntakeMovement(-0.5));
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
 
-    autoIntake.whileHeld(new AutomaticTakeBall());
-    autoHatchPanel.whileHeld(new MoveToHatchPanelPosition());
-    gotoDefault.whileHeld(new ReturnToDefault());
+    autoIntake.whileActive(new AutomaticTakeBall());
+    autoHatchPanel.whileActive(new MoveToHatchPanelPosition());
+    gotoDefault.whileActive(new ReturnToDefault());
     autoRocket1.whileActive(new Rocket1());
     autoFrontCargo.whileActive(new AutomaticFrontCargo());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
@@ -92,8 +94,8 @@ public class OI {
     //climber.whileHeld(new climberUp());
     //climber.whenReleased(new climberDown());
     
-    //climberXbox.whileActive(new climberUp());
-    //climberXbox.whenInactive(new climberDown());
+    climberXbox.whileActive(new climberUp());
+    climberXbox.whenInactive(new climberDown());
 
    
   
@@ -101,9 +103,7 @@ public class OI {
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
-   // PreventFall.whileActive(new IntakePID(-0, 0, 0)); //TODO
-   // PreventFall.whenInactive(new IntakePID(0, 0, 0)); //TODO
- 
+    PreventFall.whenActive(new IntakePID(-900, 0.1, 15));
   }
 
 }

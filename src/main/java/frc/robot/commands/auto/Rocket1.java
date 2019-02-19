@@ -21,7 +21,7 @@ public class Rocket1 extends CommandGroup {
 
      addSequential(new RiderPID(0, 1, 20));
      addSequential(new AutomaticIntake(-150,-200,1));
-     addSequential(new ElevatorPID(2935, 0.2));
+     addSequential(new ElevatorPID(2495, 0.2));
      addSequential(new RumbleJoystick(500));
 
   }

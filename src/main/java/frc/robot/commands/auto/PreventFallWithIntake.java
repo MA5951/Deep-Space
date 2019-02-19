@@ -8,15 +8,11 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.Chassis;
 
-public class AutomaticMoveToPanel extends Command {
-  Chassis chassis = Chassis.getInstance();
-  public AutomaticMoveToPanel() {
+public class PreventFallWithIntake extends Command {
+  public PreventFallWithIntake() {
     // Use requires() here to declare subsystem dependencies
-     requires(chassis);
+    // eg. requires(chassis);
   }
 
   // Called just before this Command runs the first time
@@ -27,12 +23,6 @@ public class AutomaticMoveToPanel extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    double speed = SmartDashboard.getNumber("x", 0);
-    double lPower = SmartDashboard.getNumber("inputPowerL", 0);
-    double rPower = SmartDashboard.getNumber("inputPowerR", 0);
-    double r = lPower;
-    double l = rPower;
-    chassis.driveWestCoast(-l, -r);
   }
 
   // Make this return true when this Command no longer needs to run execute()

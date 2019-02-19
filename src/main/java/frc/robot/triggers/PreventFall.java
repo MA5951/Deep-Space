@@ -16,6 +16,8 @@ import frc.robot.subsystems.Chassis;
 public class PreventFall extends Trigger {
   @Override
   public boolean get() {
-    return false; //Chassis.getInstance().isRobotFall(0, 0); //TODO
+   
+    return Math.abs(Chassis.getInstance().getAngle()) > 20 && Math.abs(Chassis.getInstance().getAngle()) < 120
+      && Math.abs(Chassis.getInstance().getAcceleration()) > 0.85; 
   }
 }
