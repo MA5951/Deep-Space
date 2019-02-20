@@ -17,7 +17,7 @@ public class IntakePID extends Command {
 
   private Intake intake = Intake.getInstance();
   private double setpoint;
-  private double tolerance;
+  //private double tolerance;
   private double lastTimeOnTarget;
   private double waitTime;
 
@@ -26,10 +26,10 @@ public class IntakePID extends Command {
    * 
    * @param setpoint The given destination.
    */
-  public IntakePID(double setpoint, double waitTime, double tolerance) {
+  public IntakePID(double setpoint, double waitTime) {
     this.waitTime = waitTime;
     this.setpoint = setpoint;
-    this.tolerance = tolerance;
+    //this.tolerance = tolerance;
 
     requires(intake);
   }
@@ -53,11 +53,11 @@ public class IntakePID extends Command {
    */
   @Override
   protected boolean isFinished() {
-    if (!intake.isPIDOnTarget(setpoint, tolerance)) {
+    if (!intake.isPIDOnTarget()) {
       lastTimeOnTarget = Timer.getFPGATimestamp();
     }
     return 
-      intake.isPIDOnTarget(setpoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    intake.isPIDOnTarget() && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
   }
 
   /**

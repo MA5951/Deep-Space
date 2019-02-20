@@ -79,11 +79,11 @@ public class OI {
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
 
-    autoIntake.whileActive(new AutomaticTakeBall());
-    autoHatchPanel.whileActive(new MoveToHatchPanelPosition());
-    gotoDefault.whileActive(new ReturnToDefault());
-    autoRocket1.whileActive(new Rocket1());
-    autoFrontCargo.whileActive(new AutomaticFrontCargo());
+    autoIntake.whenActive(new AutomaticTakeBall());
+    autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
+    gotoDefault.whenActive(new ReturnToDefault());
+    autoRocket1.whenActive(new Rocket1());
+    autoFrontCargo.whenActive(new AutomaticFrontCargo());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
 
@@ -103,7 +103,7 @@ public class OI {
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
-    PreventFall.whenActive(new IntakePID(-900, 0.1, 15));
+    //PreventFall.whenActive(new IntakePID(-900, 0.1));
   }
 
 }

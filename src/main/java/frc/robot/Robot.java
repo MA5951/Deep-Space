@@ -71,13 +71,10 @@ public class Robot extends TimedRobot {
     Rider.getInstance().riderSmartdashboardValue();
     SmartDashboard.updateValues();
     if (OI.LEFT_DRIVER_STICK.getRawAxis(3) > 0.5) {
-      SmartDashboard.putNumber("camNum", 2);
+      SmartDashboard.putBoolean("forwardBack", true);
 }else if(OI.LEFT_DRIVER_STICK.getRawAxis(3) < -0.5){
-  SmartDashboard.putNumber("camNum", 1);
-    } else {
-      SmartDashboard.putNumber("camNum", 0);
-}
-
+  SmartDashboard.putBoolean("forwardBack", false);
+    } 
   }
 
   @Override

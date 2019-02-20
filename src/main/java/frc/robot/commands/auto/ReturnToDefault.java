@@ -21,7 +21,7 @@ public class ReturnToDefault extends CommandGroup {
    */
   public ReturnToDefault() {
     addSequential(
-      new ConditionalCommand( new IntakePID(-635, 0.1, 15), null){
+      new ConditionalCommand( new IntakePID(-635, 0.1), null){
       @Override
       protected boolean condition() {
         return Intake.getInstance().getEncoder() > -500;
@@ -29,8 +29,7 @@ public class ReturnToDefault extends CommandGroup {
     });
     addSequential(new ElevatorPID(0, 0.1));
     addSequential(new RiderPID(0, 0.3, 15));
-    addSequential(new IntakePID(0, 0.1, 15));
+    addSequential(new IntakePID(0, 0));
     addSequential(new RumbleJoystick(500));
-    addSequential(new delayCommand(10));
   }
 }

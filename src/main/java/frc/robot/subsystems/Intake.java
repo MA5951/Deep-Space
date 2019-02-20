@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
-import frc.robot.commands.intake.StopIntakeMovement;
 
 /**
  * The intake subsystem
@@ -42,13 +41,11 @@ public class Intake extends Subsystem {
 
   private static Intake i_Instance;
 
-
   public static final double KP_ENCODER = 0.005;
-  public static final double KI_ENCODER = 0.0005
-  ;
+  public static final double KI_ENCODER = 0.0005;
   public static final double KD_ENCODER = 0.007;
   private static final double DISTANCE_PER_PULSE = 1;
-  private static final double TOLERANCE = 0;
+  private static final double TOLERANCE = 20;
 
   /**
    * Initializes all Chassis components
@@ -72,7 +69,7 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
     anglePID.setOutputRange(-0.7, 0.7);
-    
+
   }
 
   public void intakeSmartdashboardValue() {
@@ -101,9 +98,8 @@ public class Intake extends Subsystem {
       anglePID.disable();
     }
   }
-   public double PIDspeed(){
-return anglePID.get();
-}
+
+
   /**
    * Set the PIDController destination (setpoint)
    *
@@ -118,8 +114,8 @@ return anglePID.get();
    * 
    * @return Indication if {anglePIDController} is on target
    */
-  public boolean isPIDOnTarget(double ticks, double tolerance) {
-    return encoderIntake.get() >= ticks - tolerance && encoderIntake.get() <= ticks + tolerance;
+  public boolean isPIDOnTarget() {
+    return anglePID.onTarget();
   }
 
   /**
@@ -172,6 +168,10 @@ return anglePID.get();
     encoderIntake.reset();
   }
 
+  public double getPIDMotorsSpeed() {
+    return anglePID.get();
+  }
+
   /**
    * Makes sure that only one instance runs at a time
    * 
@@ -186,6 +186,6 @@ return anglePID.get();
 
   @Override
   public void initDefaultCommand() {
-    //setDefaultCommand();
+    // setDefaultCommand();
   }
 }

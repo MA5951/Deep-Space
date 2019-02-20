@@ -28,7 +28,7 @@ public class AutomaticTakeBall extends CommandGroup {
         return Rider.getInstance().getEncoder() < 500;
       }
     });
-    addSequential(new IntakePID(-970, 0.1, 15));
+    addSequential(new IntakePID(-890, 0.1));
     addSequential(new RiderPID(847, 0.1, 15));
     addSequential(new ElevatorPID(4944, 0.2));
     addSequential(new RumbleJoystick(500));
