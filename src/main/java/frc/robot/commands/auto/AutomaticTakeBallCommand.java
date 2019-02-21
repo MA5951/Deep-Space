@@ -32,8 +32,8 @@ public class AutomaticTakeBallCommand extends Command {
     requires(OperatorControl.getInstance());
 
     intakeCommand = new IntakePID(-890, 0.1);
-    riderCommand = new RiderPID(847, 0.1, 15);
-    elevatorCommand = new ElevatorPID(4944, 0.2);
+    riderCommand = new RiderPID(500, 0.1, 15);
+    elevatorCommand = new ElevatorPID(5000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
 
@@ -59,28 +59,25 @@ public class AutomaticTakeBallCommand extends Command {
     }
     if (isConditinalHappnds) {
       intakeCommand.start();
-      if (intake.getEncoder() <= -600) {
+      if (intake.getEncoder() <= -500) {
         riderCommand.start();
+        
       }
-      if (rider.getEncoder() >= 400) {
+      if (rider.getEncoder() >= 1) {
         elevatorCommand.start();
-        if (!riderCommand.isRunning() && !intakeCommand.isRunning()) {
-          intakeCommandIntake().start();
+      }
+        if (riderCommand.isCompleted() && intakeCommand.isCompleted()) {
+          intakeCommandIntake.start();
           riderCommandIntake.start();
         }
       }
     }
-  }
-
-  // Make this return true when this Command no longer needs to run execute()
-  private Timer intakeCommandIntake() {
-    return null;
-  }
+  
 
   @Override
   protected boolean isFinished() {
-    return !riderCommand.isRunning() && !intakeCommand.isRunning() && !elevatorCommand.isRunning()
-        && !intakeCommandIntake.isRunning() && !riderCommandIntake.isRunning();
+    return riderCommand.isCompleted() && intakeCommand.isCompleted() && elevatorCommand.isCompleted()
+        && intakeCommandIntake.isCompleted() && riderCommandIntake.isCompleted();
 
   }
 

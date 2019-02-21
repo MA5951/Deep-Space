@@ -68,7 +68,7 @@ public class Intake extends Subsystem {
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
-    anglePID.setOutputRange(-0.3, 0.3);
+    anglePID.setOutputRange(-0.5, 0.5);
 
   }
 

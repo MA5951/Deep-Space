@@ -58,7 +58,7 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-    anglePIDController.setOutputRange(-0.3, 0.3);
+    anglePIDController.setOutputRange(-0.6, 0.6);
   }
 
   public void setF(double f) {
