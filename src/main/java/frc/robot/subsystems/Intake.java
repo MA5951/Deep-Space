@@ -45,7 +45,7 @@ public class Intake extends Subsystem {
   public static final double KI_ENCODER = 0.0005;
   public static final double KD_ENCODER = 0.007;
   private static final double DISTANCE_PER_PULSE = 1;
-  private static final double TOLERANCE = 20;
+  public static final double TOLERANCE = 20;
 
   /**
    * Initializes all Chassis components
@@ -68,7 +68,7 @@ public class Intake extends Subsystem {
 
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
-    anglePID.setOutputRange(-0.7, 0.7);
+    anglePID.setOutputRange(-0.3, 0.3);
 
   }
 
@@ -147,7 +147,6 @@ public class Intake extends Subsystem {
   /**
    * Give power to the pistons (up).
    */
-  @Deprecated
   public void pistonControlForward() {
     intakePiston.set(true);
 

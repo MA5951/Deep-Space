@@ -30,7 +30,7 @@ public class Elevator extends Subsystem {
   public static final double KP_ENCODER = 0.0085;
   public static final double KI_ENCODER = 0.0009;
   public static final double KD_ENCODER = 0.003;
-  private static final double TOLERANCE = 50;
+  public static final double TOLERANCE = 50;
   private static final double DISTANCE_PER_PULSE = 1;
 
   private static Elevator e_Instance;
@@ -52,7 +52,7 @@ public class Elevator extends Subsystem {
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
-    elevatorEncoderPID.setOutputRange(-0.85, 0.85);
+    elevatorEncoderPID.setOutputRange(-0.3, 0.3);
   }
 
   public void elevatorSmartdashboardValue() {

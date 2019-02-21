@@ -43,7 +43,7 @@ public class Rider extends Subsystem {
   public static final double KF_ANGLE = 0.0;
 
   private static final double DISTANCE_PER_PULSE = 1;
-  private static final double TOLERANCE = 1;
+  public static final double TOLERANCE = 1;
 
   /**
    * Initializes all Rider components
@@ -58,7 +58,7 @@ public class Rider extends Subsystem {
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-    anglePIDController.setOutputRange(-0.6, 0.6);
+    anglePIDController.setOutputRange(-0.3, 0.3);
   }
 
   public void setF(double f) {

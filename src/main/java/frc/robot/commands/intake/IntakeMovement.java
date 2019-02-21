@@ -8,7 +8,6 @@
 package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 
 public class IntakeMovement extends Command {

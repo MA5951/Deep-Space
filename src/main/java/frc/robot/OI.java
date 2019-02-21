@@ -12,16 +12,17 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.auto.AutomaticFrontCargo;
 import frc.robot.commands.auto.AutomaticMoveToPanel;
-import frc.robot.commands.auto.AutomaticTakeBall;
+import frc.robot.commands.auto.AutomaticTakeBallCommand;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefault;
+import frc.robot.commands.auto.ReturnToDefaultCommand;
 import frc.robot.commands.auto.Rocket1;
+import frc.robot.commands.auto.Rocket1Command;
 import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.climberDown;
 import frc.robot.commands.climber.climberUp;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
-import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.intake.PistonForward;
 import frc.robot.commands.intake.PistonOff;
 import frc.robot.commands.intake.PullBall;
@@ -67,7 +68,7 @@ public class OI {
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
   private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger(); 
   private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
-  private PreventFall PreventFall =  new PreventFall();
+  // private PreventFall PreventFall =  new PreventFall();
   
 
 
@@ -79,10 +80,10 @@ public class OI {
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
 
-    autoIntake.whenActive(new AutomaticTakeBall());
+    autoIntake.whileActive(new AutomaticTakeBallCommand());
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
-    gotoDefault.whenActive(new ReturnToDefault());
-    autoRocket1.whenActive(new Rocket1());
+    gotoDefault.whenActive(new ReturnToDefaultCommand());
+    autoRocket1.whenActive(new Rocket1Command());
     autoFrontCargo.whenActive(new AutomaticFrontCargo());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
