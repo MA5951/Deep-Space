@@ -16,10 +16,12 @@ public class ElevatorPID extends Command {
   private Elevator elevator;
   private double lastTimeOnTarget;
   private double waitTime;
+  
 
   public ElevatorPID(double setPoint, double waitTime) {
     this.setPoint = setPoint;
     this.waitTime = waitTime;
+  
 
     elevator = Elevator.getInstance();
     requires(elevator);

@@ -5,17 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.triggers;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import edu.wpi.first.wpilibj.buttons.Trigger;
+import frc.robot.subsystems.Chassis;
 
-public class PullBall extends CommandGroup {
-  /**
-   * Add your docs here.
-   */
-  public PullBall() {
-    addParallel(new IntakePull());
-    addParallel(new TeleopRiderIntakeControl(-1));
+/**
+ * Add your docs here.
+ */
+public class PreventFall extends Trigger {
+  @Override
+  public boolean get() {
+   
+    return Math.abs(Chassis.getInstance().getAngle()) > 20 && Math.abs(Chassis.getInstance().getAngle()) < 120
+      && Math.abs(Chassis.getInstance().getAcceleration()) > 0.85; 
   }
 }

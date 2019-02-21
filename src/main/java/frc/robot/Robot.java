@@ -8,10 +8,8 @@
 package frc.robot;
 
 
+
 import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -22,17 +20,8 @@ import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
   public static OI m_oi;
-  public static NetworkTableEntry xEntry;
-  public static NetworkTableEntry yEntry; 
-  public static double x;
-  public static double y;
   @Override
   public void robotInit() {
-   NetworkTableInstance inst = NetworkTableInstance.getDefault();
-   NetworkTable  table =inst.getTable("datatable");
-   xEntry = table.getEntry("X");  
-   yEntry = table.getEntry("Y");
-
     m_oi = new OI();
     Chassis.getInstance();
     Intake.getInstance();
@@ -40,7 +29,7 @@ public class Robot extends TimedRobot {
     Elevator.getInstance();
 
     //CameraServer.getInstance().startAutomaticCapture();
-    //CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
   }
 
   @Override
@@ -49,21 +38,23 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+    
   }
 
   @Override
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
+    Rider.getInstance().setSetPoint(Rider.getInstance().getEncoder());
   }
 
   @Override
   public void autonomousInit() {
-
+//    Scheduler.getInstance().run();
   }
 
   @Override
   public void autonomousPeriodic() {
-
+    teleopPeriodic();
   }
 
   @Override
@@ -73,16 +64,17 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    xEntry.setDouble(x);
-    yEntry.setDouble(y);
-    x+=0.05;
-    y+=1;
     Scheduler.getInstance().run();
     Chassis.getInstance().chassisSmartdashboardValue();
     Intake.getInstance().intakeSmartdashboardValue();
     Elevator.getInstance().elevatorSmartdashboardValue();
     Rider.getInstance().riderSmartdashboardValue();
     SmartDashboard.updateValues();
+    if (OI.LEFT_DRIVER_STICK.getRawAxis(3) > 0.5) {
+      SmartDashboard.putBoolean("forwardBack", true);
+}else if(OI.LEFT_DRIVER_STICK.getRawAxis(3) < -0.5){
+  SmartDashboard.putBoolean("forwardBack", false);
+    } 
   }
 
   @Override

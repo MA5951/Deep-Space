@@ -10,7 +10,6 @@ package frc.robot.commands.rider;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
-import frc.robot.subsystems.OperatorControl;
 import frc.robot.subsystems.Rider;
 
 public class TeleopRiderIntakeControl extends Command {

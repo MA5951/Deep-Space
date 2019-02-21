@@ -14,7 +14,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDBase;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -56,12 +55,10 @@ public class Rider extends Subsystem {
     angleMotor.setInverted(true);
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
-
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-
-
+    anglePIDController.setOutputRange(-0.6, 0.6);
   }
 
   public void setF(double f) {
@@ -80,7 +77,11 @@ public class Rider extends Subsystem {
    * @return Indication if the limitswitch is pressed.
    */
   public boolean isLimitswitchClosed() {
-    return angleMotor.getSensorCollection().isFwdLimitSwitchClosed();
+    return angleMotor.getSensorCollection().isRevLimitSwitchClosed();
+  }
+
+  public boolean isPID_Disabled() {
+    return !anglePIDController.isEnabled();
   }
 
   /**

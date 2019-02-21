@@ -34,6 +34,7 @@ public class RiderPID extends Command {
   protected void initialize() {
     rider.enablePID(true);
     rider.setSetPoint(setPoint);
+    //setTimeout(10); //
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -53,7 +54,7 @@ public class RiderPID extends Command {
     if (!rider.isPIDOnTarget(setPoint, tolerance)) {
       lastTimeOnTarget = Timer.getFPGATimestamp();
     }
-    return rider.isPIDOnTarget(setPoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime;
+    return rider.isPIDOnTarget(setPoint, tolerance) && Timer.getFPGATimestamp() - lastTimeOnTarget > waitTime; // || isTimedOut();
   }
 
   // Called once after isFinished returns true

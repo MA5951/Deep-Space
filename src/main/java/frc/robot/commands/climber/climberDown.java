@@ -5,17 +5,27 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.intake;
+package frc.robot.commands.climber;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
-import frc.robot.commands.rider.TeleopRiderIntakeControl;
+import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.subsystems.Climber;
 
-public class PullBall extends CommandGroup {
+/**
+ * Add your docs here.
+ */
+public class climberDown extends InstantCommand {
+  Climber climber = Climber.getInstance();
   /**
    * Add your docs here.
    */
-  public PullBall() {
-    addParallel(new IntakePull());
-    addParallel(new TeleopRiderIntakeControl(-1));
+  public climberDown() {
+    requires(climber);
   }
+
+  // Called once when the command executes
+  @Override
+  protected void initialize() {
+    climber.kReverseClimber();
+  }
+
 }

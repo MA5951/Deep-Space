@@ -28,8 +28,10 @@ public class AutomaticMoveToPanel extends Command {
   @Override
   protected void execute() {
     double speed = SmartDashboard.getNumber("x", 0);
-    double r = 0.5*Math.min(1, 1 - Math.sin(Math.toRadians(speed)));
-    double l = 0.5*Math.min(1, 1 - Math.sin(Math.toRadians(-speed)));
+    double lPower = SmartDashboard.getNumber("inputPowerL", 0);
+    double rPower = SmartDashboard.getNumber("inputPowerR", 0);
+    double r = lPower;
+    double l = rPower;
     chassis.driveWestCoast(-l, -r);
   }
 
