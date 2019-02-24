@@ -32,8 +32,8 @@ public class AutomaticTakeBallCommand extends Command {
     requires(OperatorControl.getInstance());
 
     intakeCommand = new IntakePID(-890, 0.1);
-    riderCommand = new RiderPID(500, 0.1, 15);
-    elevatorCommand = new ElevatorPID(5000, 0.2);
+    riderCommand = new RiderPID(600, 0.1, 15);
+    elevatorCommand = new ElevatorPID(3100, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
 
@@ -66,7 +66,8 @@ public class AutomaticTakeBallCommand extends Command {
       if (rider.getEncoder() >= 187) {
         elevatorCommand.start();
       }
-        if (riderCommand.isCompleted() && intakeCommand.isCompleted()) {
+        if (rider.getEncoder()>=600
+         && intake.getEncoder()<=-890) {
           intakeCommandIntake.start();
           riderCommandIntake.start();
         }
