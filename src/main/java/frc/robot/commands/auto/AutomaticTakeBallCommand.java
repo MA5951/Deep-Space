@@ -63,7 +63,7 @@ public class AutomaticTakeBallCommand extends Command {
         riderCommand.start();
         
       }
-      if (rider.getEncoder() >= 1) {
+      if (rider.getEncoder() >= 187) {
         elevatorCommand.start();
       }
         if (riderCommand.isCompleted() && intakeCommand.isCompleted()) {

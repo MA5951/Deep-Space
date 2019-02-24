@@ -52,7 +52,7 @@ public class Elevator extends Subsystem {
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
-    elevatorEncoderPID.setOutputRange(-0.7, 0.7);
+    elevatorEncoderPID.setOutputRange(-0.3, 0.3);
   }
 
   public void elevatorSmartdashboardValue() {

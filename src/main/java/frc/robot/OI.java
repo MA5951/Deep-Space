@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.auto.AutoFrontCargoCommand;
 import frc.robot.commands.auto.AutomaticFrontCargo;
 import frc.robot.commands.auto.AutomaticMoveToPanel;
 import frc.robot.commands.auto.AutomaticTakeBallCommand;
@@ -84,7 +85,7 @@ public class OI {
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
     gotoDefault.whenActive(new ReturnToDefaultCommand());
     autoRocket1.whenActive(new Rocket1Command());
-    autoFrontCargo.whenActive(new AutomaticFrontCargo());
+    autoFrontCargo.whenActive(new AutoFrontCargoCommand());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
 

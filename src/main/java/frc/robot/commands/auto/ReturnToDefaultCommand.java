@@ -68,7 +68,7 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return !riderCommand.isRunning() && !intakeCommand.isRunning() && !elevatorCommand.isRunning();
+    return riderCommand.isCompleted() && intakeCommand.isCompleted() && elevatorCommand.isCompleted();
   }
 
   // Called once after isFinished returns true
