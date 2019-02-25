@@ -8,7 +8,9 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakeMoveBall;
 import frc.robot.commands.intake.IntakePID;
@@ -31,9 +33,9 @@ public class AutomaticTakeBallCommand extends Command {
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
 
-    intakeCommand = new IntakePID(-890, 0.1);
+    intakeCommand = new IntakePID(-800, 0.1);
     riderCommand = new RiderPID(600, 0.1, 15);
-    elevatorCommand = new ElevatorPID(3100, 0.2);
+    elevatorCommand = new ElevatorPID(3050, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
 
@@ -59,38 +61,56 @@ public class AutomaticTakeBallCommand extends Command {
     }
     if (isConditinalHappnds) {
       intakeCommand.start();
-      if (intake.getEncoder() <= -500) {
+      if (intake.getEncoder() <= -400) {
         riderCommand.start();
         
       }
       if (rider.getEncoder() >= 187) {
         elevatorCommand.start();
       }
-        if (rider.getEncoder()>=600
-         && intake.getEncoder()<=-890) {
-          intakeCommandIntake.start();
-          riderCommandIntake.start();
-        }
-      }
+    }  
+    if (intakeFinished() && elevatorFinished() && riderFinished()) {
+      intake.enablePID(false);
+      elevator.enablePID(false);
+      rider.enablePID(false);
+      intakeCommandIntake.start();
+      riderCommandIntake.start();
     }
+  }
+    
   
 
   @Override
   protected boolean isFinished() {
-    return riderCommand.isCompleted() && intakeCommand.isCompleted() && elevatorCommand.isCompleted()
-        && intakeCommandIntake.isCompleted() && riderCommandIntake.isCompleted();
+    return intakeFinished() && elevatorFinished() && riderFinished() && rider.getBallLimitswitch();
+  }
 
+  private boolean intakeFinished () {
+    return intake.getEncoder() > -800 - intake.TOLERANCE 
+    && intake.getEncoder() < -800 + intake.TOLERANCE;
+  }
+
+  private boolean riderFinished () {
+    return rider.getEncoder() < 600 + rider.TOLERANCE 
+    && rider.getEncoder() > 600 - rider.TOLERANCE;
+  }
+
+  private boolean elevatorFinished () {
+    return elevator.getElevatorEncoder() > 3050 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 3050 + elevator.TOLERANCE;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    new RumbleJoystick(500);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+    Timer.delay(0.3);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble , 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble ,0);
     intake.enablePID(false);
     elevator.enablePID(false);
     rider.enablePID(false);
-    intake.intakeBallControl(-0.8);
-    Timer.delay(0.3);
     intake.intakeBallControl(0);
     rider.controlIntakeMotor(0);
   }
