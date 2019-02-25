@@ -24,6 +24,25 @@ public class Rocket1Command extends Command {
 
   private Command intakeCommand, riderCommand, elevatorCommand , elevatorCommandPIDUp;
 
+  private boolean intakeFinished() {
+    return intake.getEncoder() > -270 - intake.TOLERANCE 
+    && intake.getEncoder() < -270 + intake.TOLERANCE;
+  }
+
+  private boolean riderFinished() {
+    return rider.getEncoder() < 0 + rider.TOLERANCE 
+    && rider.getEncoder() > 0 - rider.TOLERANCE;
+  }
+
+  private boolean elevatorFinished() {
+    return elevator.getElevatorEncoder() > 2495 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 2495 + elevator.TOLERANCE;
+  }
+  private boolean elevatorFinishedUp() {
+    return elevator.getElevatorEncoder() > 1447 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 1447 + elevator.TOLERANCE;
+  }
+
   public Rocket1Command() {
     intakeCommand = new AutomaticIntake(-250,-300,1);
     riderCommand = new RiderPID(0, 0.3, 15);
@@ -49,12 +68,15 @@ public class Rocket1Command extends Command {
     }
     if (isConditinalHappnds) {
       elevatorCommandPIDUp.start();
+      
+    }
+    if(elevatorFinishedUp()){
       riderCommand.start();
     }
-    if (rider.getEncoder() < 100) {
+    if (rider.getEncoder() < 100)  { //TODO
       elevatorCommand.start();
     }
-    if (elevator.getElevatorEncoder() > 2000 && rider.getEncoder() < 500) {
+    if (elevator.getElevatorEncoder() > 2000 && rider.getEncoder() < 500)  { //TODO
       intakeCommand.start();
     }
   }
@@ -62,8 +84,7 @@ public class Rocket1Command extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return intakeCommand.isCompleted() && elevatorCommand.isCompleted() && elevatorCommandPIDUp.isCompleted()
-        && riderCommand.isCompleted();
+    return elevatorFinished() && riderFinished() && intakeFinished();
   }
 
   // Called once after isFinished returns true

@@ -25,6 +25,20 @@ public class ReturnToDefaultCommand extends Command {
 
   private Command intakeCommand, riderCommand, elevatorCommand;
 
+  private boolean intakeFinished() {
+    return intake.getEncoder() > 0 - intake.TOLERANCE 
+    && intake.getEncoder() < 0 + intake.TOLERANCE;
+  }
+
+  private boolean riderFinished() {
+    return rider.getEncoder() < 0 + rider.TOLERANCE 
+    && rider.getEncoder() > 0 - rider.TOLERANCE;
+  }
+
+  private boolean elevatorFinished() {
+    return elevator.getElevatorEncoder() > 0 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 0 + elevator.TOLERANCE;
+  }
   public ReturnToDefaultCommand() {
     requires(OperatorControl.getInstance());
 

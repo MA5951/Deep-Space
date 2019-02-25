@@ -25,6 +25,26 @@ public class AutoFrontCargoCommand extends Command {
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeClosedCommand;
 
+  private boolean intakeFinished () {
+    return intake.getEncoder() > -653 - intake.TOLERANCE 
+    && intake.getEncoder() < -653 + intake.TOLERANCE;
+  }
+
+  private boolean intakeFinishedCLosed() {
+    return intake.getEncoder() > 0 - intake.TOLERANCE 
+    && intake.getEncoder() < 0 + intake.TOLERANCE;
+  }
+
+  private boolean riderFinished() {
+    return rider.getEncoder() < 1185 + rider.TOLERANCE 
+    && rider.getEncoder() >  1185 - rider.TOLERANCE;
+  }
+
+  private boolean elevatorFinished() {
+    return elevator.getElevatorEncoder() > 0 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 0 + elevator.TOLERANCE;
+  }
+
   public AutoFrontCargoCommand() {
     requires(OperatorControl.getInstance());
 
@@ -58,13 +78,13 @@ public class AutoFrontCargoCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return riderCommand.isCompleted() && intakeClosedCommand.isCompleted() && elevatorCommand.isCompleted();
+    return riderFinished() && intakeFinishedCLosed() && elevatorFinished();
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    new RumbleJoystick(500);
+
     intake.enablePID(false);
     elevator.enablePID(false);
     rider.enablePID(false);
