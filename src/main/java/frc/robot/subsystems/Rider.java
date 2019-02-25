@@ -43,7 +43,7 @@ public class Rider extends Subsystem {
   public static final double KF_ANGLE = 0.0;
 
   private static final double DISTANCE_PER_PULSE = 1;
-  public static final double TOLERANCE = 15;
+  public static final double TOLERANCE = 20;
 
   /**
    * Initializes all Rider components

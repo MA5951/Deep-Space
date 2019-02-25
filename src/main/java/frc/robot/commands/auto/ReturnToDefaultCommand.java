@@ -36,15 +36,15 @@ public class ReturnToDefaultCommand extends Command {
   }
 
   private boolean elevatorFinished() {
-    return elevator.getElevatorEncoder() > 0 - elevator.TOLERANCE
-    &&  elevator.getElevatorEncoder() < 0 + elevator.TOLERANCE;
+    return elevator.getElevatorEncoder() > 100 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 100 + elevator.TOLERANCE;
   }
   public ReturnToDefaultCommand() {
     requires(OperatorControl.getInstance());
 
     intakeCommand = new IntakePID(0, 0);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommand = new ElevatorPID(0, 0.1);
+    elevatorCommand = new ElevatorPID(100, 0.1);
   }
 
   // Called just before this Command runs the first time
@@ -72,7 +72,8 @@ public class ReturnToDefaultCommand extends Command {
         riderCommand.start();
       }
       // TODO Check the encoder value
-      if (rider.getEncoder() < 500) {
+      if (rider.getEncoder() < 200
+      ) {
         intakeCommand.start();
       }
     }
@@ -82,7 +83,7 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return riderCommand.isCompleted() && intakeCommand.isCompleted() && elevatorCommand.isCompleted();
+    return elevatorFinished() && intakeFinished() && riderFinished();
   }
 
   // Called once after isFinished returns true
