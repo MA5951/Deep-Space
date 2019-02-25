@@ -42,7 +42,6 @@ public class AutomaticTakeBallCommand extends Command {
 
   private boolean elevatorFinished() {
     return !elevatorCommand.isRunning();
-
   }
 
   public AutomaticTakeBallCommand() {
@@ -79,23 +78,41 @@ public class AutomaticTakeBallCommand extends Command {
       }
       break;
     case 2:
+    
       elevatorCommand.start();
-      if (riderFinished() && intakeFinished()) {
+      stage++;
+      break;
+    case 3:
+      if (elevatorFinished()) {
         riderCommand.cancel();
         intakeCommand.cancel();
+        elevatorCommand.cancel();
         stage++;
       }
       break;
-    case 3:
-    new RiderIntake().start();
-    new IntakeMoveBall(-1.0).start();
+    case 4:
+    if (!rider.getBallLimitswitch()) {
+      riderCommandIntake.start();
+      intakeCommandIntake.start();
+      stage++;
+    }
+      break;
+    case 5:
+      if (rider.getBallLimitswitch()) {
+        stage++;
+      }
+      break;
+    case 6:
+      riderCommandIntake.cancel();
+      intakeCommandIntake.cancel();
+      stage++;
       break;
     }
   }
 
   @Override
   protected boolean isFinished() {
-    return rider.getBallLimitswitch();
+    return stage == 7;
   }
 
   // Called once after isFinished returns true
