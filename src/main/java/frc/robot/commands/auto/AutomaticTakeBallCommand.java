@@ -22,6 +22,7 @@ import frc.robot.subsystems.OperatorControl;
 import frc.robot.subsystems.Rider;
 
 public class AutomaticTakeBallCommand extends Command {
+  
   Intake intake = Intake.getInstance();
   Rider rider = Rider.getInstance();
   Elevator elevator = Elevator.getInstance();
@@ -29,6 +30,21 @@ public class AutomaticTakeBallCommand extends Command {
   private boolean isConditinalHappnds = false;
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake;
+
+  private boolean intakeFinished () {
+    return intake.getEncoder() > -800 - intake.TOLERANCE 
+    && intake.getEncoder() < -800 + intake.TOLERANCE;
+  }
+
+  private boolean riderFinished () {
+    return rider.getEncoder() < 600 + rider.TOLERANCE 
+    && rider.getEncoder() > 600 - rider.TOLERANCE;
+  }
+
+  private boolean elevatorFinished () {
+    return elevator.getElevatorEncoder() > 3050 - elevator.TOLERANCE
+    &&  elevator.getElevatorEncoder() < 3050 + elevator.TOLERANCE;
+  }
 
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
@@ -85,32 +101,19 @@ public class AutomaticTakeBallCommand extends Command {
     return intakeFinished() && elevatorFinished() && riderFinished() && rider.getBallLimitswitch();
   }
 
-  private boolean intakeFinished () {
-    return intake.getEncoder() > -800 - intake.TOLERANCE 
-    && intake.getEncoder() < -800 + intake.TOLERANCE;
-  }
-
-  private boolean riderFinished () {
-    return rider.getEncoder() < 600 + rider.TOLERANCE 
-    && rider.getEncoder() > 600 - rider.TOLERANCE;
-  }
-
-  private boolean elevatorFinished () {
-    return elevator.getElevatorEncoder() > 3050 - elevator.TOLERANCE
-    &&  elevator.getElevatorEncoder() < 3050 + elevator.TOLERANCE;
-  }
+  
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.3);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble , 0);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble ,0);
     intake.enablePID(false);
     elevator.enablePID(false);
     rider.enablePID(false);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+    Timer.delay(0.1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble , 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble ,0);
     intake.intakeBallControl(0);
     rider.controlIntakeMotor(0);
   }
