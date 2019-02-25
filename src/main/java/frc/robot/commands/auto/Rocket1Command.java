@@ -76,7 +76,7 @@ public class Rocket1Command extends Command {
     if (rider.getEncoder() < 100)  { //TODO
       elevatorCommand.start();
     }
-    if (elevator.getElevatorEncoder() > 2000 && rider.getEncoder() < 500)  { //TODO
+    if ( rider.getEncoder() < 500)  { //TODO
       intakeCommand.start();
     }
   }
