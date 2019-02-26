@@ -22,13 +22,11 @@ import frc.robot.subsystems.OperatorControl;
 import frc.robot.subsystems.Rider;
 
 public class AutomaticTakeBallCommand extends Command {
-  Intake intake = Intake.getInstance();
-  Rider rider = Rider.getInstance();
-  Elevator elevator = Elevator.getInstance();
+  private Intake intake = Intake.getInstance();
+  private Rider rider = Rider.getInstance();
+  private Elevator elevator = Elevator.getInstance();
 
   private int stage = 0;
-
-  private boolean isConditinalHappnds = true;
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake;
 
@@ -78,7 +76,7 @@ public class AutomaticTakeBallCommand extends Command {
       }
       break;
     case 2:
-    
+
       elevatorCommand.start();
       stage++;
       break;
@@ -91,11 +89,11 @@ public class AutomaticTakeBallCommand extends Command {
       }
       break;
     case 4:
-    if (!rider.getBallLimitswitch()) {
-      riderCommandIntake.start();
-      intakeCommandIntake.start();
-      stage++;
-    }
+      if (!rider.getBallLimitswitch()) {
+        riderCommandIntake.start();
+        intakeCommandIntake.start();
+        stage++;
+      }
       break;
     case 5:
       if (rider.getBallLimitswitch()) {

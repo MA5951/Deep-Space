@@ -8,7 +8,9 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
@@ -18,9 +20,9 @@ import frc.robot.subsystems.OperatorControl;
 import frc.robot.subsystems.Rider;
 
 public class ReturnToDefaultCommand extends Command {
-  Intake intake = Intake.getInstance();
-  Rider rider = Rider.getInstance();
-  Elevator elevator = Elevator.getInstance();
+  private Intake intake = Intake.getInstance();
+  private Rider rider = Rider.getInstance();
+  private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
 
   private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand;
@@ -39,7 +41,6 @@ public class ReturnToDefaultCommand extends Command {
 
   public ReturnToDefaultCommand() {
     requires(OperatorControl.getInstance());
-
     intakeCommand = new IntakePID(0, 0);
     moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(0, 0.3, 15);
@@ -95,10 +96,16 @@ public class ReturnToDefaultCommand extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
+
     intake.enablePID(false);
     elevator.enablePID(false);
     rider.enablePID(false);
-    Timer.delay(0.2);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+    Timer.delay(0.1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+
   }
 
   // Called when another command which requires one or more of the same

@@ -16,81 +16,96 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
 public class Rocket1Command extends Command {
-  Intake intake = Intake.getInstance();
-  Rider rider = Rider.getInstance();
-  Elevator elevator = Elevator.getInstance();
+  private Intake intake = Intake.getInstance();
+  private Rider rider = Rider.getInstance();
+  private Elevator elevator = Elevator.getInstance();
+  private int stage = 0;
 
-  private boolean isConditinalHappnds = false;
+  private Command intakeCommand, riderCommand, elevatorCommand , elevatorCommandPIDUp , intakeCommand2;
 
-  private Command intakeCommand, riderCommand, elevatorCommand , elevatorCommandPIDUp;
+  
+  private boolean elevatorUpFinished(){
+    return !elevatorCommandPIDUp.isRunning(); 
+  }
 
   private boolean intakeFinished() {
-    return intake.getEncoder() > -270 - intake.TOLERANCE 
-    && intake.getEncoder() < -270 + intake.TOLERANCE;
+    return !intakeCommand.isRunning();
   }
 
   private boolean riderFinished() {
-    return rider.getEncoder() < 0 + rider.TOLERANCE 
-    && rider.getEncoder() > 0 - rider.TOLERANCE;
+    return !riderCommand.isRunning();
   }
 
   private boolean elevatorFinished() {
-    return elevator.getElevatorEncoder() > 2495 - elevator.TOLERANCE
-    &&  elevator.getElevatorEncoder() < 2495 + elevator.TOLERANCE;
-  }
-  private boolean elevatorFinishedUp() {
-    return elevator.getElevatorEncoder() > 1447 - elevator.TOLERANCE
-    &&  elevator.getElevatorEncoder() < 1447 + elevator.TOLERANCE;
+    return !elevatorCommand.isRunning();
   }
 
+
   public Rocket1Command() {
+
     intakeCommand = new AutomaticIntake(-250,-300,1);
     riderCommand = new RiderPID(0, 0.3, 15);
     elevatorCommandPIDUp = new ElevatorPID(1447,0);
     elevatorCommand = new ElevatorPID(2495, 0.2);
+    intakeCommand2 = new IntakePID(-600, 0.1);
   }
 
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    stage=0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if(intake.getEncoder() > -200){
-      new IntakePID(-600, 0.1);
-      if (intake.getEncoder() <= (-200 - intake.TOLERANCE) || intake.getEncoder() >= (-200 + intake.TOLERANCE)) {
-        isConditinalHappnds = true;
+
+    switch (stage) {
+      case 0:
+        if (Intake.getInstance().getEncoder() > -200) {
+          intakeCommand2.start();
+        }
+        stage++;
+        break;
+      case 1:
+        if (!intakeCommand2.isRunning()) {
+          stage++;
+        }
+        break;
+      case 2:
+        elevatorCommandPIDUp.start();
+        stage++;
+        break;
+      case 3:
+        if (elevatorUpFinished()) {
+          riderCommand.start();
+          stage++;
+        }
+        break;
+      case 4:
+        if (rider.getEncoder() < 100) {
+          elevatorCommand.start();
+          stage++;
+        }
+        break;
+        case 5:
+        if(elevator.getElevatorEncoder() > 100){
+          intakeCommand.start();
+        }
+        break;
       }
-    } else {
-      isConditinalHappnds = true;
     }
-    if (isConditinalHappnds) {
-      elevatorCommandPIDUp.start();
-      
-    }
-    if(elevatorFinishedUp()){
-      riderCommand.start();
-    }
-    if (rider.getEncoder() < 100)  { //TODO
-      elevatorCommand.start();
-    }
-    if ( rider.getEncoder() < 500)  { //TODO
-      intakeCommand.start();
-    }
-  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorFinished() && riderFinished() && intakeFinished();
+    return elevatorFinished() && riderFinished() && intakeFinished() && stage == 5;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    new RumbleJoystick(500);
+    intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
     rider.enablePID(false);
@@ -100,6 +115,7 @@ public class Rocket1Command extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
+    intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
     rider.enablePID(false);
