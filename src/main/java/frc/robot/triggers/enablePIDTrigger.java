@@ -17,6 +17,7 @@ public class enablePIDTrigger extends Trigger {
   @Override
   public boolean get() {
     return OI.OPERATOR_STICK.getRawAxis(5)<0.1|| OI.OPERATOR_STICK.getRawAxis(5)>-0.1;
+    
   }
   }
 

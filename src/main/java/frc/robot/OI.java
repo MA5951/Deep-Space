@@ -10,10 +10,12 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.commands.auto.AutoFrontCargoCommand;
 import frc.robot.commands.auto.AutomaticFrontCargo;
 import frc.robot.commands.auto.AutomaticMoveToPanel;
 import frc.robot.commands.auto.AutomaticTakeBallCommand;
+import frc.robot.commands.auto.ChangeCamera;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefault;
 import frc.robot.commands.auto.ReturnToDefaultCommand;
@@ -39,6 +41,7 @@ import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
 import frc.robot.util.JoystickUtil.XBOX;
+
 /**
  * Maps commands to buttons/POVs/triggers
  */
@@ -52,6 +55,10 @@ public class OI {
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
   private POVTrigger PIDVisonTarget = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
+  private POVTrigger camera1 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_LEFT);
+  private POVTrigger camera2 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_RIGHT);
+  private POVTrigger camera3 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_UP);
+
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
 
@@ -62,16 +69,14 @@ public class OI {
   private JoystickButton moveIntakeUp = new JoystickButton(OPERATOR_STICK, XBOX.RB);
   private JoystickButton moveIntakeDown = new JoystickButton(OPERATOR_STICK, XBOX.LB);
   private JoystickButton intakeSolenoid = new JoystickButton(OPERATOR_STICK, XBOX.X);
- // private JoystickButton climber = new  JoystickButton (RIGHT_DRIVER_STICK , 4);
+  // private JoystickButton climber = new JoystickButton (RIGHT_DRIVER_STICK , 4);
 
   private ResetElevatorEncoderTrigger resetElevatorEncoder = new ResetElevatorEncoderTrigger();
   private ResetIntakeEncoderTrigger resetIntakeEncoder = new ResetIntakeEncoderTrigger();
   private ResetRiderEncoderTrigger resetRiderEncoder = new ResetRiderEncoderTrigger();
-  private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger(); 
+  private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger();
   private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
-  // private PreventFall PreventFall =  new PreventFall();
-  
-
+  // private PreventFall PreventFall = new PreventFall();
 
   public OI() {
     StopMotorsJoyStickRight.whileActive(new StopMotors());
@@ -88,24 +93,24 @@ public class OI {
     autoFrontCargo.whenActive(new AutoFrontCargoCommand());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
+    camera1.whenActive(new ChangeCamera(0));
+    camera2.whenActive(new ChangeCamera(1));
+    camera3.whenActive(new ChangeCamera(2));
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
     riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
-    
-    //climber.whileHeld(new climberUp());
-    //climber.whenReleased(new climberDown());
-    
+
+    // climber.whileHeld(new climberUp());
+    // climber.whenReleased(new climberDown());
+
     climberXbox.whileActive(new climberUp());
     climberXbox.whenInactive(new climberDown());
-
-   
-  
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
-    //PreventFall.whenActive(new IntakePID(-900, 0.1));
+    // PreventFall.whenActive(new IntakePID(-900, 0.1));
   }
 
 }

@@ -38,7 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
-    SmartDashboard.putNumber("Num", 0);
+   
     
   }
 
@@ -51,7 +51,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Scheduler.getInstance().run();
-    SmartDashboard.putNumber("Num", 2);
+
   }
 
   @Override
@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
   SmartDashboard.putBoolean("forwardBack", false);
     } 
 
-    SmartDashboard.putNumber("Num", 1);
+   
   }
 
   @Override

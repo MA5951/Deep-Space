@@ -7,6 +7,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
@@ -20,62 +21,67 @@ public class ReturnToDefaultCommand extends Command {
   Intake intake = Intake.getInstance();
   Rider rider = Rider.getInstance();
   Elevator elevator = Elevator.getInstance();
+  private int stage = 0;
 
-  private boolean isConditinalHappnds = false;
-
-  private Command intakeCommand, riderCommand, elevatorCommand;
+  private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand;
 
   private boolean intakeFinished() {
-    return intake.getEncoder() > 0 - intake.TOLERANCE 
-    && intake.getEncoder() < 0 + intake.TOLERANCE;
+    return !intakeCommand.isRunning();
   }
 
   private boolean riderFinished() {
-    return rider.getEncoder() < 0 + rider.TOLERANCE 
-    && rider.getEncoder() > 0 - rider.TOLERANCE;
+    return !riderCommand.isRunning();
   }
 
   private boolean elevatorFinished() {
-    return elevator.getElevatorEncoder() > 100 - elevator.TOLERANCE
-    &&  elevator.getElevatorEncoder() < 100 + elevator.TOLERANCE;
+    return !elevatorCommand.isRunning();
   }
+
   public ReturnToDefaultCommand() {
     requires(OperatorControl.getInstance());
 
     intakeCommand = new IntakePID(0, 0);
+    moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(0, 0.3, 15);
     elevatorCommand = new ElevatorPID(100, 0.1);
   }
 
-  // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    stage = 0;
   }
 
-  // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    if (intake.getEncoder() > -500) {
-      new IntakePID(-635, 0.1);
-    }
-
-    if (intake.getEncoder() >= (-635 - intake.TOLERANCE)
-        || elevator.getElevatorEncoder() <= (-635 + intake.TOLERANCE)) {
-      isConditinalHappnds = true;
-    } else {
-      isConditinalHappnds = true;
-    }
-    if (isConditinalHappnds) {
+    System.out.println(stage);
+    switch (stage) {
+    case 0:
+      if (Intake.getInstance().getEncoder() > -500) {
+        moveIntakeCommand.start();
+      }
+      stage++;
+      break;
+    case 1:
+      if (!moveIntakeCommand.isRunning()) {
+        stage++;
+      }
+      break;
+    case 2:
       elevatorCommand.start();
-      // TODO Check the encoder value
+      stage++;
+      break;
+    case 3:
       if (elevator.getElevatorEncoder() < 1000) {
         riderCommand.start();
+        stage++;
       }
-      // TODO Check the encoder value
-      if (rider.getEncoder() < 200
-      ) {
+      break;
+    case 4:
+      if (rider.getEncoder() < 250) {
         intakeCommand.start();
+        stage++;
       }
+      break;
     }
 
   }
@@ -83,16 +89,16 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorFinished() && intakeFinished() && riderFinished();
+    return elevatorFinished() && intakeFinished() && riderFinished() && stage == 4;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    new RumbleJoystick(500);
     intake.enablePID(false);
     elevator.enablePID(false);
     rider.enablePID(false);
+    Timer.delay(0.2);
   }
 
   // Called when another command which requires one or more of the same
