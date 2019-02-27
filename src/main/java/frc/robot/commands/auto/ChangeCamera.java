@@ -9,20 +9,27 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.OI;
 import frc.robot.subsystems.OperatorControl;
 
 public class ChangeCamera extends Command {
 
-  private int num = 0;
+  public static int num = 0;
 
-  public ChangeCamera(int num) {
+  public ChangeCamera() {
     requires(OperatorControl.getInstance());
-    this.num = num;
   }
 
   @Override
   protected void initialize() {
+    num++;
+    if(num > 2){
+      num=0;
+    }
     SmartDashboard.putNumber("Num", num);
+   
+    
+    
 
   }
 
@@ -32,7 +39,7 @@ public class ChangeCamera extends Command {
 
   @Override
   protected boolean isFinished() {
-    return false;
+    return true;
   }
 
   @Override

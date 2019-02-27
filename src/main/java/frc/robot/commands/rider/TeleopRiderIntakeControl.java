@@ -29,7 +29,7 @@ public class TeleopRiderIntakeControl extends Command {
   @Override
   protected void execute() {
     rider.controlIntakeMotor(speed);
-    if(rider.getBallLimitswitch()&&speed>0||!rider.getBallLimitswitch()&&speed<0){
+    if(!rider.getBallLimitswitch()&&speed>0||rider.getBallLimitswitch()&&speed<0){
       OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
       OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
 }else{

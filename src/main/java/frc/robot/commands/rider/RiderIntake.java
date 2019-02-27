@@ -8,6 +8,7 @@
 package frc.robot.commands.rider;
 
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 
@@ -45,6 +46,7 @@ public class RiderIntake extends Command {
    */
   @Override
   protected void end() {
+    Timer.delay(0.5);
     rider.controlIntakeMotor(0);
   }
 

@@ -46,8 +46,8 @@ public class AutomaticTakeBallCommand extends Command {
     requires(OperatorControl.getInstance());
 
     intakeCommand = new IntakePID(-800, 0.1);
-    riderCommand = new RiderPID(600, 0.1, 15);
-    elevatorCommand = new ElevatorPID(2900, 0.2);
+    riderCommand = new RiderPID(580, 0.1, 15);
+    elevatorCommand = new ElevatorPID(3000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
   }
@@ -118,10 +118,10 @@ public class AutomaticTakeBallCommand extends Command {
   protected void end() {
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+  
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.1);
+    Timer.delay(0.5);
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
     riderCommandIntake.cancel();
@@ -134,7 +134,7 @@ public class AutomaticTakeBallCommand extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+   
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }

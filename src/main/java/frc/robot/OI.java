@@ -55,9 +55,9 @@ public class OI {
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
   private POVTrigger PIDVisonTarget = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
-  private POVTrigger camera1 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_LEFT);
-  private POVTrigger camera2 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_RIGHT);
-  private POVTrigger camera3 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_UP);
+  private JoystickButton camera1 = new JoystickButton(RIGHT_DRIVER_STICK, 2);
+  //private POVTrigger camera2 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_RIGHT);
+  //private POVTrigger camera3 = new POVTrigger(RIGHT_DRIVER_STICK, XBOX.POV_UP);
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
@@ -85,17 +85,16 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(-0.5));
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
-
     autoIntake.whileActive(new AutomaticTakeBallCommand());
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
-    gotoDefault.whenActive(new ReturnToDefaultCommand());
-    autoRocket1.whenActive(new Rocket1Command());
-    autoFrontCargo.whenActive(new AutoFrontCargoCommand());
+    gotoDefault.whileActive(new ReturnToDefaultCommand());
+    autoRocket1.whileActive(new Rocket1Command());
+    autoFrontCargo.whileActive(new AutoFrontCargoCommand());
     PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
-    camera1.whenActive(new ChangeCamera(0));
-    camera2.whenActive(new ChangeCamera(1));
-    camera3.whenActive(new ChangeCamera(2));
+    camera1.whenActive(new ChangeCamera());
+    //camera2.whenActive(new ChangeCamera(1));
+    //camera3.whenActive(new ChangeCamera(2));
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());

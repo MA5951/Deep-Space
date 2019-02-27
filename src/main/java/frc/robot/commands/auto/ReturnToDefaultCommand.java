@@ -44,7 +44,7 @@ public class ReturnToDefaultCommand extends Command {
     intakeCommand = new IntakePID(0, 0);
     moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommand = new ElevatorPID(100, 0.1);
+    elevatorCommand = new ElevatorPID(0, 0.1);
   }
 
   @Override
@@ -99,10 +99,10 @@ public class ReturnToDefaultCommand extends Command {
 
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+  
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.1);
+    Timer.delay(0.5);
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
 
@@ -114,6 +114,6 @@ public class ReturnToDefaultCommand extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+ 
   }
 }

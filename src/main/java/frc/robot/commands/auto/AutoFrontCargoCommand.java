@@ -46,9 +46,9 @@ public class AutoFrontCargoCommand extends Command {
   public AutoFrontCargoCommand() {
     requires(OperatorControl.getInstance());
 
-    elevatorCommand = new ElevatorPID(0, 0.1);
-    intakeCommand = new IntakePID(-635, 0.1);
-    riderCommand = new RiderPID(1185, 0.1, 15);
+    elevatorCommand = new ElevatorPID(-50, 0.1);
+    intakeCommand = new IntakePID(-800, 0.1);
+    riderCommand = new RiderPID(780, 0.1, 15);
     intakeClosedCommand = new IntakePID(0, 0.1);
   }
 
@@ -64,19 +64,27 @@ public class AutoFrontCargoCommand extends Command {
     System.out.println(stage);
     switch (stage) {
     case 0:
+      if (elevator.getElevatorEncoder() > 2500 && rider.getEncoder() > 300) {
+        elevatorCommand.start();
+        stage++;
+      } else {
+        stage++;
+      }
+      break;
+    case 1:
       elevatorCommand.start();
       intakeCommand.start();
       if (elevator.getElevatorEncoder() < 1000 && intake.getEncoder() < -500) {
         stage++;
       }
       break;
-    case 1:
+    case 2:
       riderCommand.start();
-      if (rider.getEncoder() >= 900) {
+      if (elevator.getElevatorEncoder() < 100 && rider.getEncoder() > 600) {
         stage++;
       }
       break;
-    case 2:
+    case 3:
       intakeClosedCommand.start();
       break;
 
@@ -86,7 +94,7 @@ public class AutoFrontCargoCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return riderFinished() && intakeFinishedCLosed() && elevatorFinished() && stage == 2;
+    return false; //riderFinished() && intakeFinishedCLosed() && elevatorFinished() && stage == 2;
   }
 
   // Called once after isFinished returns true
@@ -94,10 +102,10 @@ public class AutoFrontCargoCommand extends Command {
   protected void end() {
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.1);
+    Timer.delay(0.5);
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
@@ -108,6 +116,6 @@ public class AutoFrontCargoCommand extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     elevator.enablePID(false);
-    rider.enablePID(false);
+
   }
 }

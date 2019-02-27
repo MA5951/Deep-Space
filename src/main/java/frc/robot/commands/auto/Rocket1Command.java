@@ -7,7 +7,10 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.intake.IntakePID;
 import frc.robot.commands.rider.RiderPID;
@@ -45,11 +48,9 @@ public class Rocket1Command extends Command {
 
     intakeCommand = new AutomaticIntake(-250,-300,1);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommandPIDUp = new ElevatorPID(1447,0);
-    elevatorCommand = new ElevatorPID(2495, 0.2);
-    intakeCommand2 = new IntakePID(-600, 0.1);
+    elevatorCommandPIDUp = new ElevatorPID(950,0);
+    elevatorCommand = new ElevatorPID(1688, 0.2);
   }
-
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -63,32 +64,27 @@ public class Rocket1Command extends Command {
     switch (stage) {
       case 0:
         if (Intake.getInstance().getEncoder() > -200) {
-          intakeCommand2.start();
+          intakeCommand.start();
         }
         stage++;
         break;
       case 1:
-        if (!intakeCommand2.isRunning()) {
-          stage++;
-        }
-        break;
-      case 2:
         elevatorCommandPIDUp.start();
         stage++;
         break;
-      case 3:
+      case 2:
         if (elevatorUpFinished()) {
           riderCommand.start();
           stage++;
         }
         break;
-      case 4:
+      case 3:
         if (rider.getEncoder() < 100) {
           elevatorCommand.start();
           stage++;
         }
         break;
-        case 5:
+        case 4:
         if(elevator.getElevatorEncoder() > 100){
           intakeCommand.start();
         }
@@ -99,16 +95,22 @@ public class Rocket1Command extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorFinished() && riderFinished() && intakeFinished() && stage == 5;
+    return elevatorFinished() && riderFinished() && intakeFinished() && stage == 4;
   }
 
   // Called once after isFinished returns true
   @Override
   protected void end() {
+    
     intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
-    rider.enablePID(false);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+    Timer.delay(0.5);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+   
   }
 
   // Called when another command which requires one or more of the same
@@ -118,6 +120,6 @@ public class Rocket1Command extends Command {
     intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
-    rider.enablePID(false);
+    
   }
 }
