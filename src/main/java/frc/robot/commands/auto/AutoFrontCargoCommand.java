@@ -86,15 +86,24 @@ public class AutoFrontCargoCommand extends Command {
       break;
     case 3:
       intakeClosedCommand.start();
+      stage++;
       break;
-
+    case 4:
+      if (intakeFinishedCLosed()) {
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+        Timer.delay(0.5);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+      }
+      break;
     }
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false; //riderFinished() && intakeFinishedCLosed() && elevatorFinished() && stage == 2;
+    return false; 
   }
 
   // Called once after isFinished returns true
@@ -103,11 +112,6 @@ public class AutoFrontCargoCommand extends Command {
     intake.enablePID(false);
     elevator.enablePID(false);
 
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.5);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
 
   // Called when another command which requires one or more of the same

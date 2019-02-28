@@ -16,6 +16,7 @@ public class AngleRider extends Command {
 
   private Rider rider = Rider.getInstance();
 
+
   private boolean firstPID_Run = true;
 
   public AngleRider() {
@@ -45,7 +46,7 @@ public class AngleRider extends Command {
     }
 
     if (rider.getBallLimitswitch()) {
-      rider.controlIntakeMotor(-0.35);
+      rider.controlIntakeMotor(-0.1);
     } else {
       rider.controlIntakeMotor(0);
     }

@@ -125,13 +125,21 @@ public class AutomaticTakeBallCommand extends Command {
       intakeCommandIntake.cancel();
       stage++;
       break;
+      case 8:
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+        Timer.delay(0.5);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+        break;
+      }
     }
 
-  }
+  
 
   @Override
   protected boolean isFinished() {
-    return stage == 7;
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -139,12 +147,6 @@ public class AutomaticTakeBallCommand extends Command {
   protected void end() {
     intake.enablePID(false);
     elevator.enablePID(false);
-
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.5);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }

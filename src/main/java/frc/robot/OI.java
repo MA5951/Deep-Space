@@ -85,6 +85,7 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(-0.5));
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
+    
     autoIntake.whileActive(new AutomaticTakeBallCommand());
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
     gotoDefault.whileActive(new ReturnToDefaultCommand());

@@ -83,6 +83,15 @@ public class ReturnToDefaultCommand extends Command {
         stage++;
       }
       break;
+      case 5:
+      if(elevatorFinished() && intakeFinished() && riderFinished() && stage == 5){
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+        Timer.delay(0.5);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+      }
+      break;
     }
 
   }
@@ -90,7 +99,7 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorFinished() && intakeFinished() && riderFinished() && stage == 4;
+    return false ;
   }
 
   // Called once after isFinished returns true
@@ -100,11 +109,7 @@ public class ReturnToDefaultCommand extends Command {
     intake.enablePID(false);
     elevator.enablePID(false);
   
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.5);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+  
 
   }
 

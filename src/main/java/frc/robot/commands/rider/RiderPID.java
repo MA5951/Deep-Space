@@ -41,7 +41,7 @@ public class RiderPID extends Command {
   @Override
   protected void execute() {
     if(rider.getBallLimitswitch()){
-      rider.controlIntakeMotor(-0.35);
+      rider.controlIntakeMotor(-0.1);
     }else{
       rider.controlIntakeMotor(0);
     }

@@ -45,7 +45,7 @@ public class Rocket1Command extends Command {
 
 
   public Rocket1Command() {
-
+    intakeCommand = new IntakePID(-500, 0);
     intakeCommand = new AutomaticIntake(-250,-300,1);
     riderCommand = new RiderPID(0, 0.3, 15);
     elevatorCommandPIDUp = new ElevatorPID(450,0);
@@ -73,7 +73,7 @@ public class Rocket1Command extends Command {
         stage++;
         break;
       case 2:
-        if (elevatorUpFinished()) {
+        if (elevatorUpFinished() && intakeFinished()){
           riderCommand.start();
           stage++;
         }
@@ -87,6 +87,16 @@ public class Rocket1Command extends Command {
         case 4:
         if(elevator.getElevatorEncoder() > 100){
           intakeCommand.start();
+          stage++;
+        }
+        break;
+        case 5:
+        if(elevatorFinished() && riderFinished() && intakeFinished() && stage == 5){
+          OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+          OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+          Timer.delay(0.5);
+          OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+          OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
         }
         break;
       }
@@ -95,7 +105,7 @@ public class Rocket1Command extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return elevatorFinished() && riderFinished() && intakeFinished() && stage == 4;
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -105,11 +115,7 @@ public class Rocket1Command extends Command {
     intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-    Timer.delay(0.5);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+
    
   }
 
