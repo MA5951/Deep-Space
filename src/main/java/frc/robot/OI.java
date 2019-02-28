@@ -90,11 +90,10 @@ public class OI {
     gotoDefault.whileActive(new ReturnToDefaultCommand());
     autoRocket1.whileActive(new Rocket1Command());
     autoFrontCargo.whileActive(new AutoFrontCargoCommand());
-    PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
+   // PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
     camera1.whenActive(new ChangeCamera());
-    //camera2.whenActive(new ChangeCamera(1));
-    //camera3.whenActive(new ChangeCamera(2));
+  
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());

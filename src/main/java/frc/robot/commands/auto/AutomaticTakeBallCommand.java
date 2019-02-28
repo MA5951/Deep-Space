@@ -28,7 +28,8 @@ public class AutomaticTakeBallCommand extends Command {
 
   private int stage = 0;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake;
+  private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake,
+      elevatorCommandUP;
 
   private boolean intakeFinished() {
     return !intakeCommand.isRunning();
@@ -36,6 +37,10 @@ public class AutomaticTakeBallCommand extends Command {
 
   private boolean riderFinished() {
     return !riderCommand.isRunning();
+  }
+
+  private boolean elevatorCommandUPFinished() {
+    return !elevatorCommandUP.isRunning();
   }
 
   private boolean elevatorFinished() {
@@ -50,6 +55,8 @@ public class AutomaticTakeBallCommand extends Command {
     elevatorCommand = new ElevatorPID(3000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
+    elevatorCommandUP = new ElevatorPID(0, 0);
+
   }
 
   // Called just before this Command runs the first time
@@ -70,42 +77,56 @@ public class AutomaticTakeBallCommand extends Command {
       }
       break;
     case 1:
+      if (elevator.getElevatorEncoder() > 1000 && rider.getEncoder() < 450) {
+        elevatorCommandUP.start();
+        stage++;
+      }else{
+        stage++;
+      }
+    
+      break;
+    case 2:
+    if(elevatorCommandUPFinished()){
       riderCommand.start();
+    }
       if (rider.getEncoder() >= 250) {
         stage++;
       }
-      break;
-    case 2:
 
-      elevatorCommand.start();
-      stage++;
       break;
     case 3:
+      elevatorCommand.start();
+      stage++;
+
+      break;
+    case 4:
       if (elevatorFinished()) {
         riderCommand.cancel();
         intakeCommand.cancel();
         elevatorCommand.cancel();
         stage++;
       }
+
       break;
-    case 4:
+    case 5:
       if (!rider.getBallLimitswitch()) {
         riderCommandIntake.start();
         intakeCommandIntake.start();
         stage++;
       }
       break;
-    case 5:
+    case 6:
       if (rider.getBallLimitswitch()) {
         stage++;
       }
       break;
-    case 6:
+    case 7:
       riderCommandIntake.cancel();
       intakeCommandIntake.cancel();
       stage++;
       break;
     }
+
   }
 
   @Override
@@ -118,7 +139,7 @@ public class AutomaticTakeBallCommand extends Command {
   protected void end() {
     intake.enablePID(false);
     elevator.enablePID(false);
-  
+
     OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
     OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
     Timer.delay(0.5);
@@ -134,7 +155,7 @@ public class AutomaticTakeBallCommand extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     elevator.enablePID(false);
-   
+
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }

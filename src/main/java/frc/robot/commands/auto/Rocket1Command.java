@@ -48,7 +48,7 @@ public class Rocket1Command extends Command {
 
     intakeCommand = new AutomaticIntake(-250,-300,1);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommandPIDUp = new ElevatorPID(950,0);
+    elevatorCommandPIDUp = new ElevatorPID(450,0);
     elevatorCommand = new ElevatorPID(1688, 0.2);
   }
   // Called just before this Command runs the first time
