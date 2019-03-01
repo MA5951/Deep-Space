@@ -35,6 +35,11 @@ public class Rocket1Command extends Command {
     return !intakeCommand.isRunning();
   }
 
+  private boolean intakeFinished2() {
+    return !intakeCommand2.isRunning();
+  }
+
+
   private boolean riderFinished() {
     return !riderCommand.isRunning();
   }
@@ -44,9 +49,10 @@ public class Rocket1Command extends Command {
   }
 
 
+
   public Rocket1Command() {
-    intakeCommand = new IntakePID(-500, 0);
-    intakeCommand = new AutomaticIntake(-250,-300,1);
+    intakeCommand2 = new IntakePID(-800, 0);
+    intakeCommand = new AutomaticIntake(-300,-350,0.8);
     riderCommand = new RiderPID(0, 0.3, 15);
     elevatorCommandPIDUp = new ElevatorPID(450,0);
     elevatorCommand = new ElevatorPID(1688, 0.2);
@@ -64,16 +70,17 @@ public class Rocket1Command extends Command {
     switch (stage) {
       case 0:
         if (Intake.getInstance().getEncoder() > -200) {
-          intakeCommand.start();
+          intakeCommand2.start();
         }
         stage++;
         break;
       case 1:
+      if(intake.getEncoder() < -700)
         elevatorCommandPIDUp.start();
         stage++;
         break;
       case 2:
-        if (elevatorUpFinished() && intakeFinished()){
+        if (elevatorUpFinished() && intakeFinished2()){
           riderCommand.start();
           stage++;
         }

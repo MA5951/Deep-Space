@@ -9,15 +9,14 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.OI;
-import frc.robot.subsystems.OperatorControl;
+import frc.robot.subsystems.camera;
 
 public class ChangeCamera extends Command {
 
   public static int num = 0;
 
   public ChangeCamera() {
-    requires(OperatorControl.getInstance());
+    requires(camera.getInstance());
   }
 
   @Override

@@ -7,6 +7,7 @@
 
 package frc.robot.commands.intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Intake;
 
@@ -37,9 +38,14 @@ public class IntakeMovement extends Command {
   @Override
   protected void execute() {
     intake.intakeAngleControl(speed);
-    if (intake.isIntakeLimitswitchClosed())
+    if (intake.isIntakeLimitswitchClosed()){
       intake.resetEncoder();
-  }
+    }
+      if(intake.getEncoder() < -1300 && speed < 0 && Timer.getMatchTime() < 150){
+        intake.intakeAngleControl(0);
+      }
+}  
+     
 
   /**
    * Check whether limit switch is pressed.
