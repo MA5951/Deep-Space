@@ -31,8 +31,9 @@ public class ElevatorPID extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    elevator.enablePID(true);
     elevator.setSetPoint(setPoint);
+    elevator.enablePID(true);
+    
   }
 
   // Called repeatedly when this Command is scheduled to run

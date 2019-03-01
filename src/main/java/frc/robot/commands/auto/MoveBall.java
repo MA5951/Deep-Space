@@ -9,7 +9,6 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Rider;
 
 public class MoveBall extends Command {
   private Elevator elevator = Elevator.getInstance();

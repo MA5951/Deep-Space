@@ -5,56 +5,47 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.rider;
+package frc.robot.commands.auto;
 
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
-import frc.robot.subsystems.Rider;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.subsystems.camera;
 
-/**
- * Intakes from the Rider.
- */
-public class RiderIntake extends Command {
-  private Rider rider = Rider.getInstance();
+public class ChangeCamera extends Command {
 
-  public RiderIntake() {
-    requires(rider);
+  public static int num = 0;
+
+  public ChangeCamera() {
+    requires(camera.getInstance());
   }
 
-  /**
-   * Give power to the intake motors
-   */
   @Override
   protected void initialize() {
+    num++;
+    if(num > 2){
+      num=0;
+    }
+    SmartDashboard.putNumber("Num", num);
+   
+    
+    
 
   }
 
   @Override
   protected void execute() {
-    rider.controlIntakeMotor(-1);
-    
   }
 
   @Override
-  protected boolean isFinished() {  
-    return rider.getBallLimitswitch();
+  protected boolean isFinished() {
+    return true;
   }
 
-  /**
-   * disable the intake motor if isFinished is function is true
-   */
   @Override
   protected void end() {
-    Timer.delay(0.5);
-    rider.controlIntakeMotor(0);
   }
 
-  /**
-   * disable the intake motor if a function was interrupted
-   */
   @Override
   protected void interrupted() {
-    rider.controlIntakeMotor(0);
   }
 }
