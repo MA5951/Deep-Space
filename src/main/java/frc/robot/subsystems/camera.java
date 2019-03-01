@@ -5,19 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.triggers;
+package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.buttons.Trigger;
-import frc.robot.OI;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public class enablePIDTrigger extends Trigger {
+public class camera extends Subsystem {
+ private static camera camera;
+  // Put methods for controlling this subsystem
+  // here. Call these from Commands.
+  public static camera getInstance() {
+    if (camera == null){
+      camera = new camera();
+    }
+    return camera;
+  }
   @Override
-  public boolean get() {
-    return OI.OPERATOR_STICK.getRawAxis(5)<0.1|| OI.OPERATOR_STICK.getRawAxis(5)>-0.1;
-    
+  public void initDefaultCommand() {
+    // Set the default command for a subsystem here.
+    // setDefaultCommand(new MySpecialCommand());
   }
-  }
-
+}

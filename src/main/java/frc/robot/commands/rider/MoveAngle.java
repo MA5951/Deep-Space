@@ -38,7 +38,7 @@ public class MoveAngle extends Command {
     }
     if (!rider.getBallLimitswitch()) {
 
-      rider.controlIntakeMotor(0.35);
+      rider.controlIntakeMotor(0.1);
     } else {
       rider.controlIntakeMotor(0);
     }

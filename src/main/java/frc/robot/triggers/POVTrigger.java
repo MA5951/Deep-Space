@@ -27,10 +27,13 @@ public class POVTrigger extends Trigger {
     this.angle = angle;
     this.controller = controller;
     this.POVNum = POVNum;
+    
   }
 
   @Override
   public boolean get() {
     return angle == controller.getPOV(POVNum);
+ 
+   
   }
 }

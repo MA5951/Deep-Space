@@ -16,6 +16,7 @@ public class AngleRider extends Command {
 
   private Rider rider = Rider.getInstance();
 
+
   private boolean firstPID_Run = true;
 
   public AngleRider() {
@@ -25,34 +26,31 @@ public class AngleRider extends Command {
 
   @Override
   protected void initialize() {
-    
-  }
 
-  
+  }
 
   @Override
   protected void execute() {
-    if(OI.OPERATOR_STICK.getRawAxis(5)<0.1|| OI.OPERATOR_STICK.getRawAxis(5)>-0.1){
+    if (OI.OPERATOR_STICK.getRawAxis(5) < 0.1 && OI.OPERATOR_STICK.getRawAxis(5) > -0.1) {
       if (firstPID_Run) {
         rider.setSetPoint(rider.getEncoder());
         rider.enablePID(true);
         firstPID_Run = false;
-      } 
-     
+      }
     }
-    if(OI.OPERATOR_STICK.getRawAxis(5)>0.1||OI.OPERATOR_STICK.getRawAxis(5)<-0.1){
+    if (OI.OPERATOR_STICK.getRawAxis(5) > 0.1 || OI.OPERATOR_STICK.getRawAxis(5) < -0.1) {
       rider.enablePID(false);
       firstPID_Run = true;
       speed = OI.OPERATOR_STICK.getRawAxis(5);
-      rider.controlAngleMotor(speed *-0.5);
-      if (rider.getBallLimitswitch()) {
-        rider.controlIntakeMotor(0.35);
+      rider.controlAngleMotor(speed * -0.5);
+    }
+
+    if (rider.getBallLimitswitch()) {
+      rider.controlIntakeMotor(-0.1);
     } else {
       rider.controlIntakeMotor(0);
     }
-    }
- 
-}
+  }
 
   @Override
   protected boolean isFinished() {

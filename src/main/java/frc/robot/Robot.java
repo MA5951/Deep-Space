@@ -38,6 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledInit() {
+   
     
   }
 
@@ -49,7 +50,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-//    Scheduler.getInstance().run();
+    Scheduler.getInstance().run();
+
   }
 
   @Override
@@ -75,6 +77,8 @@ public class Robot extends TimedRobot {
 }else if(OI.LEFT_DRIVER_STICK.getRawAxis(3) < -0.5){
   SmartDashboard.putBoolean("forwardBack", false);
     } 
+
+   
   }
 
   @Override
