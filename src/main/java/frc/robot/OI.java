@@ -103,8 +103,7 @@ public class OI {
     // climber.whileHeld(new climberUp());
     // climber.whenReleased(new climberDown());
 
-    climberXbox.whileActive(new climberUp());
-    climberXbox.whenInactive(new climberDown());
+    climberXbox.whenActive(new climberDown());
 
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());

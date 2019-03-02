@@ -15,6 +15,7 @@ import frc.robot.subsystems.Climber;
  */
 public class climberDown extends InstantCommand {
   Climber climber = Climber.getInstance();
+  public static boolean yesOrNot = false;
   /**
    * Add your docs here.
    */
@@ -25,7 +26,14 @@ public class climberDown extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
-    climber.kReverseClimber();
+    yesOrNot = !yesOrNot;
+    if(yesOrNot == true){
+      climber.kforwardeClamber();
+    }
+    if(yesOrNot == false){
+     climber.kReverseClimber();
+    }
+    
   }
 
 }

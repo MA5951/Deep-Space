@@ -74,12 +74,12 @@ public class Rocket1Command extends Command {
     case 1:
       if (intake.getEncoder() < -500) {
         elevatorCommandPIDUp.start();
-        intakeCommand2.cancel();
+       // intakeCommand2.cancel();
         stage++;
       }
       break;
     case 2:
-      if (elevatorUpFinished()) {
+      if (elevatorUpFinished() && intakeFinished2()) {
         riderCommand.start();
         stage++;
       }

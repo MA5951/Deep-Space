@@ -9,6 +9,7 @@ package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Intake;
 
 public class IntakeMovement extends Command {
@@ -41,7 +42,7 @@ public class IntakeMovement extends Command {
     if (intake.isIntakeLimitswitchClosed()){
       intake.resetEncoder();
     }
-      if(intake.getEncoder() < -1400 && speed < 0 && Timer.getMatchTime() < 150){
+      if(intake.getEncoder() < -1400 && speed < 0 && Timer.getMatchTime() < 150 && OI.RIGHT_DRIVER_STICK.getRawAxis(3) > 0.5 ){
         intake.intakeAngleControl(0);
       }
 }  

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
@@ -71,6 +72,7 @@ public class Robot extends TimedRobot {
     Intake.getInstance().intakeSmartdashboardValue();
     Elevator.getInstance().elevatorSmartdashboardValue();
     Rider.getInstance().riderSmartdashboardValue();
+    Climber.getInstance().climberSmartDashBoardValues();
     SmartDashboard.updateValues();
     if (OI.LEFT_DRIVER_STICK.getRawAxis(3) > 0.5) {
       SmartDashboard.putBoolean("forwardBack", true);
