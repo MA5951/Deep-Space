@@ -48,7 +48,7 @@ public class AutoFrontCargoCommand extends Command {
 
     elevatorCommand = new ElevatorPID(-50, 0.1);
     intakeCommand = new IntakePID(-800, 0.1);
-    riderCommand = new RiderPID(780, 0.1, 15);
+    riderCommand = new RiderPID(1200, 0.1, 15);
     intakeClosedCommand = new IntakePID(0, 0.1);
   }
 
@@ -80,7 +80,7 @@ public class AutoFrontCargoCommand extends Command {
       break;
     case 2:
       riderCommand.start();
-      if (elevator.getElevatorEncoder() < 100 && rider.getEncoder() > 600) {
+      if (elevator.getElevatorEncoder() < 100 && rider.getEncoder() > 1000) {
         stage++;
       }
       break;

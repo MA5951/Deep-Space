@@ -41,7 +41,7 @@ public class IntakeMovement extends Command {
     if (intake.isIntakeLimitswitchClosed()){
       intake.resetEncoder();
     }
-      if(intake.getEncoder() < -1300 && speed < 0 && Timer.getMatchTime() < 150){
+      if(intake.getEncoder() < -1400 && speed < 0 && Timer.getMatchTime() < 150){
         intake.intakeAngleControl(0);
       }
 }  

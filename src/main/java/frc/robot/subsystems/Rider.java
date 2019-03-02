@@ -53,12 +53,13 @@ public class Rider extends Subsystem {
     angleMotor = new WPI_TalonSRX(RobotMap.RIDER_ANGLE_MOTOR);
     intakeMotor = new WPI_VictorSPX(RobotMap.RIDER_INTAKE_MOTOR);
     angleMotor.setInverted(true);
+    intakeMotor.setInverted(true);
     encoderAngle = new Encoder(RobotMap.RIDER_ENCODER_A, RobotMap.RIDER_ENCODER_B, false, EncodingType.k4X);
     encoderAngle.setDistancePerPulse(DISTANCE_PER_PULSE);
     anglePIDController = new PIDController(KP_ANGLE, KI_ANGLE, KD_ANGLE, KF_ANGLE, encoderAngle, angleMotor);
     encoderAngle.setPIDSourceType(PIDSourceType.kDisplacement);
     anglePIDController.setAbsoluteTolerance(TOLERANCE);
-    anglePIDController.setOutputRange(-0.6, 0.6);
+    anglePIDController.setOutputRange(-0.7, 0.7);
   }
 
   public void setF(double f) {

@@ -24,11 +24,10 @@ public class Rocket1Command extends Command {
   private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
 
-  private Command intakeCommand, riderCommand, elevatorCommand , elevatorCommandPIDUp , intakeCommand2;
+  private Command intakeCommand, riderCommand, elevatorCommand, elevatorCommandPIDUp, intakeCommand2;
 
-  
-  private boolean elevatorUpFinished(){
-    return !elevatorCommandPIDUp.isRunning(); 
+  private boolean elevatorUpFinished() {
+    return !elevatorCommandPIDUp.isRunning();
   }
 
   private boolean intakeFinished() {
@@ -39,7 +38,6 @@ public class Rocket1Command extends Command {
     return !intakeCommand2.isRunning();
   }
 
-
   private boolean riderFinished() {
     return !riderCommand.isRunning();
   }
@@ -48,66 +46,67 @@ public class Rocket1Command extends Command {
     return !elevatorCommand.isRunning();
   }
 
-
-
   public Rocket1Command() {
-    intakeCommand2 = new IntakePID(-800, 0);
-    intakeCommand = new AutomaticIntake(-300,-350,0.8);
+    intakeCommand2 = new IntakePID(-800, 0.2);
+    intakeCommand = new AutomaticIntake(-300, -350, 0.8);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommandPIDUp = new ElevatorPID(450,0);
-    elevatorCommand = new ElevatorPID(1688, 0.2);
+    elevatorCommandPIDUp = new ElevatorPID(450, 0.2);
+    elevatorCommand = new ElevatorPID(2490, 0.1);
   }
+
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    stage=0;
+    stage = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-
+    System.out.println(stage);
     switch (stage) {
-      case 0:
-        if (Intake.getInstance().getEncoder() > -200) {
-          intakeCommand2.start();
-        }
-        stage++;
-        break;
-      case 1:
-      if(intake.getEncoder() < -700)
-        elevatorCommandPIDUp.start();
-        stage++;
-        break;
-      case 2:
-        if (elevatorUpFinished() && intakeFinished2()){
-          riderCommand.start();
-          stage++;
-        }
-        break;
-      case 3:
-        if (rider.getEncoder() < 100) {
-          elevatorCommand.start();
-          stage++;
-        }
-        break;
-        case 4:
-        if(elevator.getElevatorEncoder() > 100){
-          intakeCommand.start();
-          stage++;
-        }
-        break;
-        case 5:
-        if(elevatorFinished() && riderFinished() && intakeFinished() && stage == 5){
-          OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-          OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-          Timer.delay(0.5);
-          OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-          OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
-        }
-        break;
+    case 0:
+      if (Intake.getInstance().getEncoder() > -200) {
+        intakeCommand2.start();
       }
+      stage++;
+      break;
+    case 1:
+      if (intake.getEncoder() < -500) {
+        elevatorCommandPIDUp.start();
+        intakeCommand2.cancel();
+        stage++;
+      }
+      break;
+    case 2:
+      if (elevatorUpFinished()) {
+        riderCommand.start();
+        stage++;
+      }
+      break;
+    case 3:
+      if (rider.getEncoder() < 100) {
+        elevatorCommand.start();
+        stage++;
+      }
+      break;
+    case 4:
+      if (elevator.getElevatorEncoder() > 100) {
+        intakeCommand.start();
+        stage++;
+      }
+      break;
+    case 5:
+      if (elevatorFinished() && riderFinished() && intakeFinished() && stage == 5) {
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+        Timer.delay(0.5);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+      }
+      break;
     }
+  }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
@@ -118,12 +117,11 @@ public class Rocket1Command extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    
+
     intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
 
-   
   }
 
   // Called when another command which requires one or more of the same
@@ -133,6 +131,6 @@ public class Rocket1Command extends Command {
     intakeCommand.cancel();
     intake.intakeAngleControl(0);
     elevator.enablePID(false);
-    
+
   }
 }

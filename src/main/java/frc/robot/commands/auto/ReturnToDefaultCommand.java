@@ -72,13 +72,13 @@ public class ReturnToDefaultCommand extends Command {
       stage++;
       break;
     case 3:
-      if (elevator.getElevatorEncoder() < 1000) {
+      if (elevator.getElevatorEncoder() < 2000) {
         riderCommand.start();
         stage++;
       }
       break;
     case 4:
-      if (rider.getEncoder() < 250) {
+      if (rider.getEncoder() < 450) {
         intakeCommand.start();
         stage++;
       }
