@@ -14,14 +14,17 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.Chassis;
+import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
+  private static double num;
   public static OI m_oi;
   @Override
   public void robotInit() {
+    num=0;
     m_oi = new OI();
     Chassis.getInstance();
     Intake.getInstance();
@@ -46,7 +49,15 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     Rider.getInstance().setSetPoint(Rider.getInstance().getEncoder());
+if(OI.RIGHT_DRIVER_STICK.getRawButton(2)){
+  num++;
+  if(num > 2){
+    num=0;
   }
+  SmartDashboard.putNumber("Num", num);
+}
+}
+ 
 
   @Override
   public void autonomousInit() {
@@ -67,17 +78,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    Chassis.getInstance().chassisSmartdashboardValue();
     Intake.getInstance().intakeSmartdashboardValue();
     Elevator.getInstance().elevatorSmartdashboardValue();
     Rider.getInstance().riderSmartdashboardValue();
+    Climber.getInstance().ClimberSmartdashboardValue();
     SmartDashboard.updateValues();
-    if (OI.LEFT_DRIVER_STICK.getRawAxis(3) > 0.5) {
-      SmartDashboard.putBoolean("forwardBack", true);
-}else if(OI.LEFT_DRIVER_STICK.getRawAxis(3) < -0.5){
-  SmartDashboard.putBoolean("forwardBack", false);
-    } 
-
    
   }
 

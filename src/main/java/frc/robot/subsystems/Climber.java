@@ -9,6 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 
 
@@ -21,6 +22,9 @@ public class Climber extends Subsystem {
 
 private Climber() {
   climbeSolenoid = new Solenoid(RobotMap.CLIMBIR_PISTON_FORWARD );
+}
+public void ClimberSmartdashboardValue(){
+  SmartDashboard.putBoolean("Climber ", climbeSolenoid.get());
 }
 public void kforwardeClamber(){
   climbeSolenoid.set(true);

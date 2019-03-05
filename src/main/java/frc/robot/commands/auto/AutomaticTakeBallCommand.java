@@ -126,11 +126,7 @@ public class AutomaticTakeBallCommand extends Command {
       stage++;
       break;
       case 8:
-        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        Timer.delay(0.5);
-        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
-        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+       
         break;
       }
     }

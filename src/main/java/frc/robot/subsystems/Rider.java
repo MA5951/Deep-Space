@@ -66,8 +66,7 @@ public class Rider extends Subsystem {
   }
 
   public void riderSmartdashboardValue() {
-    SmartDashboard.putNumber("Rider Intake Motor", intakeMotor.get());
-    SmartDashboard.putNumber("Rider Angle Motor", angleMotor.get());
+    SmartDashboard.putBoolean("Rider Angle l", angleMotor.getSensorCollection().isRevLimitSwitchClosed());
     SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
   }
 

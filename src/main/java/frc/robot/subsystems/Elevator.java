@@ -56,15 +56,18 @@ public class Elevator extends Subsystem {
   }
 
   public void elevatorSmartdashboardValue() {
-    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.get());
+    if (getElevatorEncoder() <= 0) {
+      SmartDashboard.putBoolean("Elevator", true);
+    } else {
+      SmartDashboard.putBoolean("Elevator", false);
+    }
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
   }
 
-  public double getElevatorEncoder (){
+  public double getElevatorEncoder() {
     return encoderElevator.getDistance();
   }
 
-  
   /**
    * Check whether limitswitch is pressed.
    * 
@@ -73,7 +76,7 @@ public class Elevator extends Subsystem {
   public boolean isElevatorLimitswitchUpPressed() {
     return !elevatorLimitswitchUp.get();
   }
-  
+
   /**
    * Check whether limitswitch is pressed.
    * 
@@ -122,11 +125,13 @@ public class Elevator extends Subsystem {
   }
 
   /**
-   * Specifies if the the elevator encoder passed a distance within a certain range.
+   * Specifies if the the elevator encoder passed a distance within a certain
+   * range.
    * 
    * @param maxDistance The maximum distance the encoder could passed in the range
    * @param minDistance The minimum distance the encoder could pass in the range
-   * @return Indication if the elevator encoder in the correct range in terms of the distance.
+   * @return Indication if the elevator encoder in the correct range in terms of
+   *         the distance.
    */
   public boolean isEncoderInDistanceRangeElevator(double maxDistance, double minDistance) {
     return encoderElevator.getDistance() <= maxDistance && encoderElevator.getDistance() >= minDistance;
