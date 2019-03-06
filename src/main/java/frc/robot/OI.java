@@ -98,7 +98,7 @@ public class OI {
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
-    riderOuttake.whileHeld(new TeleopRiderIntakeControl(-1));
+    riderOuttake.whileHeld(new TeleopRiderIntakeControl(0.5));
 
     // climber.whileHeld(new climberUp());
     // climber.whenReleased(new climberDown());

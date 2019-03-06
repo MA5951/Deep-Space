@@ -16,6 +16,6 @@ public class PullBall extends CommandGroup {
    */
   public PullBall() {
     addParallel(new IntakePull());
-    addParallel(new TeleopRiderIntakeControl(-1));
+    addParallel(new TeleopRiderIntakeControl(-0.6));
   }
 }

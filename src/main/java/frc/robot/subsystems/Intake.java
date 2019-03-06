@@ -73,8 +73,6 @@ public class Intake extends Subsystem {
   }
 
   public void intakeSmartdashboardValue() {
-    SmartDashboard.putNumber("Intake Angle Motors", intakeAngleMotorA.get());
-    SmartDashboard.putNumber("Intake Ball Motor", intakeBallMotor.get());
     SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
   }

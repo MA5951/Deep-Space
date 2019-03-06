@@ -46,7 +46,7 @@ public class RiderIntake extends Command {
    */
   @Override
   protected void end() {
-    Timer.delay(0.5);
+    //Timer.delay(0.5);
     rider.controlIntakeMotor(0);
   }
 

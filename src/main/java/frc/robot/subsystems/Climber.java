@@ -22,7 +22,6 @@ public class Climber extends Subsystem {
   private Climber() {
     climbeSolenoid = new Solenoid(RobotMap.CLIMBIR_PISTON_FORWARD);
   }
-
   public void kforwardeClamber() {
     climbeSolenoid.set(true);
   }

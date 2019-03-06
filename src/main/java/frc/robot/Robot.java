@@ -21,6 +21,7 @@ import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
   public static OI m_oi;
+  private static double num;
   @Override
   public void robotInit() {
     m_oi = new OI();
@@ -28,9 +29,10 @@ public class Robot extends TimedRobot {
     Intake.getInstance();
     Rider.getInstance();
     Elevator.getInstance();
-
-    //CameraServer.getInstance().startAutomaticCapture();
     CameraServer.getInstance().startAutomaticCapture();
+    CameraServer.getInstance().startAutomaticCapture();
+    SmartDashboard.updateValues();
+    num=0;
   }
 
   @Override
@@ -47,6 +49,13 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     Rider.getInstance().setSetPoint(Rider.getInstance().getEncoder());
+    if(OI.RIGHT_DRIVER_STICK.getRawButton(2)){
+      num++;
+      if(num > 2){
+        num=0;
+      }
+      SmartDashboard.putNumber("Num", num);
+    }
   }
 
   @Override
@@ -68,19 +77,12 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     Scheduler.getInstance().run();
-    Chassis.getInstance().chassisSmartdashboardValue();
+
     Intake.getInstance().intakeSmartdashboardValue();
     Elevator.getInstance().elevatorSmartdashboardValue();
     Rider.getInstance().riderSmartdashboardValue();
     Climber.getInstance().climberSmartDashBoardValues();
     SmartDashboard.updateValues();
-    if (OI.LEFT_DRIVER_STICK.getRawAxis(3) > 0.5) {
-      SmartDashboard.putBoolean("forwardBack", true);
-}else if(OI.LEFT_DRIVER_STICK.getRawAxis(3) < -0.5){
-  SmartDashboard.putBoolean("forwardBack", false);
-    } 
-
-   
   }
 
   @Override

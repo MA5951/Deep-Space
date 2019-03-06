@@ -42,7 +42,7 @@ public class AngleRider extends Command {
       rider.enablePID(false);
       firstPID_Run = true;
       speed = OI.OPERATOR_STICK.getRawAxis(5);
-      rider.controlAngleMotor(speed * -0.5);
+      rider.controlAngleMotor(speed * -0.7);
     }
 
     if (rider.getBallLimitswitch()) {

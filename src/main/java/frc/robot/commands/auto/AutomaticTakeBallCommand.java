@@ -25,7 +25,7 @@ public class AutomaticTakeBallCommand extends Command {
   private Intake intake = Intake.getInstance();
   private Rider rider = Rider.getInstance();
   private Elevator elevator = Elevator.getInstance();
-
+private long delayTime;
   private int stage = 0;
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake,
@@ -80,15 +80,15 @@ public class AutomaticTakeBallCommand extends Command {
       if (elevator.getElevatorEncoder() > 1000 && rider.getEncoder() < 450) {
         elevatorCommandUP.start();
         stage++;
-      }else{
+      } else {
         stage++;
       }
-    
+
       break;
     case 2:
-    if(elevatorCommandUPFinished()){
-      riderCommand.start();
-    }
+      if (elevatorCommandUPFinished()) {
+        riderCommand.start();
+      }
       if (rider.getEncoder() >= 550) {
         stage++;
       }
@@ -125,17 +125,21 @@ public class AutomaticTakeBallCommand extends Command {
       intakeCommandIntake.cancel();
       stage++;
       break;
-      case 8:
-        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        Timer.delay(0.5);
+    case 8:
+      OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+      OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+      delayTime = System.currentTimeMillis();
+      stage++;
+      break;
+    case 9:
+      if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
-        break;
+        stage++;
       }
+      break;
     }
-
-  
+  }
 
   @Override
   protected boolean isFinished() {

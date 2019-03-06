@@ -56,10 +56,13 @@ public class Elevator extends Subsystem {
   }
 
   public void elevatorSmartdashboardValue() {
-    SmartDashboard.putNumber("Elevator Motor", elevatorMotor.get());
+    if (getElevatorEncoder() <= 0) {
+      SmartDashboard.putBoolean("Elevator", true);
+    } else {
+      SmartDashboard.putBoolean("Elevator", false);
+    }
     SmartDashboard.putNumber("Elevator Encoder", encoderElevator.get());
   }
-
   public double getElevatorEncoder (){
     return encoderElevator.getDistance();
   }
