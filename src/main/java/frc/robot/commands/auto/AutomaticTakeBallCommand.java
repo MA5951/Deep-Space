@@ -50,7 +50,7 @@ private long delayTime;
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
 
-    intakeCommand = new IntakePID(-900, 0.1);
+    intakeCommand = new IntakePID(-908, 0.1);
     riderCommand = new RiderPID(877, 0.1, 15);
     elevatorCommand = new ElevatorPID(5110, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);

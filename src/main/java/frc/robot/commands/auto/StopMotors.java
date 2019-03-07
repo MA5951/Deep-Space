@@ -7,7 +7,9 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.InstantCommand;
+import frc.robot.OI;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.OperatorControl;
@@ -33,5 +35,7 @@ public class StopMotors extends InstantCommand {
   // Called once when the command executes
   @Override
   protected void initialize() {
+    OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
+    OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
   }
 }
