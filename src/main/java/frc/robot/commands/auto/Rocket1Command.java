@@ -24,18 +24,10 @@ public class Rocket1Command extends Command {
   private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, elevatorCommandPIDUp, intakeCommand2;
-
-  private boolean elevatorUpFinished() {
-    return !elevatorCommandPIDUp.isRunning();
-  }
+  private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand , intakeCommand2 , elevatorCommand2;
 
   private boolean intakeFinished() {
     return !intakeCommand.isRunning();
-  }
-
-  private boolean intakeFinished2() {
-    return !intakeCommand2.isRunning();
   }
 
   private boolean riderFinished() {
@@ -45,13 +37,23 @@ public class Rocket1Command extends Command {
   private boolean elevatorFinished() {
     return !elevatorCommand.isRunning();
   }
+  private boolean intakeFinished2() {
+    return !intakeCommand2.isRunning();
+  }
+  private boolean elevatorFinished2() {
+    return !elevatorCommand2.isRunning();
+  }
+    
+
 
   public Rocket1Command() {
-    intakeCommand2 = new IntakePID(-800, 0.2);
-    intakeCommand = new AutomaticIntake(-300, -350, 0.8);
+    intakeCommand = new IntakePID(0, 0);
+    moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommandPIDUp = new ElevatorPID(450, 0.2);
-    elevatorCommand = new ElevatorPID(2490, 0.1);
+    elevatorCommand = new ElevatorPID(0, 0.1);
+    intakeCommand2 = new AutomaticIntake(-250, -350, 0.7);
+    elevatorCommand2 = new ElevatorPID(3500, 0.1);
+
   }
 
   // Called just before this Command runs the first time
@@ -66,43 +68,52 @@ public class Rocket1Command extends Command {
     System.out.println(stage);
     switch (stage) {
     case 0:
-      if (Intake.getInstance().getEncoder() > -200) {
-        intakeCommand2.start();
+      if (Intake.getInstance().getEncoder() > -500) {
+        moveIntakeCommand.start();
       }
       stage++;
       break;
     case 1:
-      if (intake.getEncoder() < -500) {
-        elevatorCommandPIDUp.start();
-       // intakeCommand2.cancel();
+      if (!moveIntakeCommand.isRunning()) {
         stage++;
       }
       break;
     case 2:
-      if (elevatorUpFinished() && intakeFinished2()) {
+      elevatorCommand.start();
+      stage++;
+      break;
+    case 3:
+      if (elevator.getElevatorEncoder() < 2000) {
         riderCommand.start();
         stage++;
       }
       break;
-    case 3:
-      if (rider.getEncoder() < 100) {
-        elevatorCommand.start();
-        stage++;
-      }
-      break;
     case 4:
-      if (elevator.getElevatorEncoder() > 100) {
+      if (rider.getEncoder() < 450) {
         intakeCommand.start();
         stage++;
       }
       break;
-    case 5:
-      if (elevatorFinished() && riderFinished() && intakeFinished() && stage == 5) {
+      case 5:
+      if(elevatorFinished() && intakeFinished() && riderFinished() && stage == 5){
+       intakeCommand2.start();
+       stage++;
+      }
+      break;
+      case 6:
+      if(intake.getEncoder() <= -150){
+        elevatorCommand2.start();
+        stage++;
+      }
+      break;
+      case 7:
+      if(elevatorFinished2() && intakeFinished2()){
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
         Timer.delay(0.5);
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
+        stage++;
       }
       break;
     }
@@ -117,20 +128,18 @@ public class Rocket1Command extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-
-    intakeCommand.cancel();
-    intake.intakeAngleControl(0);
+    intake.enablePID(false);
     elevator.enablePID(false);
-
+    intake.intakeAngleControl(0);
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    intakeCommand.cancel();
-    intake.intakeAngleControl(0);
+    intake.enablePID(false);
     elevator.enablePID(false);
+    intake.intakeAngleControl(0);
 
   }
 }
