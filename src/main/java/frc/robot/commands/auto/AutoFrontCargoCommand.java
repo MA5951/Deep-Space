@@ -27,26 +27,14 @@ public class AutoFrontCargoCommand extends Command {
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeClosedCommand;
 
-  private boolean intakeFinished() {
-    return !intakeCommand.isRunning();
-  }
-
   private boolean intakeFinishedCLosed() {
     return !intakeClosedCommand.isRunning();
-  }
-
-  private boolean riderFinished() {
-    return !riderCommand.isRunning();
-  }
-
-  private boolean elevatorFinished() {
-    return !elevatorCommand.isRunning();
   }
 
   public AutoFrontCargoCommand() {
     requires(OperatorControl.getInstance());
 
-    elevatorCommand = new ElevatorPID(-50, 0.1);
+    elevatorCommand = new ElevatorPID(50, 0.1);
     intakeCommand = new IntakePID(-800, 0.1);
     riderCommand = new RiderPID(1200, 0.1, 15);
     intakeClosedCommand = new IntakePID(0, 0.1);
@@ -110,8 +98,7 @@ public class AutoFrontCargoCommand extends Command {
   @Override
   protected void end() {
     intake.enablePID(false);
-    elevator.enablePID(false);
-
+    
   }
 
   // Called when another command which requires one or more of the same
@@ -119,7 +106,7 @@ public class AutoFrontCargoCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    elevator.enablePID(false);
+
 
   }
 }

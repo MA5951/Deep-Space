@@ -49,6 +49,7 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
     Scheduler.getInstance().run();
     Rider.getInstance().setSetPoint(Rider.getInstance().getEncoder());
+    Elevator.getInstance().setSetPoint(Elevator.getInstance().getElevatorEncoder());
     if(OI.RIGHT_DRIVER_STICK.getRawButton(2)){
       num++;
       if(num > 2){

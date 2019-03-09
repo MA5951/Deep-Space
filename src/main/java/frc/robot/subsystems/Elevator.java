@@ -8,11 +8,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+
+
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDSourceType;
-import edu.wpi.first.wpilibj.Spark;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
@@ -20,17 +24,17 @@ import frc.robot.commands.elevator.ElevatorJoystickControl;
 
 public class Elevator extends Subsystem {
   private PIDController elevatorEncoderPID;
-  private Spark elevatorMotor;
+  private WPI_TalonSRX elevatorMotor;
 
   private Encoder encoderElevator;
 
   private DigitalInput elevatorLimitswitchDown;
   private DigitalInput elevatorLimitswitchUp;
 
-  public static final double KP_ENCODER = 0.0085;
+  public static final double KP_ENCODER = 0.0028;
   public static final double KI_ENCODER = 0.0009;
-  public static final double KD_ENCODER = 0.003;
-  public static final double TOLERANCE = 150;
+  public static final double KD_ENCODER = 0.0035;
+  public static final double TOLERANCE = 300;
   private static final double DISTANCE_PER_PULSE = 1;
 
   private static Elevator e_Instance;
@@ -44,7 +48,7 @@ public class Elevator extends Subsystem {
     encoderElevator.setDistancePerPulse(DISTANCE_PER_PULSE);
     encoderElevator.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    elevatorMotor = new Spark(RobotMap.ELEVATOR_SPARK);
+    elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
     elevatorMotor.setInverted(true);
 
     elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
@@ -52,7 +56,7 @@ public class Elevator extends Subsystem {
 
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
-    elevatorEncoderPID.setOutputRange(-0.9, 0.9);
+    elevatorEncoderPID.setOutputRange(-0.85, 0.85);
   }
 
   public void elevatorSmartdashboardValue() {
@@ -76,7 +80,10 @@ public class Elevator extends Subsystem {
   public boolean isElevatorLimitswitchUpPressed() {
     return !elevatorLimitswitchUp.get();
   }
-  
+
+  public boolean isPID_Disabled() {
+    return !elevatorEncoderPID.isEnabled();
+  }
   /**
    * Check whether limitswitch is pressed.
    * 
@@ -94,8 +101,10 @@ public class Elevator extends Subsystem {
   public void enablePID(boolean enable) {
     if (enable) {
       elevatorEncoderPID.enable();
+      elevatorMotor.overrideLimitSwitchesEnable(false);
     } else {
       elevatorEncoderPID.disable();
+      elevatorMotor.overrideLimitSwitchesEnable(true);
     }
   }
 

@@ -44,7 +44,7 @@ public class ReturnToDefaultCommand extends Command {
     intakeCommand = new IntakePID(0, 0);
     moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommand = new ElevatorPID(0, 0.1);
+    elevatorCommand = new ElevatorPID(100, 0.1);
   }
 
   @Override
@@ -83,8 +83,8 @@ public class ReturnToDefaultCommand extends Command {
         stage++;
       }
       break;
-      case 5:
-      if(elevatorFinished() && intakeFinished() && riderFinished() && stage == 5){
+    case 5:
+      if (elevatorFinished() && intakeFinished() && riderFinished() && stage == 5) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
         Timer.delay(0.5);
@@ -99,7 +99,7 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false ;
+    return false;
   }
 
   // Called once after isFinished returns true
@@ -107,9 +107,7 @@ public class ReturnToDefaultCommand extends Command {
   protected void end() {
 
     intake.enablePID(false);
-    elevator.enablePID(false);
-  
-  
+    
 
   }
 
@@ -118,7 +116,7 @@ public class ReturnToDefaultCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    elevator.enablePID(false);
- 
+    
+
   }
 }

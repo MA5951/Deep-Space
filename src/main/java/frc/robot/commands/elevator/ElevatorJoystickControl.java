@@ -13,6 +13,7 @@ import frc.robot.subsystems.Elevator;
 
 public class ElevatorJoystickControl extends Command {
   Elevator elevator;
+  private boolean firstPID_Run = true;
 
   public ElevatorJoystickControl() {
     elevator = Elevator.getInstance();
@@ -27,9 +28,25 @@ public class ElevatorJoystickControl extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1)
-        * Math.min(1, 0.6 + Math.sin(2 * Math.PI * (1 / (2 * 6616)) * Math.abs(elevator.getElevatorEncoder()))));
-   
+    if (OI.OPERATOR_STICK.getRawAxis(1) < 0.1 && OI.OPERATOR_STICK.getRawAxis(1) > -0.1) {
+      if (firstPID_Run) {
+        elevator.setSetPoint(elevator.getElevatorEncoder());
+        elevator.enablePID(true);
+        firstPID_Run = false;
+      }
+    }
+    if (OI.OPERATOR_STICK.getRawAxis(1) > 0.1 || OI.OPERATOR_STICK.getRawAxis(1) < -0.1) {
+      if (elevator.isElevatorLimitswitchUpPressed() && OI.OPERATOR_STICK.getRawAxis(1) < 0) {
+        elevator.setSetPoint(elevator.getElevatorEncoder());
+        elevator.enablePID(true);
+        firstPID_Run = false;
+      } else {
+        elevator.enablePID(false);
+        firstPID_Run = true;
+        elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1)*0.5);
+      }
+    }
+
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -41,13 +58,13 @@ public class ElevatorJoystickControl extends Command {
   // Called once after isFinished returns true
   @Override
   protected void end() {
-    elevator.controlSpeed(0);
+
   }
 
   // Called when another command which requires one or more of the same
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-    elevator.controlSpeed(0);
+
   }
 }

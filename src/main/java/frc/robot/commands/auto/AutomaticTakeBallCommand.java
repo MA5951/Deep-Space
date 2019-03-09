@@ -7,7 +7,6 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
@@ -25,19 +24,11 @@ public class AutomaticTakeBallCommand extends Command {
   private Intake intake = Intake.getInstance();
   private Rider rider = Rider.getInstance();
   private Elevator elevator = Elevator.getInstance();
-private long delayTime;
+  private long delayTime;
   private int stage = 0;
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake,
       elevatorCommandUP;
-
-  private boolean intakeFinished() {
-    return !intakeCommand.isRunning();
-  }
-
-  private boolean riderFinished() {
-    return !riderCommand.isRunning();
-  }
 
   private boolean elevatorCommandUPFinished() {
     return !elevatorCommandUP.isRunning();
@@ -50,9 +41,9 @@ private long delayTime;
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
 
-    intakeCommand = new IntakePID(-908, 0.1);
-    riderCommand = new RiderPID(877, 0.1, 15);
-    elevatorCommand = new ElevatorPID(5110, 0.2);
+    intakeCommand = new IntakePID(-890, 0.1);
+    riderCommand = new RiderPID(920, 0.1, 15);
+    elevatorCommand = new ElevatorPID(5000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
     elevatorCommandUP = new ElevatorPID(0, 0);
@@ -150,7 +141,7 @@ private long delayTime;
   @Override
   protected void end() {
     intake.enablePID(false);
-    elevator.enablePID(false);
+   
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }
@@ -160,7 +151,7 @@ private long delayTime;
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    elevator.enablePID(false);
+    
 
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();

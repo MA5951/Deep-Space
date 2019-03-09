@@ -7,52 +7,29 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
 import frc.robot.commands.elevator.ElevatorPID;
-import frc.robot.commands.intake.IntakePID;
-import frc.robot.commands.rider.RiderPID;
-import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Rider;
 
 public class Rocket1Command extends Command {
   private Intake intake = Intake.getInstance();
-  private Rider rider = Rider.getInstance();
-  private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
+  private Command intakeCommand2, elevatorCommand2;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand , intakeCommand2 , elevatorCommand2;
-
-  private boolean intakeFinished() {
-    return !intakeCommand.isRunning();
-  }
-
-  private boolean riderFinished() {
-    return !riderCommand.isRunning();
-  }
-
-  private boolean elevatorFinished() {
-    return !elevatorCommand.isRunning();
-  }
   private boolean intakeFinished2() {
     return !intakeCommand2.isRunning();
   }
-  private boolean elevatorFinished2() {
-    return !elevatorCommand2.isRunning();
-  }
-    
 
+  private boolean elevatorFinished() {
+    return !intakeCommand2.isRunning();
+  }
 
   public Rocket1Command() {
-    intakeCommand = new IntakePID(0, 0);
-    moveIntakeCommand = new IntakePID(-635, 0.1);
-    riderCommand = new RiderPID(0, 0.3, 15);
-    elevatorCommand = new ElevatorPID(0, 0.1);
     intakeCommand2 = new AutomaticIntake(-250, -350, 0.7);
-    elevatorCommand2 = new ElevatorPID(3500, 0.1);
+    elevatorCommand2 = new ElevatorPID(2300, 0.1);
 
   }
 
@@ -68,46 +45,17 @@ public class Rocket1Command extends Command {
     System.out.println(stage);
     switch (stage) {
     case 0:
-      if (Intake.getInstance().getEncoder() > -500) {
-        moveIntakeCommand.start();
-      }
+      intakeCommand2.start();
       stage++;
       break;
     case 1:
-      if (!moveIntakeCommand.isRunning()) {
-        stage++;
-      }
-      break;
-    case 2:
-      elevatorCommand.start();
-      stage++;
-      break;
-    case 3:
-      if (elevator.getElevatorEncoder() < 2000) {
-        riderCommand.start();
-        stage++;
-      }
-      break;
-    case 4:
-      if (rider.getEncoder() < 450) {
-        intakeCommand.start();
-        stage++;
-      }
-      break;
-      case 5:
-      if(elevatorFinished() && intakeFinished() && riderFinished() && stage == 5){
-       intakeCommand2.start();
-       stage++;
-      }
-      break;
-      case 6:
-      if(intake.getEncoder() <= -150){
+      if (intake.getEncoder() < 150) {
         elevatorCommand2.start();
         stage++;
       }
       break;
-      case 7:
-      if(elevatorFinished2() && intakeFinished2()){
+    case 2:
+      if (elevatorFinished() && intakeFinished2()) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
         Timer.delay(0.5);
@@ -129,7 +77,6 @@ public class Rocket1Command extends Command {
   @Override
   protected void end() {
     intake.enablePID(false);
-    elevator.enablePID(false);
     intake.intakeAngleControl(0);
   }
 
@@ -138,7 +85,6 @@ public class Rocket1Command extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    elevator.enablePID(false);
     intake.intakeAngleControl(0);
 
   }

@@ -33,7 +33,7 @@ public class RobotMap {
   public static final int RIDER_ANGLE_MOTOR = 8; // need change to 8 instad 10 or change the ID in the tuner 
   public static final int RIDER_INTAKE_MOTOR = 9;
 
-  public static final int ELEVATOR_SPARK = 0;
+  public static final int ELEVATOR_TALON = 10;
 
   // Sensors (RoboRIO DIO's)
     

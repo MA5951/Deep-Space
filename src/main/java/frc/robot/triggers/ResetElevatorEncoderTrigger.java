@@ -16,6 +16,6 @@ import frc.robot.subsystems.Elevator;
 public class ResetElevatorEncoderTrigger extends Trigger {
   @Override
   public boolean get() {
-    return Elevator.getInstance().isElevatorLimitswitchUpPressed();
+    return Elevator.getInstance().isElevatorLimitswitchUpPressed() && Elevator.getInstance().isPID_Disabled();
   }
 }
