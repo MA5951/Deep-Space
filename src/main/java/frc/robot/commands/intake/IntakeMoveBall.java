@@ -54,7 +54,7 @@ public class IntakeMoveBall extends Command {
    */
   @Override
   protected void end() {
-    Timer.delay(0.3);
+    //Timer.delay(0.3);
     intake.intakeBallControl(0);
   }
 

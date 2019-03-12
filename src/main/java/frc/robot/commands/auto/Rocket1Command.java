@@ -49,7 +49,7 @@ public class Rocket1Command extends Command {
       stage++;
       break;
     case 1:
-      if (intake.getEncoder() < 150) {
+      if (intake.getEncoder() < -250) {
         elevatorCommand2.start();
         stage++;
       }
