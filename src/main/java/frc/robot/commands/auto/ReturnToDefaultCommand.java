@@ -24,6 +24,7 @@ public class ReturnToDefaultCommand extends Command {
   private Rider rider = Rider.getInstance();
   private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
+  private long delayTime;
 
   private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand;
 
@@ -43,13 +44,15 @@ public class ReturnToDefaultCommand extends Command {
     requires(OperatorControl.getInstance());
     intakeCommand = new IntakePID(0, 0);
     moveIntakeCommand = new IntakePID(-635, 0.1);
-    riderCommand = new RiderPID(0, 0.3, 15);
+    riderCommand = new RiderPID(10, 0.3, 15);
     elevatorCommand = new ElevatorPID(100, 0.1);
   }
 
   @Override
   protected void initialize() {
+    delayTime =0;
     stage = 0;
+    System.out.println("[" + Timer.getMatchTime() + "]" + " (ReturnToDefaultCommand) - " + "Command initialized. ");
   }
 
   @Override
@@ -83,14 +86,21 @@ public class ReturnToDefaultCommand extends Command {
         stage++;
       }
       break;
-    case 5:
-      if (elevatorFinished() && intakeFinished() && riderFinished() && stage == 5) {
+      case 5:
+      if(intakeFinished()){
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        Timer.delay(0.5);
+        delayTime = System.currentTimeMillis();
+        stage++;
+      }
+      break;
+    case 6:
+      if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
       }
+        stage++;
+    
       break;
     }
 
@@ -99,7 +109,7 @@ public class ReturnToDefaultCommand extends Command {
   // Make this return true when this Command no longer needs to run execute()
   @Override
   protected boolean isFinished() {
-    return false;
+    return false;   
   }
 
   // Called once after isFinished returns true
@@ -116,6 +126,7 @@ public class ReturnToDefaultCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
+    System.out.println("command interrupted");
     
 
   }

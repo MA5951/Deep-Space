@@ -7,6 +7,7 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.OI;
@@ -54,6 +55,7 @@ public class AutomaticTakeBallCommand extends Command {
   @Override
   protected void initialize() {
     stage = 0;
+    System.out.println("[" + Timer.getMatchTime() + "]" + " (AutomaticTakeBallCommand) - " + "Command initialized. ");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -126,11 +128,13 @@ public class AutomaticTakeBallCommand extends Command {
       if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
-        stage++;
       }
+        stage++;
+    
       break;
     }
   }
+  
 
   @Override
   protected boolean isFinished() {
@@ -151,8 +155,7 @@ public class AutomaticTakeBallCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    
-
+    System.out.println("command interrupted");
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }

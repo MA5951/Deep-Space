@@ -17,14 +17,16 @@ import frc.robot.subsystems.Intake;
 public class Rocket1Command extends Command {
   private Intake intake = Intake.getInstance();
   private int stage = 0;
+  private long delayTime;
   private Command intakeCommand2, elevatorCommand2;
+  
 
   private boolean intakeFinished2() {
     return !intakeCommand2.isRunning();
   }
 
   private boolean elevatorFinished() {
-    return !intakeCommand2.isRunning();
+    return !elevatorCommand2.isRunning();
   }
 
   public Rocket1Command() {
@@ -36,12 +38,15 @@ public class Rocket1Command extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    System.out.println("[" + Timer.getMatchTime() + "]" + " (Rocket1Command) - " + "Command initialized. ");
+    delayTime = 0;
     stage = 0;
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+
     System.out.println(stage);
     switch (stage) {
     case 0:
@@ -54,15 +59,25 @@ public class Rocket1Command extends Command {
         stage++;
       }
       break;
-    case 2:
-      if (elevatorFinished() && intakeFinished2()) {
+      case 2:
+      if(elevatorFinished()){
+        
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        Timer.delay(0.5);
+        delayTime = System.currentTimeMillis();
+        stage++;
+
+      }
+      
+      break;
+    case 3:
+      if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
-        stage++;
       }
+      
+        stage++;
+    
       break;
     }
   }
@@ -86,6 +101,7 @@ public class Rocket1Command extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
+    System.out.println("command interrupted");
 
   }
 }

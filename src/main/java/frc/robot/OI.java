@@ -79,8 +79,9 @@ public class OI {
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
     
-    autoIntake.whileActive(new AutomaticTakeBallCommand());
+    
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
+    autoIntake.whileActive(new AutomaticTakeBallCommand());
     gotoDefault.whileActive(new ReturnToDefaultCommand());
     autoRocket1.whileActive(new Rocket1Command());
     autoFrontCargo.whileActive(new AutoFrontCargoCommand());
@@ -91,7 +92,7 @@ public class OI {
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
-    riderOuttake.whileHeld(new ElevatorPID(3000, 0.1));
+    riderOuttake.whileHeld(new TeleopRiderIntakeControl(0.5));
 
   
 

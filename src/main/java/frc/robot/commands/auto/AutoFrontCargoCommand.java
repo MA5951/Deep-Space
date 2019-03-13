@@ -24,6 +24,7 @@ public class AutoFrontCargoCommand extends Command {
   private Rider rider = Rider.getInstance();
   private Elevator elevator = Elevator.getInstance();
   private int stage = 0;
+  private long delayTime;
 
   private Command intakeCommand, riderCommand, elevatorCommand, intakeClosedCommand;
 
@@ -43,7 +44,9 @@ public class AutoFrontCargoCommand extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    delayTime= 0 ;
     stage = 0;
+    System.out.println("[" + Timer.getMatchTime() + "]" + " (AutoFrontCargoCommand) - " + "Command initialized. ");
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -76,14 +79,21 @@ public class AutoFrontCargoCommand extends Command {
       intakeClosedCommand.start();
       stage++;
       break;
-    case 4:
-      if (intakeFinishedCLosed()) {
+      case 4:
+      if(intakeFinishedCLosed()){
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        Timer.delay(0.5);
+        delayTime = System.currentTimeMillis();
+        stage++;
+      }
+      break;
+    case 5:
+      if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
       }
+        stage++;
+    
       break;
     }
   }
@@ -106,6 +116,7 @@ public class AutoFrontCargoCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
+    System.out.println("command interrupted");
 
 
   }

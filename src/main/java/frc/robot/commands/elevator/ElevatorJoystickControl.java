@@ -43,7 +43,7 @@ public class ElevatorJoystickControl extends Command {
       } else {
         elevator.enablePID(false);
         firstPID_Run = true;
-        elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1)*0.5);
+        elevator.controlSpeed(OI.OPERATOR_STICK.getRawAxis(1)*0.7);
       }
     }
 
@@ -65,6 +65,6 @@ public class ElevatorJoystickControl extends Command {
   // subsystems is scheduled to run
   @Override
   protected void interrupted() {
-
+    
   }
 }
