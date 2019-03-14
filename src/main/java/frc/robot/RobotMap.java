@@ -54,6 +54,7 @@ public class RobotMap {
   public static final int PCM = 0;
 
   public static final int INTAKE_PISTON_FORWARD = 0;
+  public static final int INTAKE_PISTON_REVERS = 2;
   public static final int CLIMBIR_PISTON_FORWARD = 1;
 
  

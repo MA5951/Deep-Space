@@ -26,7 +26,7 @@ public class AngleRider extends Command {
 
   @Override
   protected void initialize() {
-
+    firstPID_Run = true;
   }
 
   @Override
@@ -46,7 +46,7 @@ public class AngleRider extends Command {
     }
 
     if (rider.getBallLimitswitch()) {
-      rider.controlIntakeMotor(-0.1);
+      rider.controlIntakeMotor(-0.15);
     } else {
       rider.controlIntakeMotor(0);
     }

@@ -29,8 +29,6 @@ public class Robot extends TimedRobot {
     Intake.getInstance();
     Rider.getInstance();
     Elevator.getInstance();
-    CameraServer.getInstance().startAutomaticCapture();
-    CameraServer.getInstance().startAutomaticCapture();
     SmartDashboard.updateValues();
     num=0;
   }

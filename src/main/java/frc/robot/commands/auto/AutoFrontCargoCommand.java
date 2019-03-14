@@ -37,7 +37,7 @@ public class AutoFrontCargoCommand extends Command {
 
     elevatorCommand = new ElevatorPID(50, 0.1);
     intakeCommand = new IntakePID(-800, 0.1);
-    riderCommand = new RiderPID(1200, 0.1, 15);
+    riderCommand = new RiderPID(1220, 0.1, 15);
     intakeClosedCommand = new IntakePID(0, 0.1);
   }
 

@@ -62,10 +62,6 @@ public class Rider extends Subsystem {
     anglePIDController.setOutputRange(-0.85, 0.85);
   }
 
-  public void setF(double f) {
-    // anglePIDController.setF(f);
-  }
-
   public void riderSmartdashboardValue() {
     SmartDashboard.putBoolean("Rider Angle LimitSwitch", angleMotor.getSensorCollection().isRevLimitSwitchClosed());
     SmartDashboard.putNumber("Rider Angle Encoder", encoderAngle.getDistance());
