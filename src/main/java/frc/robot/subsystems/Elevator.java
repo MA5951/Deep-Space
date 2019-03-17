@@ -58,7 +58,11 @@ public class Elevator extends Subsystem {
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
     elevatorEncoderPID.setOutputRange(-0.85, 0.85);
   }
-
+public void setOutputRangePId (double min, double max){
+  elevatorEncoderPID.setOutputRange(min, max);
+  elevatorMotor.configPeakOutputForward(max);
+  elevatorMotor.configPeakOutputReverse(min);
+}
   public void elevatorSmartdashboardValue() {
     if (getElevatorEncoder() <= 0) {
       SmartDashboard.putBoolean("Elevator", true);

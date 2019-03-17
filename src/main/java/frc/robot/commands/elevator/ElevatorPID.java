@@ -9,6 +9,7 @@ package frc.robot.commands.elevator;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
+import frc.robot.OI;
 import frc.robot.subsystems.Elevator;
 
 public class ElevatorPID extends Command {
@@ -39,6 +40,11 @@ public class ElevatorPID extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
+    if(elevator.getElevatorEncoder() >= 5000 && OI.OPERATOR_STICK.getRawAxis(1) > 0){
+      elevator.setOutputRangePId(-1, 0);
+    }else{
+      elevator.setOutputRangePId(-0.85, 0.85);
+    }
   }
 
   // Make this return true when this Command no longer needs to run execute()
