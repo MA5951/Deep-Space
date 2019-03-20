@@ -74,6 +74,12 @@ public void setOutputRangePId (double min, double max){
   public double getElevatorEncoder (){
     return encoderElevator.getDistance();
   }
+  public double getElevatorSpeed (){
+    return elevatorMotor.get();
+  }
+  public double getElevatorSpeedPD (){
+    return elevatorEncoderPID.get();
+  }
 
   
   /**

@@ -47,7 +47,7 @@ public class ElevatorJoystickControl extends Command {
       }
                       
     }
-    if(elevator.getElevatorEncoder() >= 5000 && OI.OPERATOR_STICK.getRawAxis(1) > 0){
+    if(elevator.getElevatorEncoder() >= 5000 && (elevator.getElevatorSpeedPD() > 0 || elevator.getElevatorSpeed() > 0)){
       elevator.setOutputRangePId(-1, 0);
     }else{
       elevator.setOutputRangePId(-0.85, 0.85);
