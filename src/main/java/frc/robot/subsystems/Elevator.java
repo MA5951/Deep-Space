@@ -28,7 +28,7 @@ public class Elevator extends Subsystem {
 
   private Encoder encoderElevator;
 
-  private DigitalInput elevatorLimitswitchDown;
+  
   private DigitalInput elevatorLimitswitchUp;
 
   public static final double KP_ENCODER = 0.0028;
@@ -50,10 +50,8 @@ public class Elevator extends Subsystem {
 
     elevatorMotor = new WPI_TalonSRX(RobotMap.ELEVATOR_TALON);
     elevatorMotor.setInverted(true);
-
+    
     elevatorLimitswitchUp = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_UP);
-    elevatorLimitswitchDown = new DigitalInput(RobotMap.ELEVATOR_LIMITSWITCH_DOWN);
-
     elevatorEncoderPID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderElevator, elevatorMotor);
     elevatorEncoderPID.setAbsoluteTolerance(TOLERANCE);
     elevatorEncoderPID.setOutputRange(-0.85, 0.85);
@@ -99,9 +97,7 @@ public void setOutputRangePId (double min, double max){
    * 
    * @return Indication if limitswitch is pressed.
    */
-  public boolean isElevatorLimitswitchDownPressed() {
-    return elevatorLimitswitchDown.get();
-  }
+  
 
   /**
    * Enables or disables the PIDController.

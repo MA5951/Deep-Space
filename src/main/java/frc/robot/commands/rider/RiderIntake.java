@@ -8,7 +8,7 @@
 package frc.robot.commands.rider;
 
 
-import edu.wpi.first.wpilibj.Timer;
+
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.subsystems.Rider;
 

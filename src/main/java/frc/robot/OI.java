@@ -12,13 +12,12 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.auto.AutoFrontCargoCommand;
 import frc.robot.commands.auto.AutomaticTakeBallCommand;
-import frc.robot.commands.auto.ChangeCamera;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefaultCommand;
 import frc.robot.commands.auto.Rocket1Command;
 import frc.robot.commands.auto.StopMotors;
 import frc.robot.commands.climber.climberDown;
-import frc.robot.commands.elevator.ElevatorPID;
+
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
 import frc.robot.commands.intake.PistonForward;
@@ -48,8 +47,6 @@ public class OI {
   private POVTrigger climberXbox = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
   //private POVTrigger PIDVisonTarget = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
-
-  private JoystickButton camera1 = new JoystickButton(RIGHT_DRIVER_STICK, 2);
 
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
@@ -87,7 +84,7 @@ public class OI {
     autoFrontCargo.whileActive(new AutoFrontCargoCommand());
    // PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
-    camera1.whenActive(new ChangeCamera());
+  
   
 
     IntakePullTrigger.whileActive(new PullBall());

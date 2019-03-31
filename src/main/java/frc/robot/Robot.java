@@ -9,7 +9,6 @@ package frc.robot;
 
 
 
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +20,7 @@ import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
   public static OI m_oi;
-  private static double num;
+
   @Override
   public void robotInit() {
     m_oi = new OI();
@@ -30,7 +29,7 @@ public class Robot extends TimedRobot {
     Rider.getInstance();
     Elevator.getInstance();
     SmartDashboard.updateValues();
-    num=0;
+  
   }
 
   @Override
@@ -48,15 +47,7 @@ public class Robot extends TimedRobot {
     Scheduler.getInstance().run();
     Rider.getInstance().setSetPoint(Rider.getInstance().getEncoder());
     Elevator.getInstance().setSetPoint(Elevator.getInstance().getElevatorEncoder());
-    if(OI.RIGHT_DRIVER_STICK.getRawButton(2)){
-      num++;
-      if(num > 2){
-        num=0;
-      }
-      SmartDashboard.putNumber("Num", num);
-    }
   }
-
   @Override
   public void autonomousInit() {
     Scheduler.getInstance().run();
