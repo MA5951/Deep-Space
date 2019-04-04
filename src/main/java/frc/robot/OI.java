@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.robot.commands.auto.AutoFrontCargoCommand;
 import frc.robot.commands.auto.AutomaticTakeBallCommand;
-import frc.robot.commands.auto.ChangeCamera;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
 import frc.robot.commands.auto.ReturnToDefaultCommand;
 import frc.robot.commands.auto.Rocket1Command;
@@ -34,6 +33,7 @@ import frc.robot.triggers.POVTrigger;
 import frc.robot.triggers.ResetElevatorEncoderTrigger;
 import frc.robot.triggers.ResetIntakeEncoderTrigger;
 import frc.robot.triggers.ResetRiderEncoderTrigger;
+
 import frc.robot.util.JoystickUtil.XBOX;
 
 /**
@@ -50,6 +50,7 @@ public class OI {
   //private POVTrigger PIDVisonTarget = new POVTrigger(OPERATOR_STICK, XBOX.POV_LEFT);
 
   private JoystickButton camera1 = new JoystickButton(RIGHT_DRIVER_STICK, 2);
+
 
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
@@ -70,6 +71,7 @@ public class OI {
   private IntakePullTrigger IntakePullTrigger = new IntakePullTrigger();
   private IntakPushTrigger IntakePushTrigger = new IntakPushTrigger();
   
+  
 
   public OI() {
     StopMotorsJoyStickRight.whileActive(new StopMotors());
@@ -87,12 +89,12 @@ public class OI {
     autoFrontCargo.whileActive(new AutoFrontCargoCommand());
    // PIDVisonTarget.whileActive(new AutomaticMoveToPanel());
 
-    camera1.whenActive(new ChangeCamera());
+   
   
 
     IntakePullTrigger.whileActive(new PullBall());
     IntakePushTrigger.whileActive(new PushBall());
-    riderOuttake.whileHeld(new TeleopRiderIntakeControl(0.5));
+    riderOuttake.whileHeld(new TeleopRiderIntakeControl(0.4));
 
   
 
@@ -102,6 +104,7 @@ public class OI {
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
     
+
   }
 
 }

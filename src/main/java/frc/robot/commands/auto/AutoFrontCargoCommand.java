@@ -46,13 +46,13 @@ public class AutoFrontCargoCommand extends Command {
   protected void initialize() {
     delayTime= 0 ;
     stage = 0;
-    System.out.println("[" + Timer.getMatchTime() + "]" + " (AutoFrontCargoCommand) - " + "Command initialized. ");
+   
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(stage);
+  
     switch (stage) {
     case 0:
       if (elevator.getElevatorEncoder() > 2500 && rider.getEncoder() > 300) {
@@ -116,7 +116,7 @@ public class AutoFrontCargoCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    System.out.println("command interrupted");
+  
 
 
   }

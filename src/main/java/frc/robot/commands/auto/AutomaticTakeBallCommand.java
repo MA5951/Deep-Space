@@ -42,7 +42,7 @@ public class AutomaticTakeBallCommand extends Command {
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
 
-    intakeCommand = new IntakePID(-890, 0.1);
+    intakeCommand = new IntakePID(-780, 0.1);
     riderCommand = new RiderPID(920, 0.1, 15);
     elevatorCommand = new ElevatorPID(5000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
@@ -55,13 +55,13 @@ public class AutomaticTakeBallCommand extends Command {
   @Override
   protected void initialize() {
     stage = 0;
-    System.out.println("[" + Timer.getMatchTime() + "]" + " (AutomaticTakeBallCommand) - " + "Command initialized. ");
+   
   }
 
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    System.out.println(stage);
+   
     switch (stage) {
     case 0:
       intakeCommand.start();
@@ -155,7 +155,7 @@ public class AutomaticTakeBallCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    System.out.println("command interrupted");
+   
     riderCommandIntake.cancel();
     intakeCommandIntake.cancel();
   }

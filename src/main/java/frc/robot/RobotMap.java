@@ -40,13 +40,13 @@ public class RobotMap {
   public static final int INTAKE_ENCODER_A = 1;
   public static final int INTAKE_ENCODER_B =2;
 
-  public static final int RIDER_ENCODER_A = 8;
+  public static final int RIDER_ENCODER_A = 8;   
   public static final int RIDER_ENCODER_B = 9;
 
   public static final int ELEVATOR_ENCODER_A =4;
   public static final int ELEVATOR_ENCODER_B =5;
   
-  public static final int ELEVATOR_LIMITSWITCH_DOWN = 3;
+  
   public static final int ELEVATOR_LIMITSWITCH_UP = 0;
   public static final int RIDER_LIMITSWITCH_BALL = 7;
 

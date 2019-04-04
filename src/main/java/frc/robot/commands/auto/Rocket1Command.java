@@ -38,7 +38,7 @@ public class Rocket1Command extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
-    System.out.println("[" + Timer.getMatchTime() + "]" + " (Rocket1Command) - " + "Command initialized. ");
+ 
     delayTime = 0;
     stage = 0;
   }
@@ -47,7 +47,6 @@ public class Rocket1Command extends Command {
   @Override
   protected void execute() {
 
-    System.out.println(stage);
     switch (stage) {
     case 0:
       intakeCommand2.start();
@@ -101,7 +100,7 @@ public class Rocket1Command extends Command {
   protected void interrupted() {
     intake.enablePID(false);
     intake.intakeAngleControl(0);
-    System.out.println("command interrupted");
+   
 
   }
 }

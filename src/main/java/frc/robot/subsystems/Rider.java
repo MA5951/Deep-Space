@@ -92,6 +92,9 @@ public class Rider extends Subsystem {
       angleMotor.overrideLimitSwitchesEnable(true);
     }
   }
+  public void limitswichmood(boolean b){
+    angleMotor.overrideLimitSwitchesEnable(b);
+  }
 
   /**
    * Set the desired angle for the Rider.

@@ -52,12 +52,12 @@ public class ReturnToDefaultCommand extends Command {
   protected void initialize() {
     delayTime =0;
     stage = 0;
-    System.out.println("[" + Timer.getMatchTime() + "]" + " (ReturnToDefaultCommand) - " + "Command initialized. ");
+    
   }
 
   @Override
   protected void execute() {
-    System.out.println(stage);
+  
     switch (stage) {
     case 0:
       if (Intake.getInstance().getEncoder() > -500) {
@@ -126,7 +126,7 @@ public class ReturnToDefaultCommand extends Command {
   @Override
   protected void interrupted() {
     intake.enablePID(false);
-    System.out.println("command interrupted");
+
     
 
   }

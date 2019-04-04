@@ -45,6 +45,7 @@ public class IntakeMovement extends Command {
       if(intake.getEncoder() < -1550 && speed < 0 && Timer.getMatchTime() < 150 && OI.RIGHT_DRIVER_STICK.getRawAxis(3) > 0.5 ){
         intake.intakeAngleControl(0);
       }
+      
 }  
      
 
