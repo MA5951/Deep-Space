@@ -37,18 +37,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    if(OI.OPERATOR_STICK.getBackButtonPressed()){
-      b = !b;
-      if(b == true){
-       
-        Intake.getInstance().limitswichmoodTrue();
-        SmartDashboard.putBoolean("limitSwichMode", false);
-      }
-      if(b == false){
-        Intake.getInstance().limitswichmoodFalse();
-        SmartDashboard.putBoolean("limitSwichMode",  true);
-      }
-    }
   }
 
   @Override
