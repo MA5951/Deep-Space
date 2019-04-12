@@ -21,34 +21,21 @@ import frc.robot.subsystems.Rider;
 
 public class Robot extends TimedRobot {
   public static OI m_oi;
-  private static double num;
-  private boolean b=false;
   @Override
   public void robotInit() {
-    b=true;
     m_oi = new OI();
     Chassis.getInstance();
     Intake.getInstance();
+    Intake.getInstance().LimitSwitchNormalNormallyOpen();
     Rider.getInstance();
     Elevator.getInstance();
     SmartDashboard.updateValues();
-    num=0;
+    
   }
 
   @Override
   public void robotPeriodic() {
-    if(OI.OPERATOR_STICK.getBackButtonPressed()){
-      b = !b;
-      if(b == true){
-       
-        Intake.getInstance().limitswichmoodTrue();
-        SmartDashboard.putBoolean("limitSwichMode", false);
-      }
-      if(b == false){
-        Intake.getInstance().limitswichmoodFalse();
-        SmartDashboard.putBoolean("limitSwichMode",  true);
-      }
-    }
+   
   }
 
   @Override

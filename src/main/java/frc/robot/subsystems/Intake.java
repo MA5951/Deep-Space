@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
+import frc.robot.commands.intake.LimitSwitchOverride;
 
 /**
  * The intake subsystem
@@ -71,12 +72,13 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
     anglePID.setOutputRange(-0.85, 0.85);
-
+    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen);
   }
 
   public void intakeSmartdashboardValue() {
     SmartDashboard.putNumber("Intake Encoder", encoderIntake.getDistance());
     SmartDashboard.putBoolean("Intake Piston", intakePiston.get());
+    SmartDashboard.putBoolean("LimitSwitchMode", LimitSwitchOverride.robot);
   }
 
   /**
@@ -126,15 +128,17 @@ public class Intake extends Subsystem {
   public void intakeBallControl(double speed) {
     intakeBallMotor.set(speed);
   }
-  
-  public void limitswichmoodTrue(){
-  
-    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+  public void limitswitchOverride(boolean enable) {
+    if (!enable) {
+      intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
+    } else {
+      intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+    }
   }
-  public void limitswichmoodFalse(){
-    
-    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-  }
+public void LimitSwitchNormalNormallyOpen(){
+  intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen);
+}
+ 
 
   /**
    * Give power to the angleA motor
