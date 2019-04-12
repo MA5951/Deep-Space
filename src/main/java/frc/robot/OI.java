@@ -20,6 +20,7 @@ import frc.robot.commands.climber.climberDown;
 import frc.robot.commands.elevator.ElevatorPID;
 import frc.robot.commands.elevator.ResetElevatorEncoder;
 import frc.robot.commands.intake.IntakeMovement;
+import frc.robot.commands.intake.LimitSwitchOverride;
 import frc.robot.commands.intake.PistonForward;
 import frc.robot.commands.intake.PistonOff;
 import frc.robot.commands.intake.PullBall;
@@ -55,7 +56,7 @@ public class OI {
 
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
-
+  private JoystickButton LimitSwitchOverride = new JoystickButton(OPERATOR_STICK, XBOX.BACK);
   private JoystickButton autoHatchPanel = new JoystickButton(OPERATOR_STICK, XBOX.Y);
   private JoystickButton autoIntake = new JoystickButton(OPERATOR_STICK, XBOX.A);
   private JoystickButton StopMotorsJoyStickRight = new JoystickButton(OPERATOR_STICK, XBOX.STICK_RIGHT);
@@ -99,7 +100,7 @@ public class OI {
   
 
     climberXbox.whenActive(new climberDown());
-
+    LimitSwitchOverride.whenPressed(new LimitSwitchOverride());
     resetElevatorEncoder.whenActive(new ResetElevatorEncoder());
     resetIntakeEncoder.whenActive(new ResetIntakeEncoder());
     resetRiderEncoder.whenActive(new ResetRiderEncoder());
