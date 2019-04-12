@@ -89,6 +89,10 @@ public class Intake extends Subsystem {
       intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
     }
   }
+  
+  public void LimitSwitchNormalOpen(){
+    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+  }
 
   /**
    * Check whether the limitswitch is pressed

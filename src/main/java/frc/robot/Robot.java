@@ -29,6 +29,7 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     Chassis.getInstance();
     Intake.getInstance();
+    Intake.getInstance().LimitSwitchNormalOpen();
     Rider.getInstance();
     Elevator.getInstance();
     SmartDashboard.updateValues();

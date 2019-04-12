@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.PIDController;
@@ -26,11 +28,11 @@ public class Chassis extends Subsystem {
   public double setPoint;
   private static Chassis c_Instance = new Chassis();
 
-  private WPI_TalonSRX leftFrontMotor;
-  private WPI_TalonSRX leftRearMotor;
+  private CANSparkMax leftFrontMotor;
+  private CANSparkMax leftRearMotor;
 
-  private WPI_TalonSRX rightFrontMotor;
-  private WPI_TalonSRX rightRearMotor;
+  private CANSparkMax rightFrontMotor;
+  private CANSparkMax rightRearMotor;
 
   private AHRS navx;
 
@@ -46,19 +48,19 @@ public class Chassis extends Subsystem {
   private Chassis() {
 
     navx = new AHRS(Port.kMXP);
-    rightFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_FRONT);
-    rightRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_RIGHT_REAR);
+    rightFrontMotor = new CANSparkMax(RobotMap.CHASSIS_RIGHT_FRONT , MotorType.kBrushless);
+    rightRearMotor = new CANSparkMax(RobotMap.CHASSIS_RIGHT_REAR , MotorType.kBrushless);
 
-    leftFrontMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_FRONT);
-    leftRearMotor = new WPI_TalonSRX(RobotMap.CHASSIS_LEFT_REAR);
+    leftFrontMotor = new CANSparkMax(RobotMap.CHASSIS_LEFT_FRONT , MotorType.kBrushless);
+    leftRearMotor = new CANSparkMax(RobotMap.CHASSIS_LEFT_REAR , MotorType.kBrushless);
 
     leftFrontMotor.setInverted(true);
     leftRearMotor.setInverted(true);
 
     navx.setPIDSourceType(PIDSourceType.kDisplacement);
 
-    rightRearMotor.set(ControlMode.Follower, rightFrontMotor.getDeviceID());
-    leftRearMotor.set(ControlMode.Follower, leftFrontMotor.getDeviceID());
+    rightRearMotor.follow(rightFrontMotor);
+    leftRearMotor.follow(leftFrontMotor);
 
     navxController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navx, rightFrontMotor);
 
@@ -69,8 +71,8 @@ public class Chassis extends Subsystem {
  
 
   public void chassisSmartdashboardValue() {
-    SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.getMotorOutputPercent());
-    SmartDashboard.putNumber("Left Chassis Motors", leftFrontMotor.getMotorOutputPercent());
+    SmartDashboard.putNumber("Right Chassis Motors", rightFrontMotor.get());
+    SmartDashboard.putNumber("Left Chassis Motors", leftFrontMotor.get());
     SmartDashboard.putNumber("Chassis Navx", navx.getAngle());
   }
 
@@ -89,8 +91,8 @@ public class Chassis extends Subsystem {
    * @param speedRight Speed of the right side chassis
    */
   public void driveWestCoast(double speedLeft, double speedRight) {
-    rightFrontMotor.set(ControlMode.PercentOutput, speedRight);
-    leftFrontMotor.set(ControlMode.PercentOutput, speedLeft);
+    rightFrontMotor.set(speedRight);
+    leftFrontMotor.set(speedLeft);
   }
 
   /**
