@@ -28,7 +28,7 @@ public class AutomaticTakeBallCommand extends Command {
   private long delayTime;
   private int stage = 0;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, intakeCommandIntake, riderCommandIntake,
+  private Command intakeCommand, riderCommand, riderCommand2, elevatorCommand, intakeCommandIntake, riderCommandIntake,
       elevatorCommandUP;
 
   private boolean elevatorCommandUPFinished() {
@@ -38,12 +38,16 @@ public class AutomaticTakeBallCommand extends Command {
   private boolean elevatorFinished() {
     return !elevatorCommand.isRunning();
   }
+  private boolean riderFinished() {
+    return !riderCommand2.isRunning();
+  }
 
   public AutomaticTakeBallCommand() {
     requires(OperatorControl.getInstance());
 
-    intakeCommand = new IntakePID(-780, 0.1);
-    riderCommand = new RiderPID(920, 0.1, 15);
+    intakeCommand = new IntakePID(-780, 0920.1);
+    riderCommand = new RiderPID(1060, 0.1, 15);
+    riderCommand2 = new RiderPID(1200, 0.1, 15);
     elevatorCommand = new ElevatorPID(5000, 0.2);
     intakeCommandIntake = new IntakeMoveBall(-1.0);
     riderCommandIntake = new RiderIntake();
@@ -63,13 +67,27 @@ public class AutomaticTakeBallCommand extends Command {
   protected void execute() {
    
     switch (stage) {
-    case 0:
+      case 0:
+      if(rider.getEncoder() > 1000 && rider.getEncoder() < 1150){
+        riderCommand2.start();
+        stage++;
+      }else{
+        stage++;
+      }
+      
+      break;
+      case 1:
+if(riderFinished()){
+  stage++;
+}
+break;
+    case 2:
       intakeCommand.start();
       if (intake.getEncoder() <= -600) {
         stage++;
       }
       break;
-    case 1:
+    case 3:
       if (elevator.getElevatorEncoder() > 1000 && rider.getEncoder() < 450) {
         elevatorCommandUP.start();
         stage++;
@@ -78,21 +96,21 @@ public class AutomaticTakeBallCommand extends Command {
       }
 
       break;
-    case 2:
+    case 4:
       if (elevatorCommandUPFinished()) {
         riderCommand.start();
       }
       if (rider.getEncoder() >= 550) {
-        stage++;
+        stage++;  
       }
 
       break;
-    case 3:
+    case 5:
       elevatorCommand.start();
       stage++;
 
       break;
-    case 4:
+    case 6:
       if (elevatorFinished()) {
         riderCommand.cancel();
         intakeCommand.cancel();
@@ -101,30 +119,30 @@ public class AutomaticTakeBallCommand extends Command {
       }
 
       break;
-    case 5:
+    case 7:
       if (!rider.getBallLimitswitch()) {
         riderCommandIntake.start();
         intakeCommandIntake.start();
         stage++;
       }
       break;
-    case 6:
+    case 8:
       if (rider.getBallLimitswitch()) {
         stage++;
       }
       break;
-    case 7:
+    case 9:
       riderCommandIntake.cancel();
       intakeCommandIntake.cancel();
       stage++;
       break;
-    case 8:
+    case 10:
       OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
       OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
       delayTime = System.currentTimeMillis();
       stage++;
       break;
-    case 9:
+    case 11:
       if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);

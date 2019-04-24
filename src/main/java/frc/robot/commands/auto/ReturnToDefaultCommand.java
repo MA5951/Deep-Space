@@ -26,7 +26,7 @@ public class ReturnToDefaultCommand extends Command {
   private int stage = 0;
   private long delayTime;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, moveIntakeCommand;
+  private Command intakeCommand, riderCommand, riderCommand2, elevatorCommand, moveIntakeCommand;
 
   private boolean intakeFinished() {
     return !intakeCommand.isRunning();
@@ -35,7 +35,9 @@ public class ReturnToDefaultCommand extends Command {
   private boolean riderFinished() {
     return !riderCommand.isRunning();
   }
-
+  private boolean riderFinished2() {
+    return !riderCommand2.isRunning();
+  }
   private boolean elevatorFinished() {
     return !elevatorCommand.isRunning();
   }
@@ -46,6 +48,7 @@ public class ReturnToDefaultCommand extends Command {
     moveIntakeCommand = new IntakePID(-635, 0.1);
     riderCommand = new RiderPID(10, 0.3, 15);
     elevatorCommand = new ElevatorPID(100, 0.1);
+    riderCommand2 = new RiderPID(1200, 0.1, 15);
   }
 
   @Override
@@ -60,33 +63,47 @@ public class ReturnToDefaultCommand extends Command {
   
     switch (stage) {
     case 0:
-      if (Intake.getInstance().getEncoder() > -500) {
+    if(rider.getEncoder() > 1000 && rider.getEncoder() < 1150 ){
+      riderCommand2.start();
+      stage++;
+    }else{
+      stage++;
+    }
+    
+    break;
+    case 1:
+    if(!riderCommand2.isRunning()){
+      stage++;
+    }
+    break;
+    case 2:
+      if (Intake.getInstance().getEncoder() > -500 ) {
         moveIntakeCommand.start();
       }
       stage++;
       break;
-    case 1:
+    case 3:
       if (!moveIntakeCommand.isRunning()) {
         stage++;
       }
       break;
-    case 2:
+    case 4:
       elevatorCommand.start();
       stage++;
       break;
-    case 3:
+    case 5:
       if (elevator.getElevatorEncoder() < 2000) {
         riderCommand.start();
         stage++;
       }
       break;
-    case 4:
+    case 6:
       if (rider.getEncoder() < 450) {
         intakeCommand.start();
         stage++;
       }
       break;
-      case 5:
+      case 7:
       if(intakeFinished()){
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
@@ -94,7 +111,7 @@ public class ReturnToDefaultCommand extends Command {
         stage++;
       }
       break;
-    case 6:
+    case 8:
       if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);

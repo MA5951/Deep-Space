@@ -26,10 +26,13 @@ public class AutoFrontCargoCommand extends Command {
   private int stage = 0;
   private long delayTime;
 
-  private Command intakeCommand, riderCommand, elevatorCommand, intakeClosedCommand;
+  private Command intakeCommand, riderCommand, elevatorCommand, intakeClosedCommand , riderCommand2;
 
-  private boolean intakeFinishedCLosed() {
+  private boolean intakeFinished() {
     return !intakeClosedCommand.isRunning();
+  }
+  private boolean riderFinished() {
+    return !riderCommand2.isRunning();
   }
 
   public AutoFrontCargoCommand() {
@@ -38,6 +41,7 @@ public class AutoFrontCargoCommand extends Command {
     elevatorCommand = new ElevatorPID(50, 0.1);
     intakeCommand = new IntakePID(-800, 0.1);
     riderCommand = new RiderPID(1220, 0.1, 15);
+    riderCommand2 = new RiderPID(1060, 0.1, 15);
     intakeClosedCommand = new IntakePID(0, 0.1);
   }
 
@@ -77,24 +81,31 @@ public class AutoFrontCargoCommand extends Command {
       break;
     case 3:
       intakeClosedCommand.start();
-      stage++;
+        stage++;
       break;
       case 4:
-      if(intakeFinishedCLosed()){
-        OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
-        OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
-        delayTime = System.currentTimeMillis();
+      if(intakeFinished()){
+        riderCommand2.start();
         stage++;
       }
+      
       break;
     case 5:
+    if(riderFinished()){
+      OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 1);
+      OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 1);
+      delayTime = System.currentTimeMillis();
+      stage++;
+    }
+    break;
+    case 6:
       if (System.currentTimeMillis() - delayTime > 500) {
         OI.OPERATOR_STICK.setRumble(RumbleType.kLeftRumble, 0);
         OI.OPERATOR_STICK.setRumble(RumbleType.kRightRumble, 0);
       }
         stage++;
     
-      break;
+        break;
     }
   }
 
