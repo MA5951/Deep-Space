@@ -13,6 +13,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.intake.LimitSwitchOverride;
 import frc.robot.subsystems.Chassis;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.Elevator;
@@ -29,10 +30,10 @@ public class Robot extends TimedRobot {
     m_oi = new OI();
     Chassis.getInstance();
     Intake.getInstance();
-    Intake.getInstance().LimitSwitchNormalOpen();
     Rider.getInstance();
     Elevator.getInstance();
     SmartDashboard.updateValues();
+
     num=0;
   }
 

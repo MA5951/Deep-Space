@@ -14,7 +14,7 @@ import frc.robot.subsystems.Chassis;
 public class TankDrive extends Command {
 
   private Chassis chassis;
-
+private boolean limit;
   /**
    * Create an object of chassis (create a new instance of chassis)
    */
@@ -34,7 +34,11 @@ public class TankDrive extends Command {
    */
   @Override
   protected void execute() {
-    chassis.driveWestCoast(OI.LEFT_DRIVER_STICK.getY(), OI.RIGHT_DRIVER_STICK.getY());
+    if (!limitspped.limit) {
+      chassis.driveWestCoast(OI.LEFT_DRIVER_STICK.getY()*0.9, OI.RIGHT_DRIVER_STICK.getY()*0.9);
+    } else {
+      chassis.driveWestCoast(OI.LEFT_DRIVER_STICK.getY()*0.65, OI.RIGHT_DRIVER_STICK.getY()*0.65);
+    }
   }
 
   /**

@@ -72,8 +72,8 @@ public class Intake extends Subsystem {
     anglePID = new PIDController(KP_ENCODER, KI_ENCODER, KD_ENCODER, encoderIntake, intakeAngleMotorA);
     anglePID.setAbsoluteTolerance(TOLERANCE);
     anglePID.setOutputRange(-0.85, 0.85);
-    intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen);
-
+   intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector,LimitSwitchNormal.NormallyOpen);
+    LimitSwitchOverride.enable = true;
   }
 
   public void intakeSmartdashboardValue() {
@@ -83,7 +83,7 @@ public class Intake extends Subsystem {
   }
 
   public void limitswitchOverride(boolean enable) {
-    if (!enable) {
+    if (enable == false) {
       intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.Disabled);
     } else {
       intakeAngleMotorA.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);

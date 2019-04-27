@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.RobotMap;
 import frc.robot.commands.Chassis.TankDrive;
+import frc.robot.commands.Chassis.limitspped;
 
 /**
  * The Chassis subsystem
@@ -35,6 +36,8 @@ public class Chassis extends Subsystem {
   private CANSparkMax rightRearMotor;
 
   private AHRS navx;
+
+  boolean limit = false;
 
   private PIDController navxController;
   public static final double KP_NAVX = 0.0;
@@ -53,7 +56,11 @@ public class Chassis extends Subsystem {
 
     leftFrontMotor = new CANSparkMax(RobotMap.CHASSIS_LEFT_FRONT , MotorType.kBrushless);
     leftRearMotor = new CANSparkMax(RobotMap.CHASSIS_LEFT_REAR , MotorType.kBrushless);
-
+    rightFrontMotor.setSmartCurrentLimit(60);
+    rightRearMotor.setSmartCurrentLimit(60);
+    leftFrontMotor.setSmartCurrentLimit(60);
+    leftRearMotor.setSmartCurrentLimit(60);
+  
     leftFrontMotor.setInverted(true);
     leftRearMotor.setInverted(true);
 
@@ -65,6 +72,7 @@ public class Chassis extends Subsystem {
     navxController = new PIDController(KP_NAVX, KI_NAVX, KD_NAVX, navx, rightFrontMotor);
 
     navxController.setAbsoluteTolerance(NAVX_TOLERANCE);
+    limitspped.limit=false;
 
   }
 
@@ -94,6 +102,8 @@ public class Chassis extends Subsystem {
     rightFrontMotor.set(speedRight);
     leftFrontMotor.set(speedLeft);
   }
+
+  
 
   /**
    * setLeftSide is for the navx PID, set the speed For both left and right side

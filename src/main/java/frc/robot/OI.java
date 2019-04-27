@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.robot.commands.Chassis.limitspped;
 import frc.robot.commands.auto.AutoFrontCargoCommand;
 import frc.robot.commands.auto.AutomaticTakeBallCommand;
 import frc.robot.commands.auto.MoveToHatchPanelPosition;
@@ -45,6 +46,7 @@ public class OI {
   public static final Joystick LEFT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_LEFT);
   public static final Joystick RIGHT_DRIVER_STICK = new Joystick(RobotMap.JOYSTICK_DRIVER_RIGHT);
 
+
   private POVTrigger autoRocket1 = new POVTrigger(OPERATOR_STICK, XBOX.POV_DOWN);
   private POVTrigger climberXbox = new POVTrigger(OPERATOR_STICK, XBOX.POV_RIGHT);
   private POVTrigger autoFrontCargo = new POVTrigger(OPERATOR_STICK, XBOX.POV_UP);
@@ -53,7 +55,7 @@ public class OI {
   private JoystickButton camera1 = new JoystickButton(RIGHT_DRIVER_STICK, 2);
 
 
-
+  private JoystickButton limitspped = new  JoystickButton(RIGHT_DRIVER_STICK,1);
   private JoystickButton gotoDefault = new JoystickButton(OPERATOR_STICK, XBOX.B);
   private JoystickButton riderOuttake = new JoystickButton(OPERATOR_STICK, XBOX.START);
   private JoystickButton LimitSwitchOverride = new JoystickButton(OPERATOR_STICK, XBOX.BACK);
@@ -81,7 +83,7 @@ public class OI {
     moveIntakeUp.whileHeld(new IntakeMovement(-0.5));
     intakeSolenoid.whileHeld(new PistonForward());
     intakeSolenoid.whenReleased(new PistonOff());
-    
+    limitspped.whenPressed(new limitspped());
     
     autoHatchPanel.whenActive(new MoveToHatchPanelPosition());
     autoIntake.whileActive(new AutomaticTakeBallCommand());
